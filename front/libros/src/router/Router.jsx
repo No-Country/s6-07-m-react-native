@@ -1,14 +1,12 @@
 import * as React from 'react';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import Home from '../screens/Home';
-import Test from '../screens/Test';
 import TabNagivator from './TabNagivator';
+import Login from '../auth/Login';
 
 const Stack = createStackNavigator();
 
-const LogedStack = () => {
+const LoggedStack = () => {
 	return (
 		<Stack.Navigator>
 			<Stack.Screen name='Home' component={TabNagivator} />
@@ -16,10 +14,26 @@ const LogedStack = () => {
 	);
 };
 
+const NoLoggedStack = () => {
+	return (
+		<Stack.Navigator>
+			<Stack.Screen
+				name='Login'
+				component={Login}
+				options={{
+					title: 'Login',
+					headerShown: false,
+				}}
+			/>
+		</Stack.Navigator>
+	);
+};
+
 export default Router = () => {
+	const isLogged = true;
 	return (
 		<NavigationContainer>
-			<LogedStack />
+			{isLogged ? <LoggedStack /> : <NoLoggedStack />}
 		</NavigationContainer>
 	);
 };
