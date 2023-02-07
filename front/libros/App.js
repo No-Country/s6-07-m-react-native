@@ -1,14 +1,8 @@
-import 'react-native-gesture-handler'
+import 'react-native-gesture-handler';
 
-import * as React from 'react'
-import { NavigationContainer } from '@react-navigation/native'
-import StackNavigator from './src/router/StackNavigator'
-import TabNavigator from './src/router/TabNavigator'
+import * as React from 'react';
+import Router from './src/router/Router';
 
-export default function App () {
-  return (
-		<NavigationContainer>
-			<TabNavigator />
-		</NavigationContainer>
-  )
+export default function App() {
+	return <Router />;
 }
