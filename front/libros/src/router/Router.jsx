@@ -9,6 +9,11 @@ const Stack = createStackNavigator();
 const LoggedStack = () => {
 	return (
 		<Stack.Navigator
+		screenOptions={{
+			headerShown: false,
+		}}
+
+
 	
 		>
 			<Stack.Screen name='Home' component={TabNagivator} />
