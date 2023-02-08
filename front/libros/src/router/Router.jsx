@@ -8,7 +8,9 @@ const Stack = createStackNavigator();
 
 const LoggedStack = () => {
 	return (
-		<Stack.Navigator>
+		<Stack.Navigator
+	
+		>
 			<Stack.Screen name='Home' component={TabNagivator} />
 		</Stack.Navigator>
 	);
