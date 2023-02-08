@@ -8,7 +8,7 @@ import { Ionicons } from '@expo/vector-icons';
 
 const Tab = createBottomTabNavigator();
 
-const TabNagivator = () => {
+const TabNagivator = ({navigation}) => {
 	return (
 		<Tab.Navigator
 			initialRouteName='HomeBooks'
