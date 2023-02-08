@@ -5,10 +5,11 @@ import Donation from '../screens/Donation';
 import HomeBooks from '../screens/HomeBooks';
 import Profile from '../screens/Profile';
 import { Ionicons } from '@expo/vector-icons';
+import HomeNavigator from './HomeStack';
 
 const Tab = createBottomTabNavigator();
 
-const TabNagivator = ({navigation}) => {
+const TabNagivator = ({ navigation }) => {
 	return (
 		<Tab.Navigator
 			initialRouteName='HomeBooks'
@@ -28,7 +29,7 @@ const TabNagivator = ({navigation}) => {
 					),
 				}}
 				name='HomeBooks'
-				component={HomeBooks}
+				component={HomeNavigator}
 			/>
 			<Tab.Screen name='Profile' component={Profile} />
 			<Tab.Screen name='Donation' component={Donation} />
