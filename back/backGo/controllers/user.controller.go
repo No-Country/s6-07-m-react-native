@@ -6,6 +6,8 @@ import (
 	"github.com/No-Country/s6-07-m-react-native/tree/main/back/backGo/model"
 	"github.com/gofiber/fiber/v2"
 	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/mongo"
+	"go.mongodb.org/mongo-driver/mongo/options"
 	"golang.org/x/crypto/bcrypt"
 	"net/mail"
 )
@@ -36,6 +38,19 @@ func SignUp(c *fiber.Ctx) error {
 	}
 	hashPassword, _ := bcrypt.GenerateFromPassword([]byte(body.Password), 10)
 
+	indexEmail := mongo.IndexModel{
+		Keys:    bson.M{"email": 1},
+		Options: options.Index().SetUnique(true),
+	}
+	indexUserName := mongo.IndexModel{
+		Keys:    bson.M{"username": 1},
+		Options: options.Index().SetUnique(true),
+	}
+	indexes := []mongo.IndexModel{indexEmail, indexUserName}
+	_, err = userColl.Indexes().CreateMany(context.TODO(), indexes)
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(bson.M{"done": false, "msg": err.Error()})
+	}
 	body.Password = string(hashPassword)
 	cursor, err := userColl.InsertOne(context.TODO(), body)
 	if err != nil {
