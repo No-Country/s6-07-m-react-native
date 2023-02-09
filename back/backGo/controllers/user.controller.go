@@ -16,6 +16,11 @@ func validMail(email string) bool {
 	_, err := mail.ParseAddress(email)
 	return err == nil
 }
+
+func comparePassword(hashPassword, password string) bool {
+	err := bcrypt.CompareHashAndPassword([]byte(hashPassword), []byte(password))
+	return err == nil
+}
 func SignUp(c *fiber.Ctx) error {
 	dtb, err := db.MongoConnection()
 	if err != nil {
@@ -60,10 +65,27 @@ func SignUp(c *fiber.Ctx) error {
 	return c.Status(fiber.StatusOK).JSON(bson.M{"done": true, "userId": cursor.InsertedID, "msg": "User successfully created"})
 }
 
-//func SignIn(c *fiber.Ctx) error {
-//	body := model.User{}
-//	if err := c.BodyParser(&body); err != nil {
-//		return c.Status(fiber.StatusBadRequest).JSON(bson.M{"done": false, "msg": err.Error()})
-//	}
-//
-//}
+func Login(c *fiber.Ctx) error {
+	body := model.User{}
+	user := model.User{}
+	if err := c.BodyParser(&body); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(bson.M{"done": false, "msg": err.Error()})
+	}
+	if body.Email == "" || body.Password == "" {
+		return c.Status(fiber.StatusBadRequest).JSON(bson.M{"done": false, "msg": "Incomplete values"})
+	}
+	dtb, err := db.MongoConnection()
+	if err != nil {
+		panic(err)
+	}
+	UserColl := dtb.Database("giveAway").Collection("user")
+	filter := bson.M{"email": body.Email}
+	if err := UserColl.FindOne(context.TODO(), filter).Decode(&user); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(bson.M{"done": false, "msg": "Incorrect email or password"})
+	}
+	if !comparePassword(user.Password, body.Password) {
+		return c.Status(fiber.StatusBadRequest).JSON(bson.M{"done": false, "msg": "Incorrect email or password"})
+	}
+	return c.Status(fiber.StatusOK).JSON(bson.M{"done": true, "user": user})
+
+}
