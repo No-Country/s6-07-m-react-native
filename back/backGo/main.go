@@ -1,7 +1,10 @@
 package main
 
 import (
+	"context"
 	"fmt"
+	"github.com/No-Country/s6-07-m-react-native/tree/main/back/backGo/routes"
+	"github.com/gofiber/fiber/v2/middleware/logger"
 	"os"
 
 	"github.com/No-Country/s6-07-m-react-native/tree/main/back/backGo/db"
@@ -19,17 +22,20 @@ func main() {
 	if port == "" {
 		port = ":3050"
 	}
-
-	_, err := db.MongoConnection()
+	app.Use(logger.New())
+	client, err := db.MongoConnection()
 	if err != nil {
 		panic(err)
 	}
-
+	fmt.Println("Connected to db")
+	defer client.Disconnect(context.TODO())
 	app.Get("/", func(c *fiber.Ctx) error {
 		return c.JSON("Welcome to GiveAway 📖🤝📖")
 	})
+	routes.UserRoutes(app)
 	if err := app.Listen(port); err != nil {
 		panic(err)
 	}
+
 	fmt.Printf("Listening on Port: %v \n", port)
 }
