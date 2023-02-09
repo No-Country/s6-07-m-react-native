@@ -24,11 +24,5 @@ func MongoConnection() (*mongo.Client, error) {
 	if err != nil {
 		panic(err)
 	}
-	defer func() {
-		if err := client.Disconnect(context.TODO()); err != nil {
-			panic(err)
-		}
-	}()
-	fmt.Println("Connected to db")
 	return client, nil
 }
