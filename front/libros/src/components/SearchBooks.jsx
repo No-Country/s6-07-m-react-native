@@ -11,7 +11,7 @@ import { Ionicons } from '@expo/vector-icons';
 
 const SearchBooks = () => {
 	return (
-		<View>
+		<View style={{ marginBottom: 16 }}>
 			<View style={styles.directionView}>
 				<Image
 					source={{ uri: 'https://picsum.photos/200/300' }}
