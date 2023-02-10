@@ -34,13 +34,11 @@ const UserSchema = new Schema(
         type: Number,
       },
       geolocation: {
-        type: {
-          latitude: {
-            type: Number,
-          },
-          longitude: {
-            type: Number,
-          },
+        latitude: {
+          type: Number,
+        },
+        longitude: {
+          type: Number,
         },
       },
     },
