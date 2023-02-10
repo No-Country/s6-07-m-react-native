@@ -1,9 +1,9 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import React from 'react';
 import Chat from '../screens/Chat';
-import Donation from '../screens/Donation';
 import { Ionicons } from '@expo/vector-icons';
 import HomeNavigator from './HomeStack';
+import Donation from '../screens/tabscreens/donation/Donation';
 
 const Tab = createBottomTabNavigator();
 
