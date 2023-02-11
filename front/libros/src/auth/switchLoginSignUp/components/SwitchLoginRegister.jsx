@@ -10,6 +10,7 @@ import { useNavigation } from '@react-navigation/native';
 
 //Styles
 import { styles } from "../styles/styles.js";
+import { colors } from '../../../utils/constants.js';
 
 const SwitchLoginRegister = () => {
 
@@ -46,7 +47,7 @@ const SwitchLoginRegister = () => {
         <TouchableOpacity
           style={{
             ...styles.btn,
-            backgroundColor: pressedLogin ? "#FFFFFF" : "#6559E5"
+            backgroundColor: pressedLogin ? colors.background : colors.primary
           }}
           onPress={() => {
             SetPressedLogin(true);
@@ -57,7 +58,7 @@ const SwitchLoginRegister = () => {
           <Text
             style={{
               ...styles.text,
-              color: pressedLogin ? "black" : "#FFFFFF"
+              color: pressedLogin ? colors.text : colors.background
             }}>
             Iniciar Sesión
           </Text>
@@ -66,7 +67,7 @@ const SwitchLoginRegister = () => {
         <TouchableOpacity
           style={{
             ...styles.btn,
-            backgroundColor: pressedRegister ? "#FFFFFF" : "#6559E5"
+            backgroundColor: pressedRegister ? colors.background : colors.primary
           }}
           onPress={() => {
             SetPressedLogin(false);
@@ -77,7 +78,7 @@ const SwitchLoginRegister = () => {
           <Text
             style={{
               ...styles.text,
-              color: pressedRegister ? "black" : "#FFFFFF"
+              color: pressedRegister ? colors.text : colors.background
             }}>
             Registrarse
           </Text>

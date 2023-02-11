@@ -1,14 +1,15 @@
 import { StyleSheet } from "react-native"
+import { colors } from "../../../utils/constants"
 
 export const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		backgroundColor: '#fff',
+		backgroundColor: colors.background,
 		alignItems: 'center',
 		justifyContent: 'center',
 	},
 	btn: {
-		backgroundColor: "#FFFFFF",
+		backgroundColor: colors.background,
 		borderRadius: 20,
 		paddingTop: 7,
 		paddingBottom: 10,
@@ -17,12 +18,12 @@ export const styles = StyleSheet.create({
 		width: "48%"
 	},
 	logoTitle: {
-		color: "#6559E5",
+		color: colors.primary,
 		fontSize: 40,
 	},
 	switchContainer: {
 		alignItems: "center",
-		backgroundColor: "#6559E5",
+		backgroundColor: colors.primary,
 		borderRadius: 30,
 		display: "flex",
 		flexDirection: "row",
@@ -36,7 +37,7 @@ export const styles = StyleSheet.create({
 		width: "95%",
 	},
 	text: {
-		color: "black",
+		color: colors.text,
 		fontSize: 18,
 		textAlign: "center",
 	}
