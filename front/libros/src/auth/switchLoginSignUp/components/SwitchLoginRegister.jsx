@@ -6,6 +6,7 @@ import {
   Image,
   TouchableOpacity
 } from 'react-native'
+import { useNavigation } from '@react-navigation/native';
 
 //Styles
 import { styles } from "../styles/styles.js";
@@ -14,6 +15,8 @@ const SwitchLoginRegister = () => {
 
   let [pressedLogin, SetPressedLogin] = useState(true)
   let [pressedRegister, SetPressedRegister] = useState(false)
+
+  const navigation = useNavigation()
 
   return (
     <View style={styles.container}>
@@ -48,6 +51,7 @@ const SwitchLoginRegister = () => {
           onPress={() => {
             SetPressedLogin(true);
             SetPressedRegister(false);
+            navigation.navigate("Inicio de sesión")
           }}
         >
           <Text
@@ -67,6 +71,7 @@ const SwitchLoginRegister = () => {
           onPress={() => {
             SetPressedLogin(false);
             SetPressedRegister(true);
+            navigation.navigate("Registro")
           }}
         >
           <Text
