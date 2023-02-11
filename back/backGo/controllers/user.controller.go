@@ -14,6 +14,7 @@ import (
 	"golang.org/x/crypto/bcrypt"
 	"net/mail"
 	"os"
+	"strings"
 )
 
 type MyClaimsSignIn struct {
@@ -44,6 +45,9 @@ func SignUp(c *fiber.Ctx) error {
 	if body.Name == "" || body.Password == "" || body.Email == "" || body.Username == "" {
 		return c.Status(fiber.StatusBadRequest).JSON(bson.M{"done": false, "msg": "Incomplete values"})
 
+	}
+	if strings.TrimSpace(body.Password) == "" || strings.Replace(body.Password, " ", "", -1) != body.Password {
+		return c.Status(fiber.StatusBadRequest).JSON(bson.M{"done": false, "msg": "The Password cannot be empty or have spaces in it"})
 	}
 	if !validMail(body.Email) {
 		return c.Status(fiber.StatusBadRequest).JSON(bson.M{"done": false, "msg": "Invalid Email"})
