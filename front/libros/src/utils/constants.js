@@ -8,3 +8,14 @@ export const colors = {
     danger: "#EA1111",
     warning: "#757575"
 }
+
+export const UI = {
+    formPadding: 20,
+    btnRadius: 20,
+    btnWidth: "48%",
+    btnPadding: 10,
+}
+
+export const fontSizes = {
+    title: 16,
+}
