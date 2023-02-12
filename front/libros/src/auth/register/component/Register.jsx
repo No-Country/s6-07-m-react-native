@@ -9,8 +9,7 @@ import {
   TouchableWithoutFeedback
 } from 'react-native'
 //Styles
-import { styles } from '../styles/styles'
-import { colors } from '../../../utils/constants';
+import { colors, formStyles as styles } from '../../../utils/constants';
 //Icons
 import { Ionicons } from '@expo/vector-icons';
 //Formik
@@ -41,15 +40,15 @@ const Register = () => {
   }
 
   let [showPass, setShowPass] = useState(false);
-  let [toggleEye, setToggleEye] = useState("eye-outline")
+  let [toggleEye, setToggleEye] = useState("eye-off-outline")
 
   const ShowHidePass = () => {
     if (!showPass) {
       setShowPass(true)
-      setToggleEye("eye-off-outline")
+	  setToggleEye("eye-outline")
     } else {
-      setShowPass(false)
-      setToggleEye("eye-outline")
+		setShowPass(false)
+		setToggleEye("eye-off-outline")
     }
   }
 
@@ -93,8 +92,9 @@ const Register = () => {
               <TextInput
                 style={styles.input}
                 name="password"
+                placeholder="Contraseña"
                 onChangeText={handleChange("password")}
-                secureTextEntry={showPass}
+                secureTextEntry={!showPass}
               />
               <Ionicons
                 style={styles.eye}
@@ -110,8 +110,9 @@ const Register = () => {
             <TextInput
               style={styles.input}
               name="confirmPassword"
+              placeholder="Repetir contraseña"
               onChangeText={handleChange("confirmPassword")}
-              secureTextEntry={showPass}
+              secureTextEntry={!showPass}
             />
             {errors?.confirmPassword && <Text style={styles.error}>{errors?.confirmPassword}</Text>}
 
