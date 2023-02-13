@@ -14,7 +14,7 @@ const getUser = async (req, res) => {
   } catch (error) {
     console.log(error)
     if(error.kind =='ObjectId'){
-      return NotFound(res, "Id is invalid")
+      return Error(res, "Id is invalid")
     }
     return Error(res, error.message)
   }
