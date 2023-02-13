@@ -4,7 +4,11 @@ import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 const BookCardList = ({ book }) => {
 	return (
 		<View style={styles.viewStyle}>
-			<Image style={{ width: 80, height: 125 }} source={{ uri: book.url }} />
+			<TouchableOpacity
+				onPress={() => console.log('Te lleva al detalle del libro')}
+			>
+				<Image style={{ width: 80, height: 125 }} source={{ uri: book.url }} />
+			</TouchableOpacity>
 
 			<View style={styles.containerInfo}>
 				<Text>{book.title}</Text>
@@ -18,7 +22,13 @@ const BookCardList = ({ book }) => {
 				</View>
 				<View style={styles.contact}>
 					<Text style={{ marginRight: 15 }}>Distancia 15km</Text>
-					<TouchableOpacity>
+					<TouchableOpacity
+						onPress={() =>
+							console.log(
+								'Te lleva al chat con la persona que publico el libro'
+							)
+						}
+					>
 						<Text>Contacta</Text>
 					</TouchableOpacity>
 				</View>

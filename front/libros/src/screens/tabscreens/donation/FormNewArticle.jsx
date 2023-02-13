@@ -1,11 +1,18 @@
 import React from 'react';
-import { Button, Text, TextInput, View } from 'react-native';
+import { Button, Image, Text, TextInput, View } from 'react-native';
 import { Formik } from 'formik';
+import SvgComponent from './svg/SvgComponent';
 
 const FormNewArticle = () => {
 	return (
 		<View>
-			<Text>Anywhere in your app!</Text>
+			<View style={{ marginTop: 20, flexDirection: 'row' }}>
+				<Text>Dona tu libro</Text>
+				<Image
+					source={{ uri: 'https://picsum.photos/200/300' }}
+					style={{ width: 30, height: 30 }}
+				/>
+			</View>
 			<Formik
 				initialValues={{ email: '', password: '' }}
 				onSubmit={values => console.log(values)}
@@ -19,6 +26,10 @@ const FormNewArticle = () => {
 					isValid,
 				}) => (
 					<>
+						<View>
+							<SvgComponent />
+							<Text>Cargar Imagen</Text>
+						</View>
 						<TextInput
 							name='email'
 							placeholder='Email Address'
@@ -43,7 +54,11 @@ const FormNewArticle = () => {
 								{errors.password}
 							</Text>
 						)}
-						<Button onPress={handleSubmit} title='LOGIN' disabled={!isValid} />
+						<Button
+							onPress={handleSubmit}
+							title='Publicar'
+							disabled={!isValid}
+						/>
 					</>
 				)}
 			</Formik>

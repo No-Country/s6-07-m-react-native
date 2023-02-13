@@ -4,7 +4,7 @@ import FormNewArticle from './FormNewArticle';
 
 const Donation = () => {
 	return (
-		<View>
+		<View style={{ marginHorizontal: 16 }}>
 			<Text>Donation navigation</Text>
 			<FormNewArticle />
 		</View>
