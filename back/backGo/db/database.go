@@ -2,27 +2,31 @@ package db
 
 import (
 	"context"
-	"fmt"
-	"github.com/joho/godotenv"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
+	"log"
 	"os"
 )
 
-func MongoConnection() (*mongo.Client, error) {
-	if err := godotenv.Load(); err != nil {
-		fmt.Println("No .env file found")
+var db *mongo.Database
 
+func GetDBCollection(coll string) *mongo.Collection {
+	return db.Collection(coll)
+}
+
+func InitDB() error {
+	uri := os.Getenv("MONGODB_URI")
+	if uri == "" {
+		log.Fatal("You Must set your MONGODB_URI")
 	}
-	mongodbURI := os.Getenv("MONGODB_URI")
-
-	if mongodbURI == "" {
-		panic("Need valid Mongodb Direction")
-	}
-
-	client, err := mongo.Connect(context.TODO(), options.Client().ApplyURI(mongodbURI))
+	client, err := mongo.Connect(context.Background(), options.Client().ApplyURI(uri))
 	if err != nil {
-		panic(err)
+		return err
 	}
-	return client, nil
+	db = client.Database("giveAway")
+	return nil
+}
+
+func CloseDB() error {
+	return db.Client().Disconnect(context.Background())
 }

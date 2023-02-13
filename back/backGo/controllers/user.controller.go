@@ -33,11 +33,8 @@ func comparePassword(hashPassword, password string) bool {
 	return err == nil
 }
 func SignUp(c *fiber.Ctx) error {
-	dtb, err := db.MongoConnection()
-	if err != nil {
-		panic(err)
-	}
-	userColl := dtb.Database("giveAway").Collection("user")
+
+	userColl := db.GetDBCollection("user")
 	body := model.User{}
 	if err := c.BodyParser(&body); err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(bson.M{"done": false, "msg": err.Error()})
@@ -66,7 +63,8 @@ func SignUp(c *fiber.Ctx) error {
 		Options: options.Index().SetUnique(true),
 	}
 	indexes := []mongo.IndexModel{indexEmail, indexUserName}
-	_, err = userColl.Indexes().CreateMany(context.TODO(), indexes)
+
+	_, err := userColl.Indexes().CreateMany(context.Background(), indexes)
 	if err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(bson.M{"done": false, "msg": err.Error()})
 	}
@@ -92,12 +90,8 @@ func Login(c *fiber.Ctx) error {
 	if body.Email == "" || body.Password == "" {
 		return c.Status(fiber.StatusBadRequest).JSON(bson.M{"done": false, "msg": "Incomplete values"})
 	}
-	dtb, err := db.MongoConnection()
-	if err != nil {
-		panic(err)
-	}
 
-	UserColl := dtb.Database("giveAway").Collection("user")
+	UserColl := db.GetDBCollection("user")
 	filter := bson.M{"email": body.Email}
 	projection := bson.M{"name": 1, "profileImage": 1, "username": 1, "password": 1}
 	if err := UserColl.FindOne(context.TODO(), filter, options.FindOne().SetProjection(projection)).Decode(&user); err != nil {
