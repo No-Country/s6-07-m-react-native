@@ -10,5 +10,5 @@ func UserRoutes(app *fiber.App) {
 	UserGroup := app.Group("/user")
 
 	UserGroup.Post("/signUp", controllers.SignUp)
-	UserGroup.Get("/login", controllers.Login)
+	UserGroup.Post("/login", controllers.Login)
 }
