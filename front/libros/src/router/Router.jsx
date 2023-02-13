@@ -13,7 +13,7 @@ const LoggedStack = () => {
 				headerShown: false,
 			}}
 		>
-			<Stack.Screen name='Home' component={TabNagivator} />
+			<Stack.Screen name='HomeStack' component={TabNagivator} />
 		</Stack.Navigator>
 	);
 };
