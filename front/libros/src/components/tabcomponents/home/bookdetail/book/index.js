@@ -11,9 +11,8 @@ const Book = ({ navigation }) => {
 				<View style={styles.bookcontainer}>
 					<Image source={{ uri: bookObj.books[0].url }} style={styles.image} />
 					<Text style={styles.textTitle}> {bookObj.books[0].title}</Text>
-
 				</View>
-				<Text>{bookObj.books[0].title}</Text>
+				<Text style={styles.textDescription}>{bookObj.books[0].description.substring(0,200).concat("...")}</Text>
 			</View>
 		);
 	};

@@ -5,31 +5,42 @@ export default styles = StyleSheet.create({
 		backgroundColor: '#fff',
 		alignItems: 'center',
 		justifyContent: 'center',
-		borderWidth: 1,
+	
 	},
 	containerBook: {
 		backgroundColor: '#fff',
 		alignItems: 'center',
 		justifyContent: 'center',
-		borderWidth: 1,
+	
 		width: '100%',
 		height: 243,
+        flexDirection: 'column',
 	},
 	bookcontainer: {
 		backgroundColor: '#fff',
 		flexDirection: 'row',
-        position: 'absolute',
-        top: 5,
+      
 	},
 	text: {
-		color: '#fff',
+		color: '#263238',
 	},
 	textTitle: {
 		fontSize: 20,
 		fontWeight: 'bold',
-		color: '#000',
-		borderWidth: 1,
+		color: '#263238',
+        width: 200,
+        marginLeft: 10,
+        marginTop: 15,
 	},
+    textDescription: {
+        fontSize: 14,
+        fontWeight: 'regular',
+        color: '#666363',
+        width: 330, 
+       
+        marginTop: 10,
+        margin: 5
+    },
     image: {
         width: 80,
         height: 125,
