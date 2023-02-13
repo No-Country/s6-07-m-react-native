@@ -34,7 +34,7 @@ func comparePassword(hashPassword, password string) bool {
 }
 func SignUp(c *fiber.Ctx) error {
 
-	userColl := db.GetDBCollection("user")
+	userColl := db.GetDBCollection("users")
 	body := model.User{}
 	if err := c.BodyParser(&body); err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(bson.M{"done": false, "msg": err.Error()})
@@ -91,7 +91,7 @@ func Login(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusBadRequest).JSON(bson.M{"done": false, "msg": "Incomplete values"})
 	}
 
-	UserColl := db.GetDBCollection("user")
+	UserColl := db.GetDBCollection("users")
 	filter := bson.M{"email": body.Email}
 	projection := bson.M{"name": 1, "profileImage": 1, "username": 1, "password": 1}
 	if err := UserColl.FindOne(context.TODO(), filter, options.FindOne().SetProjection(projection)).Decode(&user); err != nil {
