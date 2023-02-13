@@ -17,6 +17,13 @@ import (
 	"strings"
 )
 
+type SignUpModel struct {
+	Username   string `bson:"username"`
+	Password   string `bson:"password"`
+	RePassword string `bson:"rePassword"`
+	Email      string `bson:"email"`
+}
+
 type MyClaimsSignIn struct {
 	ID    primitive.ObjectID `bson:"_id"`
 	Email string             `bson:"email"`
@@ -35,7 +42,7 @@ func comparePassword(hashPassword, password string) bool {
 func SignUp(c *fiber.Ctx) error {
 
 	userColl := db.GetDBCollection("users")
-	body := model.User{}
+	body := SignUpModel{}
 	if err := c.BodyParser(&body); err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(bson.M{"done": false, "msg": err.Error()})
 	}
@@ -44,9 +51,13 @@ func SignUp(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusBadRequest).JSON(bson.M{"done": false, "msg": "Incomplete values"})
 
 	}
+	if body.Password != body.RePassword {
+		return c.Status(fiber.StatusBadRequest).JSON(bson.M{"done": false, "msg": "Passwords doesn't match"})
+	}
 	if strings.TrimSpace(body.Password) == "" || strings.Replace(body.Password, " ", "", -1) != body.Password {
 		return c.Status(fiber.StatusBadRequest).JSON(bson.M{"done": false, "msg": "The Password cannot be empty or have spaces in it"})
 	}
+
 	if !validMail(body.Email) {
 		return c.Status(fiber.StatusBadRequest).JSON(bson.M{"done": false, "msg": "Invalid Email"})
 	}
