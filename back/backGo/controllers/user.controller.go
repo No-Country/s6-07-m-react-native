@@ -39,7 +39,8 @@ func SignUp(c *fiber.Ctx) error {
 	if err := c.BodyParser(&body); err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(bson.M{"done": false, "msg": err.Error()})
 	}
-	if body.Name == "" || body.Password == "" || body.Email == "" || body.Username == "" {
+	//body.Name == ""
+	if body.Password == "" || body.Email == "" || body.Username == "" {
 		return c.Status(fiber.StatusBadRequest).JSON(bson.M{"done": false, "msg": "Incomplete values"})
 
 	}
