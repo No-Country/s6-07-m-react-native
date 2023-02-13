@@ -2,6 +2,9 @@ const { Schema, model } = require("mongoose");
 
 const UserSchema = new Schema(
   {
+    profileImage: {
+      type: String,
+    },
     name: {
       type: String,
       required: true,
@@ -42,6 +45,12 @@ const UserSchema = new Schema(
         },
       },
     },
+    books: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Book",
+      },
+    ],
   },
   {
     timestamps: true,
