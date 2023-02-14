@@ -9,6 +9,8 @@ import (
 
 	"github.com/No-Country/s6-07-m-react-native/tree/main/back/backGo/db"
 	"github.com/joho/godotenv"
+
+	"github.com/gofiber/fiber/v2/middleware/cors"
 )
 
 func main() {
@@ -34,6 +36,7 @@ func main() {
 	if port == "" {
 		port = ":3050"
 	}
+
 
 	if err != nil {
 		panic(err)
