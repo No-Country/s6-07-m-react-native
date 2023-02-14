@@ -1,7 +1,11 @@
 const Book = require("../models/Book");
 const User = require("../models/User");
 const { findUser, saveUser } = require("../services/User.service");
-const { saveBook, searchBookByTitle, deleteBook } = require("../services/Book.service");
+const {
+  saveBook,
+  searchBookByTitle,
+  deleteBook,
+} = require("../services/Book.service");
 const { NotFound, Ok, Error } = require("../util/HttpResponse");
 
 const donateBook = async (req, res) => {
@@ -23,7 +27,13 @@ const donateBook = async (req, res) => {
 const eraseBook = async (req, res) => {
   try {
     const deletedBook = await deleteBook(req.body.id);
+    if (!deletedBook) {
+      return NotFound(res, "Book not found");
+    }
     const userFound = await findUser(deletedBook.userId);
+    if (!userFound) {
+      return NotFound(res, "User not found");
+    }
     userFound.books = userFound.books.filter(
       (book) => book.toString() !== req.body.id
     );
