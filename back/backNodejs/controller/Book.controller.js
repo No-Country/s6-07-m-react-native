@@ -1,7 +1,7 @@
 const Book = require("../models/Book");
 const User = require("../models/User");
 const { findUser } = require("../services/User.service");
-const { createBook } = require("../services/Book.service");
+const { saveBook } = require("../services/Book.service");
 const { NotFound, Ok, Error } = require("../util/HttpResponse");
 
 const donateBook = async (req, res) => {
@@ -19,7 +19,7 @@ const donateBook = async (req, res) => {
             description: req.body.description,
             userId: req.body.id,
           });
-          const savedBook = await createBook(newBook);
+          const savedBook = await saveBook(newBook);
           userFound.books = [...userFound.books, savedBook.id];
           return Ok(res, savedBook);
         } else {

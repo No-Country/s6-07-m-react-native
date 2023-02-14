@@ -1,9 +1,9 @@
 const User = require("../models/Book");
 
-const createBook = async (data) => {
+const saveBook = async (data) => {
   return await data.save();
 };
 
 module.exports = {
-  createBook,
+    saveBook,
 };
