@@ -6,7 +6,8 @@ import {
   View,
   TextInput,
   TouchableOpacity,
-  TouchableWithoutFeedback
+  TouchableWithoutFeedback,
+  Alert
 } from 'react-native'
 //Styles
 import { colors, formStyles as styles } from '../../../utils/constants';
@@ -21,10 +22,8 @@ import {
   formSchema
 } from '../../../utils/formValidation';
 
-import axios from "axios";
-//import Config from "react-native-config";
-
 import { post, get } from '../../../utils/apiUtils';
+
 
 const Register = () => {
 
@@ -50,22 +49,61 @@ const Register = () => {
   const ShowHidePass = () => {
     if (!showPass) {
       setShowPass(true)
-	  setToggleEye("eye-outline")
+      setToggleEye("eye-outline")
     } else {
-		setShowPass(false)
-		setToggleEye("eye-off-outline")
+      setShowPass(false)
+      setToggleEye("eye-off-outline")
     }
   }
 
+  const alerts = {
+    success: {
+      title: "Registro",
+      msg: "Registro exitoso",
+      options: [
+        {
+          text: "OK",
+          onPress: () => console.log("OK Pressed")
+        }
+      ],
+      cancelable: false,
+    },
+    error: {
+      title: "Error",
+      msg: "Ocurrió un error. Intenta nuevamente mas tarde.",
+      options: [
+        {
+          text: "OK",
+          onPress: () => console.log("OK Pressed")
+        }
+      ],
+      cancelable: false,
+    },
+  }
+
+  showAlert = ({title, msg, options, cancelable}) => {
+    Alert.alert(
+      title,
+      msg,
+      options,
+      { cancelable },
+    );
+  };
+
   const onSubmit = async (values) => {
     try {
-      console.log(valuesSchema);
+      let { status } = await post("/user/signUp", { ...values })
+      console.log(status)
 
-      let response = await post("http://127.0.0.1:3007/user/signUp", {...values})
-      //let response = await get("https://pokeapi.co/api/v2/pokemon")
-      console.log(response)
+      if (status === 200) {
+        showAlert(alerts.success)
+      }else {
+        showAlert(alerts.error)
+      }
+
     } catch (error) {
       console.log("ERROR ", error)
+      showAlert(alerts.error)
     }
   }
 
