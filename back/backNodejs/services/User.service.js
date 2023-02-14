@@ -1,8 +1,12 @@
-const User = require("../models/User")
+const User = require("../models/User");
 
-const findUser = async (id)=> {
-    return await User.findOne({ _id: id })
-}
+const findUser = async (id) => {
+  return await User.findById(id);
+};
+const saveUser = async (user) => {
+  return await user.save();
+};
 module.exports = {
-    findUser
-}
+  findUser,
+  saveUser,
+};

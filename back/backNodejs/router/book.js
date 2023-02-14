@@ -3,5 +3,5 @@ const { donateBook } = require("../controller/Book.controller");
 
 const router = Router();
 
-router.get("/donateBook", donateBook);
+router.post("/donateBook", donateBook);
 module.exports = router;
