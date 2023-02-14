@@ -1,7 +1,7 @@
 const Book = require("../models/Book");
 const User = require("../models/User");
 const { findUser, saveUser } = require("../services/User.service");
-const { saveBook, deleteBook } = require("../services/Book.service");
+const { saveBook, searchBookByTitle, deleteBook } = require("../services/Book.service");
 const { NotFound, Ok, Error } = require("../util/HttpResponse");
 
 const donateBook = async (req, res) => {
@@ -35,7 +35,22 @@ const eraseBook = async (req, res) => {
   }
 };
 
+const searchBook = async (req, res) => {
+  const { title } = req.params;
+  try {
+    const bookFound = await searchBookByTitle(title);
+    if (bookFound.length === 0) {
+      return NotFound(res, "Book not found");
+    }
+    return Ok(res, bookFound);
+  } catch (error) {
+    console.log(error);
+    return Error(res, error);
+  }
+};
+
 module.exports = {
   donateBook,
+  searchBook,
   eraseBook,
 };

@@ -1,5 +1,5 @@
-const { deleteOne } = require("../models/Book");
 const Book = require("../models/Book");
+const User = require("../models/Book");
 
 const saveBook = async (data) => {
   const newBook = new Book({
@@ -17,7 +17,13 @@ const deleteBook = async (id) => {
   return book;
 };
 
+const searchBookByTitle = async (title) => {
+  const regex = new RegExp(title, "i");
+  return await Book.find({ title: regex });
+};
+
 module.exports = {
   saveBook,
+  searchBookByTitle,
   deleteBook,
 };
