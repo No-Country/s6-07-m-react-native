@@ -10,7 +10,6 @@ import (
 	"github.com/No-Country/s6-07-m-react-native/tree/main/back/backGo/db"
 	"github.com/joho/godotenv"
 
-	"github.com/gofiber/fiber/v2/middleware/cors"
 )
 
 func main() {
