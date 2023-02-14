@@ -1,16 +1,5 @@
 const { body, validationResult, ValidationError } = require("express-validator");
-const createError = require("http-errors");
-const errorValidationFormatter = ({
-  location, msg, param, value, nestedErrors,
-}) => `${location}[${param}]: ${msg}`;
-
-const reportError = (req, res, next) => {
-  const result = validationResult(req).formatWith(errorValidationFormatter);
-  if (!result.isEmpty()) {
-    return next(createError(400, 'Input validation error', { expose: false, contents: result.array() }));
-  }
-  return next();
-};
+const { reportError } = require("./reportErrorValidation");
 
 exports.validationcreateuser = [
   body("name").notEmpty().withMessage("Name is required"),
