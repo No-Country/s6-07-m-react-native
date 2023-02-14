@@ -1,0 +1,3 @@
+.env
+#ignora la carpeta module
+node_modules

@@ -1,12 +1,21 @@
 import React from 'react';
-import { Text, View } from 'react-native';
+import { Text, View, StyleSheet } from 'react-native';
 
-const HomeDetail = ({navigation}) => {
+const HomeDetail = ({ navigation }) => {
 	return (
-		<View>
-			<Text>Book Detail</Text>
+		<View style={styles.container}>
+			<Text>Book Del</Text>
 		</View>
 	);
 };
+
+const styles = StyleSheet.create({
+	container: {
+		flex: 1,
+		backgroundColor: '#fff',
+		alignItems: 'center',
+		justifyContent: 'center',
+	},
+});
 
 export default HomeDetail;
