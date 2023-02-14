@@ -11,7 +11,6 @@ import (
 	"github.com/joho/godotenv"
 
 	"github.com/gofiber/fiber/v2/middleware/cors"
-	"github.com/gofiber/fiber/v2/middleware/bodyparser"
 )
 
 func main() {
@@ -34,8 +33,6 @@ func main() {
 	if port == "" {
 		port = ":3050"
 	}
-
-	app.Use(bodyparser.New())
 
 	app.Use(cors.New(cors.Config{
         AllowOrigins: "*",
