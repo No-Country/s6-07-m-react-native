@@ -1,5 +1,5 @@
 const User = require("../models/User");
-const { findUser } = require("../services/User.service");
+const { findUser, saveUser } = require("../services/User.service");
 const { NotFound, Ok, Error } = require("../util/HttpResponse");
 
 // Buscar Usuario por ID
