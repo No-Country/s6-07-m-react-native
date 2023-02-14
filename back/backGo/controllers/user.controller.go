@@ -5,13 +5,14 @@ import (
 	"github.com/No-Country/s6-07-m-react-native/tree/main/back/backGo/db"
 	"github.com/No-Country/s6-07-m-react-native/tree/main/back/backGo/model"
 	"github.com/dgrijalva/jwt-go"
-	"github.com/gofiber/fiber/v2"
+	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"golang.org/x/crypto/bcrypt"
+	"net/http"
 	"net/mail"
 	"os"
 	"strings"
@@ -39,30 +40,37 @@ func comparePassword(hashPassword, password string) bool {
 	err := bcrypt.CompareHashAndPassword([]byte(hashPassword), []byte(password))
 	return err == nil
 }
-func SignUp(c *fiber.Ctx) error {
+func SignUp(c *gin.Context) {
 
 	userColl := db.GetDBCollection("users")
 	body := SignUpModel{}
-	if err := c.BodyParser(&body); err != nil {
-		return c.Status(fiber.StatusBadRequest).JSON(bson.M{"done": false, "msg": err.Error()})
+	if err := c.ShouldBindJSON(&body); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"done": false, "msg": err.Error()})
+		return
+
 	}
 	//body.Name == ""
 	if body.Password == "" || body.Email == "" || body.Username == "" {
-		return c.Status(fiber.StatusBadRequest).JSON(bson.M{"done": false, "msg": "Incomplete values"})
-
+		c.JSON(http.StatusBadRequest, gin.H{"done": false, "msg": "Incomplete values"})
+		return
 	}
 	if body.Password != body.RePassword {
-		return c.Status(fiber.StatusBadRequest).JSON(bson.M{"done": false, "msg": "Passwords doesn't match"})
+		c.JSON(http.StatusBadRequest, gin.H{"done": false, "msg": "Passwords doesn't match"})
+		return
 	}
 	if strings.TrimSpace(body.Password) == "" || strings.Replace(body.Password, " ", "", -1) != body.Password {
-		return c.Status(fiber.StatusBadRequest).JSON(bson.M{"done": false, "msg": "The Password cannot be empty or have spaces in it"})
+		c.JSON(http.StatusBadRequest, gin.H{"done": false, "msg": "The Password cannot be empty or have spaces in it"})
+		return
 	}
 
 	if !validMail(body.Email) {
-		return c.Status(fiber.StatusBadRequest).JSON(bson.M{"done": false, "msg": "Invalid Email"})
+		c.JSON(http.StatusBadRequest, gin.H{"done": false, "msg": "Invalid Email"})
+		return
+
 	}
 	if len(body.Password) < 7 {
-		return c.Status(fiber.StatusBadRequest).JSON(bson.M{"done": false, "msg": "Password must have more than 6 characters"})
+		c.JSON(http.StatusBadRequest, gin.H{"done": false, "msg": "Password must have more than 6 characters"})
+		return
 	}
 	hashPassword, _ := bcrypt.GenerateFromPassword([]byte(body.Password), 10)
 
@@ -78,44 +86,51 @@ func SignUp(c *fiber.Ctx) error {
 
 	_, err := userColl.Indexes().CreateMany(context.Background(), indexes)
 	if err != nil {
-		return c.Status(fiber.StatusBadRequest).JSON(bson.M{"done": false, "msg": err.Error()})
+		c.JSON(http.StatusBadRequest, gin.H{"done": false, "msg": err.Error()})
+		return
 	}
 	body.Password = string(hashPassword)
 	newUser := model.User{
 		Password: body.Password,
 		Username: body.Username,
-		Email: body.Email,
+		Email:    body.Email,
 	}
 	cursor, err := userColl.InsertOne(context.TODO(), newUser)
 	if err != nil {
-		return c.Status(fiber.StatusBadRequest).JSON(bson.M{"done": false, "msg": err.Error()})
+		c.JSON(http.StatusBadRequest, gin.H{"done": false, "msg": err.Error()})
+		return
 	}
 
-	return c.Status(fiber.StatusOK).JSON(bson.M{"done": true, "userId": cursor.InsertedID, "msg": "User successfully created"})
+	c.JSON(http.StatusOK, gin.H{"done": true, "userId": cursor.InsertedID, "msg": "User successfully created"})
+	return
 }
 
-func Login(c *fiber.Ctx) error {
+func Login(c *gin.Context) {
 	if err := godotenv.Load(); err != nil {
 		panic(err)
 	}
 	Secret := os.Getenv("SECRET")
 	body := model.User{}
 	user := model.User{}
-	if err := c.BodyParser(&body); err != nil {
-		return c.Status(fiber.StatusBadRequest).JSON(bson.M{"done": false, "msg": err.Error()})
+	if err := c.ShouldBindJSON(&body); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"done": false, "msg": err.Error()})
+		return
 	}
 	if body.Email == "" || body.Password == "" {
-		return c.Status(fiber.StatusBadRequest).JSON(bson.M{"done": false, "msg": "Incomplete values"})
+		c.JSON(http.StatusBadRequest, gin.H{"done": false, "msg": "Incomplete values"})
+		return
 	}
 
 	UserColl := db.GetDBCollection("users")
 	filter := bson.M{"email": body.Email}
 	projection := bson.M{"name": 1, "profileImage": 1, "username": 1, "password": 1}
 	if err := UserColl.FindOne(context.TODO(), filter, options.FindOne().SetProjection(projection)).Decode(&user); err != nil {
-		return c.Status(fiber.StatusBadRequest).JSON(bson.M{"done": false, "msg": "Incorrect email or password"})
+		c.JSON(http.StatusBadRequest, gin.H{"done": false, "msg": "Incorrect email or password"})
+		return
 	}
 	if !comparePassword(user.Password, body.Password) {
-		return c.Status(fiber.StatusBadRequest).JSON(bson.M{"done": false, "msg": "Incorrect email or password"})
+		c.JSON(http.StatusBadRequest, gin.H{"done": false, "msg": "Incorrect email or password"})
+		return
 	}
 
 	claims := MyClaimsSignIn{
@@ -128,9 +143,10 @@ func Login(c *fiber.Ctx) error {
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 	signedToken, err := token.SignedString([]byte(Secret))
 	if err != nil {
-		return c.JSON(bson.M{"err": err.Error()})
+		c.JSON(http.StatusBadRequest, gin.H{"err": err.Error()})
+		return
 	}
 
-	return c.Status(fiber.StatusOK).JSON(bson.M{"done": true, "user": user, "token": signedToken})
-
+	c.JSON(http.StatusOK, gin.H{"done": true, "user": user, "token": signedToken})
+	return
 }
