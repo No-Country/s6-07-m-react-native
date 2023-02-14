@@ -81,7 +81,12 @@ func SignUp(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusBadRequest).JSON(bson.M{"done": false, "msg": err.Error()})
 	}
 	body.Password = string(hashPassword)
-	cursor, err := userColl.InsertOne(context.TODO(), body)
+	newUser := model.User{
+		Password: body.Password,
+		Username: body.Username,
+		Email: body.Email,
+	}
+	cursor, err := userColl.InsertOne(context.TODO(), newUser)
 	if err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(bson.M{"done": false, "msg": err.Error()})
 	}
