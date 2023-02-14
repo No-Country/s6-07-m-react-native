@@ -21,6 +21,11 @@ import {
   formSchema
 } from '../../../utils/formValidation';
 
+import axios from "axios";
+//import Config from "react-native-config";
+
+import { post, get } from '../../../utils/apiUtils';
+
 const Register = () => {
 
   const { navigate } = useNavigation();
@@ -29,14 +34,14 @@ const Register = () => {
     username,
     email,
     password,
-    confirmPassword,
+    rePassword,
   } = initialValues;
 
   const registerValuesSchema = {
     username: valuesSchema.username,
     email: valuesSchema.email,
     password: valuesSchema.password,
-    confirmPassword: valuesSchema.confirmPassword
+    rePassword: valuesSchema.rePassword
   }
 
   let [showPass, setShowPass] = useState(false);
@@ -52,6 +57,18 @@ const Register = () => {
     }
   }
 
+  const onSubmit = async (values) => {
+    try {
+      console.log(valuesSchema);
+
+      let response = await post("http://127.0.0.1:3007/user/signUp", {...values})
+      //let response = await get("https://pokeapi.co/api/v2/pokemon")
+      console.log(response)
+    } catch (error) {
+      console.log("ERROR ", error)
+    }
+  }
+
   return (
     <View style={styles.container}>
 
@@ -60,11 +77,11 @@ const Register = () => {
           username,
           email,
           password,
-          confirmPassword
+          rePassword
         }}
         validationSchema={formSchema(registerValuesSchema)}
         onSubmit={(values) => {
-          console.log(values);
+          onSubmit(values)
         }}
       >
         {({ handleChange, handleSubmit, errors }) => (
@@ -109,12 +126,12 @@ const Register = () => {
             <Text style={styles.title}>Repetir contraseña</Text>
             <TextInput
               style={styles.input}
-              name="confirmPassword"
+              name="rePassword"
               placeholder="Repetir contraseña"
-              onChangeText={handleChange("confirmPassword")}
+              onChangeText={handleChange("rePassword")}
               secureTextEntry={!showPass}
             />
-            {errors?.confirmPassword && <Text style={styles.error}>{errors?.confirmPassword}</Text>}
+            {errors?.rePassword && <Text style={styles.error}>{errors?.rePassword}</Text>}
 
             <TouchableOpacity
               style={styles.btn}
