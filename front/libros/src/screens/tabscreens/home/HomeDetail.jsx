@@ -4,7 +4,7 @@ import { Text, View, StyleSheet } from 'react-native';
 const HomeDetail = ({ navigation }) => {
 	return (
 		<View style={styles.container}>
-			<Text>Book Detail</Text>
+			<Text>Book Del</Text>
 		</View>
 	);
 };
