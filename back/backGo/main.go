@@ -9,6 +9,9 @@ import (
 	"github.com/No-Country/s6-07-m-react-native/tree/main/back/backGo/db"
 	"github.com/gofiber/fiber/v2"
 	"github.com/joho/godotenv"
+
+	"github.com/gofiber/fiber/v2/middleware/cors"
+	"github.com/gofiber/fiber/v2/middleware/bodyparser"
 )
 
 func main() {
@@ -31,6 +34,15 @@ func main() {
 	if port == "" {
 		port = ":3050"
 	}
+
+	app.Use(bodyparser.New())
+
+	app.Use(cors.New(cors.Config{
+        AllowOrigins: "*",
+        AllowMethods: "GET,POST,HEAD,PUT,DELETE",
+        AllowHeaders: "Origin, Content-Type, Accept",
+    }))
+
 	app.Use(logger.New())
 
 	if err != nil {
