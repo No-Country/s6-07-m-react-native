@@ -37,9 +37,9 @@ export default styles = StyleSheet.create({
         fontWeight: 'regular',
         color: '#666363',
         width: 330, 
-       
         marginTop: 10,
-        margin: 5
+        margin: 5,
+		height: 86,
     },
     image: {
         width: 80,

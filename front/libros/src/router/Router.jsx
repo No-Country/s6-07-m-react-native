@@ -32,7 +32,7 @@ const NoLoggedStack = () => {
 };
 
 export default Router = () => {
-	const isLogged = false;
+	const isLogged = true;
 	return (
 		<NavigationContainer>
 			{!isLogged ? <LoggedStack /> : <NoLoggedStack />}
