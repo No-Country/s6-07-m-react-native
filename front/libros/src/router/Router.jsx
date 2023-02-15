@@ -13,10 +13,7 @@ const LoggedStack = () => {
 				headerShown: false,
 			}}
 		>
-			<Stack.Screen 
-				name='Home' 
-				component={TabNagivator} 
-			/>
+			<Stack.Screen name='Home' component={TabNagivator} />
 		</Stack.Navigator>
 	);
 };
@@ -29,19 +26,16 @@ const NoLoggedStack = () => {
 				tabBarActiveTintColor: '#8F77DB',
 			}}
 		>
-			<Stack.Screen
-				name='Auth'
-				component={AuthStack}
-			/>
+			<Stack.Screen name='Auth' component={AuthStack} />
 		</Stack.Navigator>
 	);
 };
 
 export default Router = () => {
-	const isLogged = false;
+	const isLogged = true;
 	return (
 		<NavigationContainer>
-			{isLogged ? <LoggedStack /> : <NoLoggedStack />}
+			{!isLogged ? <LoggedStack /> : <NoLoggedStack />}
 		</NavigationContainer>
 	);
 };

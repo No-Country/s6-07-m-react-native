@@ -1,5 +1,5 @@
 import React from 'react';
-import { FlatList, Image, Text, View } from 'react-native';
+import { FlatList } from 'react-native';
 import bookObj from '../../mocks/bookObj.json';
 import BookCard from './tabcomponents/home/bookCard/component/BookCard';
 
