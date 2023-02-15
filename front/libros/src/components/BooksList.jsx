@@ -1,13 +1,13 @@
 import React from 'react';
 import { FlatList, Image, Text, View } from 'react-native';
 import bookObj from '../../mocks/bookObj.json';
-import BookCardList from './BookCardList';
+import BookCard from './tabcomponents/home/bookCard/component/BookCard';
 
 const BooksList = () => {
 	return (
 		<FlatList
 			data={bookObj.books}
-			renderItem={({ item }) => <BookCardList book={item} />}
+			renderItem={({ item }) => <BookCard book={item} />}
 			keyExtractor={item => item.isbn}
 		/>
 	);

@@ -9,7 +9,7 @@ const HomeBooks = ({ navigation }) => {
 			<View style={{ marginHorizontal: 16 }}>
 				<SearchBooks />
 			</View>
-			<View style={{ marginHorizontal: 24 }}>
+			<View style={{ marginLeft: 10, marginRight: 5, height: "73%" }}>
 				<BooksList />
 			</View>
 			{/* <Button
