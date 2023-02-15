@@ -6,7 +6,8 @@ import {
   View,
   TextInput,
   TouchableOpacity,
-  TouchableWithoutFeedback
+  TouchableWithoutFeedback,
+  Alert
 } from 'react-native'
 //Styles
 import { colors, formStyles as styles } from '../../../utils/constants';
@@ -21,6 +22,9 @@ import {
   formSchema
 } from '../../../utils/formValidation';
 
+import { post, get } from '../../../utils/apiUtils';
+
+
 const Register = () => {
 
   const { navigate } = useNavigation();
@@ -29,14 +33,14 @@ const Register = () => {
     username,
     email,
     password,
-    confirmPassword,
+    rePassword,
   } = initialValues;
 
   const registerValuesSchema = {
     username: valuesSchema.username,
     email: valuesSchema.email,
     password: valuesSchema.password,
-    confirmPassword: valuesSchema.confirmPassword
+    rePassword: valuesSchema.rePassword
   }
 
   let [showPass, setShowPass] = useState(false);
@@ -45,10 +49,61 @@ const Register = () => {
   const ShowHidePass = () => {
     if (!showPass) {
       setShowPass(true)
-	  setToggleEye("eye-outline")
+      setToggleEye("eye-outline")
     } else {
-		setShowPass(false)
-		setToggleEye("eye-off-outline")
+      setShowPass(false)
+      setToggleEye("eye-off-outline")
+    }
+  }
+
+  const alerts = {
+    success: {
+      title: "Registro",
+      msg: "Registro exitoso",
+      options: [
+        {
+          text: "OK",
+          onPress: () => console.log("OK Pressed")
+        }
+      ],
+      cancelable: false,
+    },
+    error: {
+      title: "Error",
+      msg: "Ocurrió un error. Intenta nuevamente mas tarde.",
+      options: [
+        {
+          text: "OK",
+          onPress: () => console.log("OK Pressed")
+        }
+      ],
+      cancelable: false,
+    },
+  }
+
+  showAlert = ({title, msg, options, cancelable}) => {
+    Alert.alert(
+      title,
+      msg,
+      options,
+      { cancelable },
+    );
+  };
+
+  const onSubmit = async (values) => {
+    try {
+      let { status } = await post("/user/signUp", { ...values })
+      console.log(status)
+
+      if (status === 200) {
+        showAlert(alerts.success)
+      }else {
+        showAlert(alerts.error)
+      }
+
+    } catch (error) {
+      console.log("ERROR ", error)
+      showAlert(alerts.error)
     }
   }
 
@@ -60,11 +115,11 @@ const Register = () => {
           username,
           email,
           password,
-          confirmPassword
+          rePassword
         }}
         validationSchema={formSchema(registerValuesSchema)}
         onSubmit={(values) => {
-          console.log(values);
+          onSubmit(values)
         }}
       >
         {({ handleChange, handleSubmit, errors }) => (
@@ -109,12 +164,12 @@ const Register = () => {
             <Text style={styles.title}>Repetir contraseña</Text>
             <TextInput
               style={styles.input}
-              name="confirmPassword"
+              name="rePassword"
               placeholder="Repetir contraseña"
-              onChangeText={handleChange("confirmPassword")}
+              onChangeText={handleChange("rePassword")}
               secureTextEntry={!showPass}
             />
-            {errors?.confirmPassword && <Text style={styles.error}>{errors?.confirmPassword}</Text>}
+            {errors?.rePassword && <Text style={styles.error}>{errors?.rePassword}</Text>}
 
             <TouchableOpacity
               style={styles.btn}

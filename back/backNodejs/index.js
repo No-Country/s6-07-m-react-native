@@ -1,50 +1,16 @@
 require("./connection");
 const express = require("express");
-const Book = require("./models/Book");
-const User = require("./models/User");
-
+const routes = require("./router/index")
+const cors = require("cors");
+const bodyParser = require("body-parser");
 const app = express();
+const createError = require("http-errors");
+const { errorHandler } = require("./middleware/error.handler");
 
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
-
-app.post("/donateBook", async (req, res) => {
-  try {
-    const newBook = new Book({
-      image: req.body.image,
-      title: req.body.title,
-      description: req.body.description,
-      userId: req.body.id,
-    });
-    await newBook.save();
-    res.send({
-      done: true,
-      message: "Book added to data base",
-    });
-  } catch (error) {
-    console.log(error);
-    res.send({
-      done: false,
-      message: error,
-    });
-  }
-});
-
-app.get("/getUser", async (req, res) => {
-  try {
-    const id = req.body.id;
-    const userFound = await User.FindOne({ _id: id });
-    res.send({
-      done: true,
-      message: userFound,
-    });
-  } catch (error) {
-    console.log(error);
-    res.send({
-      done: false,
-      message: error,
-    });
-  }
-});
-
+app.use(cors());
+app.use("/", routes )
+app.use(errorHandler);
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Server running in port ${PORT}`));

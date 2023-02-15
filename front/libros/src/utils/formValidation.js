@@ -19,7 +19,7 @@ export const initialValues = {
     name: "",
     email: "",
     password: "",
-    confirmPassword: "",
+    rePassword: "",
 }
 
 export const valuesSchema = {
@@ -38,7 +38,7 @@ export const valuesSchema = {
         .required(PASSWORD_REQUIRED)
         .min(7, PASSWORD_MIN)
         .max(14, PASSWORD_MAX),
-    confirmPassword: Yup
+    rePassword: Yup
         .string()
         .required(PASSWORD_CONFIRM_REQUIRED)
         .min(7, PASSWORD_MIN)

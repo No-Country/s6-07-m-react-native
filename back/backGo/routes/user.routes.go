@@ -2,13 +2,13 @@ package routes
 
 import (
 	"github.com/No-Country/s6-07-m-react-native/tree/main/back/backGo/controllers"
-	"github.com/gofiber/fiber/v2"
+	"github.com/gin-gonic/gin"
 )
 
-func UserRoutes(app *fiber.App) {
+func UserRoutes(r *gin.Engine) {
 
-	UserGroup := app.Group("/user")
+	UserGroup := r.Group("/user")
 
-	UserGroup.Post("/signUp", controllers.SignUp)
-	UserGroup.Get("/login", controllers.Login)
+	UserGroup.POST("/signup", controllers.SignUp)
+	UserGroup.POST("/login", controllers.Login)
 }
