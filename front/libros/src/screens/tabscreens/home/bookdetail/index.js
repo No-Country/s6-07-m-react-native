@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, SafeAreaView } from 'react-native';
 import { styles } from './styles';
-import { Book } from './../../../../components/tabcomponents/home/index';
+import { Book, Distance, Mapa } from './../../../../components/tabcomponents/home/index';
 import { Reviews } from './../../../../components/tabcomponents/home/index';
 import {books} from './../../../../../mocks/bookObj.json'
 
@@ -12,6 +12,8 @@ const BookDetail = ({ navigation }) => {
 		<SafeAreaView>
 			<Book />
 			<Reviews data={books}/>
+			<Distance />
+			<Mapa />
 
 
 			<View style={styles.container}>
