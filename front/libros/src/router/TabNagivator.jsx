@@ -26,7 +26,7 @@ const TabNagivator = ({ navigation }) => {
 						/>
 					),
 				}}
-				name='HomeBooks'
+				name='HomeNavigator'
 				component={HomeNavigator}
 			/>
 			<Tab.Screen
