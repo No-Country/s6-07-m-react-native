@@ -13,7 +13,7 @@ import HandOkay from './svg/HandOkay';
 const ModalPublicated = ({ modalVisible = false, setModalVisible }) => {
 	return (
 		<Modal
-			style={styles.modal}
+			style={{ alignItems: 'center', justifyContent: 'center', marginLeft: 10 }}
 			animationType='fade'
 			transparent={true}
 			visible={modalVisible}
@@ -23,8 +23,8 @@ const ModalPublicated = ({ modalVisible = false, setModalVisible }) => {
 		>
 			<View style={styles.modal}>
 				<CircleGreen />
-				<Text style={{ fontSize: 24, fontWeight: '500', marginVertical: 5 }}>
-					Gracias por publicar tu libro!
+				<Text style={{ fontSize: 24, fontWeight: '500', marginVertical: 10 }}>
+					Gracias por {'\n'}publicar tu libro!
 				</Text>
 				<HandOkay />
 				<TouchableOpacity
@@ -40,7 +40,9 @@ const ModalPublicated = ({ modalVisible = false, setModalVisible }) => {
 
 const styles = StyleSheet.create({
 	modal: {
-		width: 271,
+		marginLeft: '18%',
+		marginTop: 120,
+		maxWidth: 271,
 		height: 330,
 		borderWidth: 1,
 		borderColor: 'gray',

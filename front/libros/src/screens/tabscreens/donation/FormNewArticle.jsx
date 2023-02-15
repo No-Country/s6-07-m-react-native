@@ -26,102 +26,113 @@ const FormNewArticle = () => {
 
 	return (
 		<View>
-			<View style={styles.header}>
-				<Text style={{ fontSize: 18, fontWeight: '500' }}>Dona tu libro</Text>
-				<Image
-					source={{ uri: 'https://picsum.photos/200/300' }}
-					style={{ width: 36, height: 36, borderRadius: 20 }}
+			{modalVisible ? (
+				<ModalPublicated
+					modalVisible={modalVisible}
+					setModalVisible={setModalVisible}
 				/>
-			</View>
-			<View style={styles.containerForm}>
-				<Formik
-					initialValues={{ email: '', password: '' }}
-					onSubmit={values => console.log(values)}
-				>
-					{({
-						handleChange,
-						handleBlur,
-						handleSubmit,
-						values,
-						errors,
-						isValid,
-					}) => (
-						<>
-							<TouchableOpacity
-								onPress={uploadImage}
-								style={{ alignItems: 'center' }}
-							>
-								<View style={styles.uploadImg}>
-									<View style={{ alignItems: 'center', paddingTop: 8 }}>
-										<SvgComponent />
-										<Text style={{ marginTop: 6 }}>Cargar Imagen</Text>
+			) : (
+				<View>
+					<View style={styles.header}>
+						<Text style={{ fontSize: 18, fontWeight: '500' }}>
+							Dona tu libro
+						</Text>
+						<Image
+							source={{ uri: 'https://picsum.photos/200/300' }}
+							style={{ width: 36, height: 36, borderRadius: 20 }}
+						/>
+					</View>
+					<View style={styles.containerForm}>
+						<Formik
+							initialValues={{ email: '', password: '' }}
+							onSubmit={values => console.log(values)}
+						>
+							{({
+								handleChange,
+								handleBlur,
+								handleSubmit,
+								values,
+								errors,
+								isValid,
+							}) => (
+								<>
+									<TouchableOpacity
+										onPress={uploadImage}
+										style={{ alignItems: 'center' }}
+									>
+										<View style={styles.uploadImg}>
+											<View style={{ alignItems: 'center', paddingTop: 8 }}>
+												<SvgComponent />
+												<Text style={{ marginTop: 6 }}>Cargar Imagen</Text>
+											</View>
+										</View>
+									</TouchableOpacity>
+									<Text style={stylesConstants.title}>Titulo</Text>
+									<TextInput
+										style={stylesConstants.input}
+										placeholder='Titulo del libro'
+										name='title'
+										onChangeText={handleChange('title')}
+									/>
+									{errors?.username && (
+										<Text style={stylesConstants.error}>{errors?.title}</Text>
+									)}
+									<Text style={stylesConstants.title}>Resumen</Text>
+									<TextInput
+										style={stylesConstants.input}
+										placeholder='Resumen'
+										name='description'
+										onChangeText={handleChange('description')}
+									/>
+									{errors?.username && (
+										<Text style={stylesConstants.error}>
+											{errors?.description}
+										</Text>
+									)}
+									<Text style={stylesConstants.title}>Editorial</Text>
+									<TextInput
+										style={stylesConstants.input}
+										placeholder='Editorial'
+										name='editorial'
+										onChangeText={handleChange('editorial')}
+									/>
+									{errors?.username && (
+										<Text style={stylesConstants.error}>
+											{errors?.editorial}
+										</Text>
+									)}
+									<Text style={stylesConstants.title}>Estado del libro</Text>
+									{/*Poner un select con distintasa opciones*/}
+									<TextInput
+										style={stylesConstants.input}
+										placeholder='Estado'
+										name='conditions'
+										onChangeText={handleChange('conditions')}
+									/>
+									{errors?.username && (
+										<Text style={stylesConstants.error}>
+											{errors?.username}
+										</Text>
+									)}
+									<Text>MAPA</Text>
+									<View style={{ alignItems: 'center' }}>
+										<TouchableOpacity
+											style={styles.buttonSubmit}
+											onPress={handleSubmit}
+											disabled={!isValid}
+										>
+											<Text style={styles.textButton}>Publicar</Text>
+										</TouchableOpacity>
 									</View>
-								</View>
-							</TouchableOpacity>
-							<Text style={stylesConstants.title}>Titulo</Text>
-							<TextInput
-								style={stylesConstants.input}
-								placeholder='Titulo del libro'
-								name='title'
-								onChangeText={handleChange('title')}
-							/>
-							{errors?.username && (
-								<Text style={stylesConstants.error}>{errors?.title}</Text>
+								</>
 							)}
-							<Text style={stylesConstants.title}>Resumen</Text>
-							<TextInput
-								style={stylesConstants.input}
-								placeholder='Resumen'
-								name='description'
-								onChangeText={handleChange('description')}
-							/>
-							{errors?.username && (
-								<Text style={stylesConstants.error}>{errors?.description}</Text>
-							)}
-							<Text style={stylesConstants.title}>Editorial</Text>
-							<TextInput
-								style={stylesConstants.input}
-								placeholder='Editorial'
-								name='editorial'
-								onChangeText={handleChange('editorial')}
-							/>
-							{errors?.username && (
-								<Text style={stylesConstants.error}>{errors?.editorial}</Text>
-							)}
-							<Text style={stylesConstants.title}>Estado del libro</Text>
-							{/*Poner un select con distintasa opciones*/}
-							<TextInput
-								style={stylesConstants.input}
-								placeholder='Estado'
-								name='conditions'
-								onChangeText={handleChange('conditions')}
-							/>
-							{errors?.username && (
-								<Text style={stylesConstants.error}>{errors?.username}</Text>
-							)}
-							<Text>MAPA</Text>
-							<View style={{ alignItems: 'center' }}>
-								<TouchableOpacity
-									style={styles.buttonSubmit}
-									onPress={handleSubmit}
-									disabled={!isValid}
-								>
-									<Text style={styles.textButton}>Publicar</Text>
-								</TouchableOpacity>
-							</View>
-						</>
-					)}
-				</Formik>
-				<TouchableOpacity onPress={() => setModalVisible(true)}>
-					<Text>Show Modal</Text>
-				</TouchableOpacity>
-				{modalVisible && (
-					<ModalPublicated
-						modalVisible={modalVisible}
-						setModalVisible={setModalVisible}
-					/>
-				)}
-			</View>
+						</Formik>
+						<TouchableOpacity onPress={() => setModalVisible(true)}>
+							<Text>Show Modal</Text>
+						</TouchableOpacity>
+					</View>
+				</View>
+			)}
 		</View>
 	);
 };
