@@ -3,47 +3,60 @@ package main
 import (
 	"fmt"
 	"github.com/No-Country/s6-07-m-react-native/tree/main/back/backGo/routes"
-	"github.com/gofiber/fiber/v2/middleware/logger"
+	"github.com/gin-gonic/gin"
+	"net/http"
 	"os"
 
 	"github.com/No-Country/s6-07-m-react-native/tree/main/back/backGo/db"
-	"github.com/gofiber/fiber/v2"
 	"github.com/joho/godotenv"
+
 )
 
 func main() {
+	if err := run(); err != nil{
+		panic(err)
+	}
+
+}
+
+
+func run()error{
 	if err := godotenv.Load(); err != nil {
 		fmt.Println("No .env file found")
-
+		return err
 	}
 
 	port := os.Getenv("PORT")
 	err := db.InitDB()
 	if err != nil {
-		panic(err)
+		return err
 	}
 	defer func() {
 		if err := db.CloseDB(); err != nil {
 			panic(err)
 		}
 	}()
-	app := fiber.New()
+	gin.SetMode(gin.ReleaseMode)
+
+	r := gin.Default()
+
 	if port == "" {
 		port = ":3050"
 	}
-	app.Use(logger.New())
+
 
 	if err != nil {
 		panic(err)
 	}
 	fmt.Println("Connected to db")
-	app.Get("/", func(c *fiber.Ctx) error {
-		return c.JSON("Welcome to GiveAway 📖🤝📖")
+	r.GET("/", func(c *gin.Context) {
+		c.JSON(http.StatusOK, "Welcome to GiveAway 📖🤝📖")
+		
 	})
-	routes.UserRoutes(app)
-	if err := app.Listen(port); err != nil {
-		panic(err)
+	routes.UserRoutes(r)
+	fmt.Printf("Listening on Port %v \n", port)
+	if err := r.Run(port); err != nil {
+		return err
 	}
-
-	fmt.Printf("Listening on Port: %v \n", port)
+	return nil
 }
