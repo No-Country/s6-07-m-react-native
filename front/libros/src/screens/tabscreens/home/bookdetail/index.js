@@ -3,12 +3,15 @@ import { View, Text, TouchableOpacity, SafeAreaView } from 'react-native';
 import { styles } from './styles';
 import { Book } from './../../../../components/tabcomponents/home/index';
 import { Reviews } from './../../../../components/tabcomponents/home/index';
+import {books} from './../../../../../mocks/bookObj.json'
 
 const BookDetail = ({ navigation }) => {
+	console.log(books)
+
 	return (
 		<SafeAreaView>
 			<Book />
-			<Reviews />
+			<Reviews data={books}/>
 
 
 			<View style={styles.container}>
