@@ -5,6 +5,8 @@ const {
   saveBook,
   searchBookByTitle,
   deleteBook,
+  searchBookById,
+  bookUpdate,
 } = require("../services/Book.service");
 const { NotFound, Ok, Error } = require("../util/HttpResponse");
 
@@ -59,8 +61,25 @@ const searchBook = async (req, res) => {
   }
 };
 
+const updateBook = async (req, res) => {
+  const body = req.body;
+  try {
+    const bookFound = await searchBookById(body._id);
+    if (!bookFound) {
+      return NotFound(res, "Book not found");
+    }
+    const updateBook = await bookUpdate(body, body._id);
+    return Ok(res, "Successful update");
+  } catch (error) {
+    if (error.kind == "ObjectId") {
+      return Error(res, "Id is invalid");
+    }
+    return Error(res, error);
+  }
+};
 module.exports = {
   donateBook,
   searchBook,
   eraseBook,
+  updateBook,
 };
