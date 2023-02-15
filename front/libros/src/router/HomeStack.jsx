@@ -3,13 +3,13 @@ import React from 'react';
 import HomeBooks from './../screens/tabscreens/home/HomeBooks';
 import BookDetail from '../screens/tabscreens/home/bookdetail/index';
 import { TouchableOpacity, View, Image } from 'react-native';
-import {Avatar} from '../components/tabcomponents/home/index';
+import { Avatar } from '../components/tabcomponents/home/index';
 
 const Stack = createNativeStackNavigator();
 
 const HomeNavigator = ({ navigation }) => {
 	return (
-		<Stack.Navigator initialRouteName='BookDetail'>
+		<Stack.Navigator initialRouteName='HomeBooks'>
 			<Stack.Screen
 				name='HomeBooks'
 				options={{ headerShown: false }}
@@ -20,9 +20,7 @@ const HomeNavigator = ({ navigation }) => {
 				component={BookDetail}
 				options={({ navigation }) => ({
 					title: 'Solicita del libro',
-					headerRight: () => (
-						<Avatar/>
-					),
+					headerRight: () => <Avatar />,
 				})}
 			/>
 		</Stack.Navigator>
