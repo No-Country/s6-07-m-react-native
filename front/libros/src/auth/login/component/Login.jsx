@@ -1,48 +1,48 @@
 //React
-import React, { useState } from 'react';
-import { useNavigation } from '@react-navigation/core';
+import React, { useState } from 'react'
+import { useNavigation } from '@react-navigation/core'
 import {
 	Text,
 	View,
 	TextInput,
 	TouchableOpacity,
 	TouchableWithoutFeedback,
-} from 'react-native';
+} from 'react-native'
 //Styles
-import { colors, formStyles as styles } from '../../../utils/constants';
+import { colors, formStyles as styles } from '../../../utils/constants'
 //Icons
-import { Ionicons } from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons'
 //Formik
-import { Formik } from 'formik';
+import { Formik } from 'formik'
 //Validation
 import {
 	initialValues,
 	valuesSchema,
 	formSchema,
-} from '../../../utils/formValidation';
+} from '../../../utils/formValidation'
 
 const Login = () => {
-	const { navigate } = useNavigation();
+	const { navigate } = useNavigation()
 
-	const { email, password } = initialValues;
+	const { email, password } = initialValues
 
 	const registerValuesSchema = {
 		email: valuesSchema.email,
 		password: valuesSchema.password,
-	};
+	}
 
-	let [showPass, setShowPass] = useState(false);
-	let [toggleEye, setToggleEye] = useState('eye-off-outline');
+	let [showPass, setShowPass] = useState(false)
+	let [toggleEye, setToggleEye] = useState('eye-off-outline')
 
 	const ShowHidePass = () => {
 		if (!showPass) {
-			setShowPass(true);
-			setToggleEye('eye-outline');
+			setShowPass(true)
+			setToggleEye('eye-outline')
 		} else {
-			setShowPass(false);
-			setToggleEye('eye-off-outline');
+			setShowPass(false)
+			setToggleEye('eye-off-outline')
 		}
-	};
+	}
 
 	return (
 		<View style={styles.container}>
@@ -53,7 +53,7 @@ const Login = () => {
 				}}
 				validationSchema={formSchema(registerValuesSchema)}
 				onSubmit={values => {
-					console.log(values);
+					console.log(values)
 				}}
 			>
 				{({ handleChange, handleSubmit, errors }) => (
@@ -105,7 +105,7 @@ const Login = () => {
 				</TouchableWithoutFeedback>
 			</View>
 		</View>
-	);
-};
+	)
+}
 
-export default Login;
+export default Login
