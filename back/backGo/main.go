@@ -13,15 +13,23 @@ import (
 )
 
 func main() {
+	if err := run(); err != nil{
+		panic(err)
+	}
+
+}
+
+
+func run()error{
 	if err := godotenv.Load(); err != nil {
 		fmt.Println("No .env file found")
-
+		return err
 	}
 
 	port := os.Getenv("PORT")
 	err := db.InitDB()
 	if err != nil {
-		panic(err)
+		return err
 	}
 	defer func() {
 		if err := db.CloseDB(); err != nil {
@@ -43,11 +51,12 @@ func main() {
 	fmt.Println("Connected to db")
 	r.GET("/", func(c *gin.Context) {
 		c.JSON(http.StatusOK, "Welcome to GiveAway 📖🤝📖")
+		
 	})
 	routes.UserRoutes(r)
-	fmt.Printf("Listening on Port: %v \n", port)
+	fmt.Printf("Listening on Port %v \n", port)
 	if err := r.Run(port); err != nil {
-		panic(err)
+		return err
 	}
-
+	return nil
 }

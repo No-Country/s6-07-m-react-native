@@ -1,17 +1,20 @@
 export const colors = {
     primary: "#6427FF",
     secondary: "rgba(100, 39, 255, 0.4)",
+    auxiliar: "#006AFF",
     background: "#FFFFFF",
     text: "rgba(0, 0, 0, 0.9)",
     textSecondary: "rgba(0, 0, 0, 0.1)",
+    textSecondaryVariant: "rgba(0, 0, 0, 0.6)",
     border: "",
     danger: "#EA1111",
-    warning: "#757575"
+    warning: "#FFB168"
 }
 
 export const UI = {
     formPadding: 20,
     btnRadius: 20,
+    cardRadius: 15,
     btnWidth: "48%",
     btnPadding: 10,
 }
@@ -75,3 +78,18 @@ export const formStyles = {
         fontSize: fontSizes.title,
     }
 }
+
+export const grayscaleStyle = [
+    {
+      elementType: 'all',
+      stylers: [
+        {
+          saturation: -100,
+        },
+        {
+          lightness: 40,
+        },
+      ],
+    },
+  ];
+  
