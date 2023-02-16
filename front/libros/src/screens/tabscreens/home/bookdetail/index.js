@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import  React, { useEffect } from 'react';
 import {
 	View,
 	Text,
@@ -17,11 +17,6 @@ import { books } from './../../../../../mocks/bookObj.json';
 import { StatusBar } from 'react-native';
 
 const BookDetail = ({ navigation }) => {
-	useEffect(() => {
-		Platform.OS === 'android' && StatusBar.setBackgroundColor('#ffffff');
-		
-	}, []);
-
 	return (
 		<SafeAreaView>
 			<StatusBar backgroundColor='#FF3D45' />
