@@ -92,7 +92,7 @@ const Register = () => {
 
   const onSubmit = async (values) => {
     try {
-      let { status } = await post("/user/signUp", { ...values })
+      let { status } = await post("/user/signup", { ...values })
       console.log(status)
 
       if (status === 200) {
@@ -103,7 +103,7 @@ const Register = () => {
 
     } catch (error) {
       console.log("ERROR ", error)
-      showAlert(alerts.error)
+      showAlert({...alerts.error, title: error})
     }
   }
 
