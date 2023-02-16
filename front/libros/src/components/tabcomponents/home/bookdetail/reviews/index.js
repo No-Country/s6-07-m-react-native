@@ -1,12 +1,23 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, Image } from 'react-native';
 import { styles } from './styles';
 
-const Reviews = () => {
+const Reviews = (books) => {
+const data  = books.data;
+
 	return (
 		<View style={styles.container}>
-			<View style={styles.avatarContainer}></View>
-            <View style={styles.reviewsContainer}></View>
+			<View style={styles.avatarContainer}>
+            <Image
+					style={styles.avatar}
+					source={require('./../../../../../../assets/avatar.jpeg')}
+				/>
+				<Text style={styles.textAvatar}>{data[0].author}</Text>
+			</View>
+			<View style={styles.reviewsContainer}>
+                <Text style={styles.star}>⭐️</Text>
+				<Text style={styles.textStar}>5.0 (1)</Text>
+			</View>
 		</View>
 	);
 };

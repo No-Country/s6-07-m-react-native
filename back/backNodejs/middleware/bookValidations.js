@@ -10,7 +10,9 @@ exports.validationDonateBook = [
   body("title")
     .notEmpty()
     .isLength({ min: 5 })
-    .withMessage("Title must have more than 5 characters"),
+    .withMessage("Title must have more than 5 characters")
+    .isLength({ max: 19 })
+    .withMessage("Title must have less than 20 characters"),
   body("description")
     .notEmpty()
     .isLength({ min: 10 })
@@ -22,6 +24,6 @@ exports.validationDonateBook = [
 ];
 
 exports.validationEraseBook = [
-    body("id").notEmpty().withMessage("Didn't give user ID"),
+  body("id").notEmpty().withMessage("Didn't give user ID"),
   reportError,
 ];

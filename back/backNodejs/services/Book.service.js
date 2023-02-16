@@ -22,8 +22,16 @@ const searchBookByTitle = async (title) => {
   return await Book.find({ title: regex });
 };
 
+const bookUpdate = async (data, id)=> {
+  return await Book.updateOne({ _id: id },{$set: data})
+}
+const searchBookById = async (id) => {
+  return await Book.findById({ _id: id})
+}
 module.exports = {
   saveBook,
   searchBookByTitle,
   deleteBook,
+  bookUpdate,
+  searchBookById,
 };
