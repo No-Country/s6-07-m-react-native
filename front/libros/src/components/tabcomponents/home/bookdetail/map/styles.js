@@ -6,13 +6,13 @@ export const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "center",
         width: "100%",
-        height: 200,
+        height: 250,
         flexDirection: "column",
         marginTop: 1,
     },
     map: {
         width: "100%",
-        height: 197,
+        height: 245,
     },
     text: {
         color: "#263238",

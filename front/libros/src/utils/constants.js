@@ -78,3 +78,18 @@ export const formStyles = {
         fontSize: fontSizes.title,
     }
 }
+
+export const grayscaleStyle = [
+    {
+      elementType: 'all',
+      stylers: [
+        {
+          saturation: -100,
+        },
+        {
+          lightness: 40,
+        },
+      ],
+    },
+  ];
+  
