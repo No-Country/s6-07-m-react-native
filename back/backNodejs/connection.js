@@ -1,7 +1,5 @@
 const mongoose = require("mongoose");
-
-const uri =
-  "mongodb+srv://Mateo:Kd4EqrtDTHkmXkGG@giveaway.edmohfx.mongodb.net/giveAway?retryWrites=true&w=majority";
+const uri = process.env.MONGODB_URI;
 const db = mongoose.connection;
 
 mongoose.set("strictQuery", false);

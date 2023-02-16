@@ -71,10 +71,11 @@ const updateBook = async (req, res) => {
     const updateBook = await bookUpdate(body, body._id);
     return Ok(res, "Successful update");
   } catch (error) {
+    console.log(error);
     if (error.kind == "ObjectId") {
-      return Error(res, "Id is invalid");
+      return Error(res, "Id is invalids");
     }
-    return Error(res, error);
+    return Error(res, error.message);
   }
 };
 module.exports = {
