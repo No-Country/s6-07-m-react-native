@@ -54,7 +54,6 @@ const Login = () => {
 	};
 
 	let dispatch = useDispatch();
-	//dispatch(setUser(null))
 
 	const onSubmit = async (values)=> {
 
@@ -63,10 +62,11 @@ const Login = () => {
 
 			if(status === 200) {
 
-				//dispatch(setUser({...user}))
 				await AsyncStorage.setItem("token", token)
 				showAlert({
 					...alerts.success, 
+					title: "Mensaje.",
+					msg: "Inicio de sesión exitoso.",
 					options: [
 					{
 					  text: "OK",

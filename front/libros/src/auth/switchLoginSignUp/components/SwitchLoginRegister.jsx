@@ -3,7 +3,6 @@ import React, { useState } from 'react'
 import {
   View,
   Text,
-  Image,
   TouchableOpacity
 } from 'react-native'
 import { useNavigation } from '@react-navigation/native';
@@ -11,6 +10,8 @@ import { useNavigation } from '@react-navigation/native';
 //Styles
 import { styles } from "../styles/styles.js";
 import { colors } from '../../../utils/constants.js';
+//Logo
+import Logo from './Logo.jsx';
 
 const SwitchLoginRegister = () => {
 
@@ -29,15 +30,8 @@ const SwitchLoginRegister = () => {
         marginLeft: "auto",
         marginRight: "auto"
       }}>
-        <Image
-          source={require("../img/Logo.jpg")}
-          style={{
-            width: 180
-          }}
-        />
-        <Text
-          style={styles.logoTitle}
-        >
+        <Logo />
+        <Text style={styles.logoTitle}>
           GiveAway
         </Text>
       </View>
