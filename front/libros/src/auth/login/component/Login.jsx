@@ -20,6 +20,15 @@ import {
 	valuesSchema,
 	formSchema,
 } from '../../../utils/formValidation'
+//Axios
+import { post } from '../../../utils/apiUtils'
+//Redux
+import { useDispatch } from 'react-redux'
+import { setUser } from '../../../store/slices/user.slice'
+//Storage
+import AsyncStorage from '@react-native-async-storage/async-storage'
+//Alerts
+import { showAlert, alerts } from '../../../utils/alertsUtils'
 
 const Login = () => {
 	const { navigate } = useNavigation()
@@ -44,6 +53,37 @@ const Login = () => {
 		}
 	}
 
+	let dispatch = useDispatch()
+	//dispatch(setUser(null))
+
+	const onSubmit = async values => {
+		try {
+			const {
+				status,
+				data: { token, user },
+			} = await post('/user/login', { ...values })
+
+			if (status === 200) {
+				//dispatch(setUser({...user}))
+				await AsyncStorage.setItem('token', token)
+				showAlert({
+					...alerts.success,
+					options: [
+						{
+							text: 'OK',
+							onPress: () => dispatch(setUser({ ...user })),
+						},
+					],
+				})
+			} else {
+				showAlert(alerts.error)
+			}
+		} catch (error) {
+			console.log(error)
+			showAlert(alerts.error)
+		}
+	}
+
 	return (
 		<View style={styles.container}>
 			<Formik
@@ -52,9 +92,7 @@ const Login = () => {
 					password,
 				}}
 				validationSchema={formSchema(registerValuesSchema)}
-				onSubmit={values => {
-					console.log(values)
-				}}
+				onSubmit={values => onSubmit(values)}
 			>
 				{({ handleChange, handleSubmit, errors }) => (
 					<>
@@ -89,7 +127,7 @@ const Login = () => {
 						)}
 
 						<TouchableOpacity style={styles.btn} onPress={handleSubmit}>
-							<Text style={styles.btnTxt}>Registrarse</Text>
+							<Text style={styles.btnTxt}>Iniciar sesión</Text>
 						</TouchableOpacity>
 					</>
 				)}
