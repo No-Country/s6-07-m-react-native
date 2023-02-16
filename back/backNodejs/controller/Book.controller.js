@@ -51,13 +51,11 @@ const searchBook = async (req, res) => {
   const { title, editorial, author } = req.query;
   try {
     let bookFound = 0;
-    if(title){
+    if (title) {
       bookFound = await searchBookBy(title, "title");
-      
-    }
-    else if(author){
+    } else if (author) {
       bookFound = await searchBookBy(author, "author");
-    }else if(editorial){
+    } else if (editorial) {
       bookFound = await searchBookBy(editorial, "editorial");
     }
     if (bookFound.length === 0) {
