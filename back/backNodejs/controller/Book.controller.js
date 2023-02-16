@@ -5,7 +5,7 @@ const {
   saveBook,
   searchBookByTitle,
   deleteBook,
-  searchBookById,
+  searchBookBy,
   bookUpdate,
 } = require("../services/Book.service");
 const { NotFound, Ok, Error } = require("../util/HttpResponse");
@@ -48,9 +48,18 @@ const eraseBook = async (req, res) => {
 };
 
 const searchBook = async (req, res) => {
-  const { title } = req.params;
+  const { title, editorial, author } = req.query;
   try {
-    const bookFound = await searchBookByTitle(title);
+    let bookFound = 0;
+    if(title){
+      bookFound = await searchBookBy(title, "title");
+      
+    }
+    else if(author){
+      bookFound = await searchBookBy(author, "author");
+    }else if(editorial){
+      bookFound = await searchBookBy(editorial, "editorial");
+    }
     if (bookFound.length === 0) {
       return NotFound(res, "Book not found");
     }

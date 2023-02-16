@@ -17,9 +17,27 @@ const deleteBook = async (id) => {
   return book;
 };
 
-const searchBookByTitle = async (title) => {
-  const regex = new RegExp(title, "i");
-  return await Book.find({ title: regex });
+const searchBookBy = async (query, type) => {
+  const regex = new RegExp(query, "i");
+  let searchFields;
+  
+  switch (type) {
+    case "title":
+      searchFields = { title: regex };
+      break;
+    case "author":
+      searchFields = { author: regex };
+      break;
+    case "editorial":
+      searchFields = { editorial: regex };
+      break;
+    default:
+      throw new Error("Invalid search type");
+  }
+console.log(searchFields);
+const search = await Book.find(searchFields);
+console.log(search, "search");
+  return search
 };
 
 const bookUpdate = async (data, id)=> {
@@ -30,7 +48,7 @@ const searchBookById = async (id) => {
 }
 module.exports = {
   saveBook,
-  searchBookByTitle,
+  searchBookBy,
   deleteBook,
   bookUpdate,
   searchBookById,

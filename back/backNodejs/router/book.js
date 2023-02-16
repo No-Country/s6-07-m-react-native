@@ -5,7 +5,7 @@ const { donateBook, searchBook, eraseBook, updateBook} = require("../controller/
 const router = Router();
 
 router.post("/donateBook",validationDonateBook, donateBook);
-router.get("/search/:title", searchBook)
+router.get("/search", searchBook)
 router.delete("/deleteBook", validationEraseBook, eraseBook);
 router.put("/updateBook", validationUpdateBook, updateBook)
 
