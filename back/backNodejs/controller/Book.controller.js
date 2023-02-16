@@ -65,7 +65,6 @@ const updateBook = async (req, res) => {
   const body = req.body;
   try {
     const bookFound = await searchBookById(body._id);
-    console.log(bookFound, "found book")
     if (!bookFound) {
       return NotFound(res, "Book not found");
     }
