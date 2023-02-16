@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from 'react'
 import {
 	Button,
 	Image,
@@ -7,22 +7,56 @@ import {
 	TextInput,
 	TouchableOpacity,
 	View,
-} from 'react-native';
-import { Formik } from 'formik';
-import SvgComponent from './svg/SvgComponent';
-import {
-	colors,
-	formStyles as stylesConstants,
-} from '../../../utils/constants';
-import ModalPublicated from './ModalPublicated';
+} from 'react-native'
+import { Formik } from 'formik'
+import SvgComponent from './svg/SvgComponent'
+import { colors, formStyles as stylesConstants } from '../../../utils/constants'
+import ModalPublicated from './ModalPublicated'
+import { formSchema, valuesSchema } from '../../../utils/formValidation'
+import * as ImagePicker from 'expo-image-picker'
 
 const FormNewArticle = () => {
-	const [modalVisible, setModalVisible] = useState(false);
-	console.log(modalVisible);
+	const [modalVisible, setModalVisible] = useState(false)
+	const [image, setImage] = useState(null)
 
-	const uploadImage = () => {
-		console.log('subir img');
-	};
+	const initialValues = {
+		title: '',
+		description: '',
+		editorial: '',
+		conditions: '',
+	}
+
+	const donationValueSchema = {
+		title: valuesSchema.title,
+		description: valuesSchema.description,
+		editorial: valuesSchema.editorial,
+		conditions: valuesSchema.conditions,
+	}
+
+	const uploadImage = async () => {
+		// No permissions request is necessary for launching the image library
+		let result = await ImagePicker.launchImageLibraryAsync({
+			mediaTypes: ImagePicker.MediaTypeOptions.Images,
+			allowsEditing: true,
+			aspect: [4, 3],
+			quality: 1,
+		})
+
+		console.log(result)
+
+		if (!result.canceled) {
+			setImage(result.assets[0].uri)
+		}
+	}
+
+	const handleSubmit = values => {
+		const objDonation = {
+			...values,
+			image,
+		}
+		console.log(objDonation)
+		setModalVisible(true)
+	}
 
 	return (
 		<View>
@@ -42,10 +76,21 @@ const FormNewArticle = () => {
 							style={{ width: 36, height: 36, borderRadius: 20 }}
 						/>
 					</View>
+
+					{image && (
+						<Image
+							source={{ uri: image }}
+							style={{ width: 200, height: 200 }}
+						/>
+					)}
 					<View style={styles.containerForm}>
 						<Formik
-							initialValues={{ email: '', password: '' }}
-							onSubmit={values => console.log(values)}
+							validationSchema={formSchema(donationValueSchema)}
+							initialValues={initialValues}
+							onSubmit={(values, actions) => {
+								handleSubmit(values)
+								actions.resetForm()
+							}}
 						>
 							{({
 								handleChange,
@@ -74,7 +119,7 @@ const FormNewArticle = () => {
 										name='title'
 										onChangeText={handleChange('title')}
 									/>
-									{errors?.username && (
+									{errors?.title && (
 										<Text style={stylesConstants.error}>{errors?.title}</Text>
 									)}
 									<Text style={stylesConstants.title}>Resumen</Text>
@@ -84,7 +129,7 @@ const FormNewArticle = () => {
 										name='description'
 										onChangeText={handleChange('description')}
 									/>
-									{errors?.username && (
+									{errors?.description && (
 										<Text style={stylesConstants.error}>
 											{errors?.description}
 										</Text>
@@ -96,7 +141,7 @@ const FormNewArticle = () => {
 										name='editorial'
 										onChangeText={handleChange('editorial')}
 									/>
-									{errors?.username && (
+									{errors?.editorial && (
 										<Text style={stylesConstants.error}>
 											{errors?.editorial}
 										</Text>
@@ -109,9 +154,9 @@ const FormNewArticle = () => {
 										name='conditions'
 										onChangeText={handleChange('conditions')}
 									/>
-									{errors?.username && (
+									{errors?.conditions && (
 										<Text style={stylesConstants.error}>
-											{errors?.username}
+											{errors?.conditions}
 										</Text>
 									)}
 									<Text>MAPA</Text>
@@ -127,15 +172,12 @@ const FormNewArticle = () => {
 								</>
 							)}
 						</Formik>
-						<TouchableOpacity onPress={() => setModalVisible(true)}>
-							<Text>Show Modal</Text>
-						</TouchableOpacity>
 					</View>
 				</View>
 			)}
 		</View>
-	);
-};
+	)
+}
 
 const styles = StyleSheet.create({
 	header: {
@@ -174,6 +216,6 @@ const styles = StyleSheet.create({
 		fontWeight: '700',
 		textAlign: 'center',
 	},
-});
+})
 
-export default FormNewArticle;
+export default FormNewArticle
