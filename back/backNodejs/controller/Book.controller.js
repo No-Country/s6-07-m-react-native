@@ -5,7 +5,7 @@ const {
   saveBook,
   searchBookByTitle,
   deleteBook,
-  searchBookById,
+  searchBookBy,
   bookUpdate,
 } = require("../services/Book.service");
 const { NotFound, Ok, Error } = require("../util/HttpResponse");
@@ -48,9 +48,16 @@ const eraseBook = async (req, res) => {
 };
 
 const searchBook = async (req, res) => {
-  const { title } = req.params;
+  const { title, editorial, author } = req.query;
   try {
-    const bookFound = await searchBookByTitle(title);
+    let bookFound = 0;
+    if (title) {
+      bookFound = await searchBookBy(title, "title");
+    } else if (author) {
+      bookFound = await searchBookBy(author, "author");
+    } else if (editorial) {
+      bookFound = await searchBookBy(editorial, "editorial");
+    }
     if (bookFound.length === 0) {
       return NotFound(res, "Book not found");
     }
@@ -71,10 +78,11 @@ const updateBook = async (req, res) => {
     const updateBook = await bookUpdate(body, body._id);
     return Ok(res, "Successful update");
   } catch (error) {
+    console.log(error);
     if (error.kind == "ObjectId") {
-      return Error(res, "Id is invalid");
+      return Error(res, "Id is invalids");
     }
-    return Error(res, error);
+    return Error(res, error.message);
   }
 };
 module.exports = {
