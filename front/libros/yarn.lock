@@ -1869,10 +1869,6 @@
   "resolved" "https://registry.npmjs.org/@sinclair/typebox/-/typebox-0.25.21.tgz"
   "version" "0.25.21"
 
-"@socket.io/component-emitter@~3.1.0":
-  "integrity" "sha512-+9jVqKhRSpsc591z5vX+X5Yyw+he/HCB4iQ/RYxw35CEPaY1gnsNE43nf9n9AaYjAQrTiI/mOwKUKdUs9vf7Xg=="
-  "resolved" "https://registry.npmjs.org/@socket.io/component-emitter/-/component-emitter-3.1.0.tgz"
-  "version" "3.1.0"
 "@sindresorhus/slugify@1.1.0":
   "integrity" "sha512-ujZRbmmizX26yS/HnB3P9QNlNa4+UvHh+rIse3RbOXLp8yl6n1TxB4t7NHggtVgS8QmmOtzXo48kCxZGACpkPw=="
   "resolved" "https://registry.npmjs.org/@sindresorhus/slugify/-/slugify-1.1.0.tgz"
@@ -1888,6 +1884,11 @@
   dependencies:
     "escape-string-regexp" "^2.0.0"
     "lodash.deburr" "^4.1.0"
+
+"@socket.io/component-emitter@~3.1.0":
+  "integrity" "sha512-+9jVqKhRSpsc591z5vX+X5Yyw+he/HCB4iQ/RYxw35CEPaY1gnsNE43nf9n9AaYjAQrTiI/mOwKUKdUs9vf7Xg=="
+  "resolved" "https://registry.npmjs.org/@socket.io/component-emitter/-/component-emitter-3.1.0.tgz"
+  "version" "3.1.0"
 
 "@strapi/provider-upload-cloudinary@^4.6.1":
   "integrity" "sha512-O0GOp/w7qShvK4ywDKCXnkRt+ZHBVUtbj5YstAUmZtqPnY/uk+d2J5tWlKBDfzwmo9syorwNFWsMJ8xBe/C9uQ=="
@@ -4359,6 +4360,14 @@
   "integrity" "sha512-OO0pH2lK6a0hZnAdau5ItzHPI6pUlvI7jMVnxUQRtw4owF2wk8lOSabtGDCTP4Ggrg2MbGnWO9X8K1t4+fGMDw=="
   "resolved" "https://registry.npmjs.org/fs.realpath/-/fs.realpath-1.0.0.tgz"
   "version" "1.0.0"
+
+"ftp@^0.3.10":
+  "integrity" "sha512-faFVML1aBx2UoDStmLwv2Wptt4vw5x03xxX172nhA5Y5HBshW5JweqQ2W4xL4dezQTG8inJsuYcpPHHU3X5OTQ=="
+  "resolved" "https://registry.npmjs.org/ftp/-/ftp-0.3.10.tgz"
+  "version" "0.3.10"
+  dependencies:
+    "readable-stream" "1.1.x"
+    "xregexp" "2.0.0"
 
 "function-bind@^1.1.1":
   "integrity" "sha512-yIovAzMX49sF8Yl58fSCWJ5svSLuaibPxXQJFLmBObTuCr0Mf1KiPopGM9NiFjiYBCbfaa2Fh6breQ6ANVTI0A=="
@@ -7642,6 +7651,7 @@
   dependencies:
     "@socket.io/component-emitter" "~3.1.0"
     "debug" "~4.3.1"
+
 "socks-proxy-agent@^5.0.0", "socks-proxy-agent@5":
   "integrity" "sha512-vZdmnjb9a2Tz6WEQVIurybSwElwPxMZaIc7PzqbJTrezcKNznv6giT7J7tZDZ1BojVaa1jvO/UiUdhDVB0ACoQ=="
   "resolved" "https://registry.npmjs.org/socks-proxy-agent/-/socks-proxy-agent-5.0.1.tgz"
@@ -8642,6 +8652,8 @@
 "xmlhttprequest-ssl@~2.0.0":
   "integrity" "sha512-QKxVRxiRACQcVuQEYFsI1hhkrMlrXHPegbbd1yn9UHOmRxY+si12nQYzri3vbzt8VdTTRviqcKxcyllFas5z2A=="
   "resolved" "https://registry.npmjs.org/xmlhttprequest-ssl/-/xmlhttprequest-ssl-2.0.0.tgz"
+  "version" "2.0.0"
+
 "xregexp@2.0.0":
   "integrity" "sha512-xl/50/Cf32VsGq/1R8jJE5ajH1yMCQkpmoS10QbFZWl2Oor4H0Me64Pu2yxvsRWK3m6soJbmGfzSR7BYmDcWAA=="
   "resolved" "https://registry.npmjs.org/xregexp/-/xregexp-2.0.0.tgz"

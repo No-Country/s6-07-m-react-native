@@ -62,15 +62,10 @@ const Login = () => {
 				data: { token, user },
 			} = await post('/user/login', { ...values })
 
-<<<<<<< HEAD
 			if(status === 200) {
 
 				await AsyncStorage.setItem("token", token)
 				
-=======
-			if (status === 200) {
-				await AsyncStorage.setItem('token', token)
->>>>>>> f7b31aecdbfdd51d2894c160ad72dceea1da4e1f
 				showAlert({
 					...alerts.success,
 					title: 'Mensaje.',

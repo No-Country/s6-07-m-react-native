@@ -6,12 +6,13 @@ import {
 } from "react-native";
 //Components
 import EmptyChat from './emptyChat/EmptyChat';
-
+import Conversation from './conversation/components/Conversation';
 
 const Chat = () => {
     return (
         <View>
-            <EmptyChat />
+            {/* <EmptyChat /> */}
+            <Conversation />
         </View>
     )
 }
