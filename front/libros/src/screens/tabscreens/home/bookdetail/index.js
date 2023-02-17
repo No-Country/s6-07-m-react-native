@@ -1,20 +1,21 @@
-import  React, { useEffect } from 'react';
+import React, { useEffect } from 'react'
 import {
 	View,
 	Text,
 	TouchableOpacity,
 	SafeAreaView,
 	Platform,
-} from 'react-native';
-import { styles } from './styles';
+	Pressable,
+} from 'react-native'
+import { styles } from './styles'
 import {
 	Book,
 	Distance,
 	Mapa,
-} from './../../../../components/tabcomponents/home/index';
-import { Reviews } from './../../../../components/tabcomponents/home/index';
-import { books } from './../../../../../mocks/bookObj.json';
-import { StatusBar } from 'react-native';
+} from './../../../../components/tabcomponents/home/index'
+import { Reviews } from './../../../../components/tabcomponents/home/index'
+import { books } from './../../../../../mocks/bookObj.json'
+import { StatusBar } from 'react-native'
 
 const BookDetail = ({ navigation }) => {
 	return (
@@ -24,12 +25,15 @@ const BookDetail = ({ navigation }) => {
 			<Reviews data={books} />
 			<Distance />
 			<Mapa />
+			<TouchableOpacity
+				style={styles.button}
+				onPress={() => navigation.navigate('BookDetail')}
+			>
+				<Text style={styles.text}>Solicitar</Text>
+			</TouchableOpacity>
 
-			<View style={styles.container}>
-				<Text style={styles.text}>Book</Text>
-			</View>
 		</SafeAreaView>
-	);
-};
+	)
+}
 
-export default BookDetail;
+export default BookDetail
