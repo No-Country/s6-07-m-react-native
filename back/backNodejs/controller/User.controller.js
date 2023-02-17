@@ -5,7 +5,8 @@ const { NotFound, Ok, Error } = require("../util/HttpResponse");
 // Buscar Usuario por ID
 const getUser = async (req, res) => {
   try {
-    const data = await findUser(req.body.id);
+    console.log(req.params.id)
+    const data = await findUser(req.params.id);
     console.log(data, "data");
     if (!data) {
       return NotFound(res, "Not Found User");
