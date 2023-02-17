@@ -47,3 +47,8 @@ exports.validationUpdateBook = [
     .withMessage("Description must have less than 200 characters"),
   reportError,
 ];
+
+exports.validationGetDetailBook = [
+  body("id").notEmpty().withMessage("Didn't give user ID"),
+  reportError,
+]
