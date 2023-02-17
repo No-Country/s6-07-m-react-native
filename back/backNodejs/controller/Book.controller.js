@@ -9,6 +9,7 @@ const {
   bookUpdate,
 } = require("../services/Book.service");
 const { NotFound, Ok, Error } = require("../util/HttpResponse");
+const { getPaginationUrls } = require("../util/Paginate");
 
 const donateBook = async (req, res) => {
   try {
@@ -48,20 +49,33 @@ const eraseBook = async (req, res) => {
 };
 
 const searchBook = async (req, res) => {
-  const { title, editorial, author } = req.query;
+  const { title, editorial, author, page, limit = 10 } = req.query;
+  const currentPage = Number(page) || 1; // Si no se especifica la página, se asume la página 1
   try {
-    let bookFound = 0;
+    let bookFound = [];
+    let totalBooks = 0;
     if (title) {
-      bookFound = await searchBookBy(title, "title");
+      ({ books: bookFound, totalBooks } = await searchBookBy(title, "title", currentPage, limit));
     } else if (author) {
-      bookFound = await searchBookBy(author, "author");
+     ( { books: bookFound, totalBooks } = await searchBookBy(author, "author", currentPage, limit));
     } else if (editorial) {
-      bookFound = await searchBookBy(editorial, "editorial");
+     ( { books: bookFound, totalBooks } = await searchBookBy(editorial, "editorial", currentPage, limit));
     }
     if (bookFound.length === 0) {
       return NotFound(res, "Book not found");
     }
-    return Ok(res, bookFound);
+    console.log(totalBooks, "Total books")
+    const totalPages = Math.ceil(totalBooks / limit); // Número total de páginas
+
+    const paginationUrls = getPaginationUrls(req, currentPage, totalPages);
+    return Ok(res, {
+      books: bookFound,
+      pagination: {
+        currentPage,
+        totalPages,
+        ...paginationUrls,
+      },
+    });
   } catch (error) {
     console.log(error);
     return Error(res, error);

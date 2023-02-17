@@ -19,7 +19,7 @@ const deleteBook = async (id) => {
   return book;
 };
 
-const searchBookBy = async (query, type) => {
+const searchBookBy = async (query, type, page, limit) => {
   const regex = new RegExp(query, "i");
   let searchFields;
 
@@ -36,10 +36,15 @@ const searchBookBy = async (query, type) => {
     default:
       throw new Error("Invalid search type");
   }
+  const startIndex = (page - 1) * limit;
+  const endIndex = page * limit;
   console.log(searchFields);
-  const search = await Book.find(searchFields);
+  const totalBooks = await Book.countDocuments(searchFields);
+  const search = await Book.find(searchFields).skip(startIndex)
+  .limit(limit)
+  .exec();
   console.log(search, "search");
-  return search;
+  return { books: search, totalBooks };
 };
 
 const bookUpdate = async (data, id) => {
