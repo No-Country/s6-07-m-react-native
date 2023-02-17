@@ -31,7 +31,6 @@ const BookDetail = ({ navigation }) => {
 			>
 				<Text style={styles.text}>Solicitar</Text>
 			</TouchableOpacity>
-
 		</SafeAreaView>
 	)
 }
