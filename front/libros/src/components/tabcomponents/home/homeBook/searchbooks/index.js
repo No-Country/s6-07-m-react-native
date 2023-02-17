@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 import {
 	Image,
 	StyleSheet,
@@ -6,8 +6,9 @@ import {
 	TextInput,
 	TouchableOpacity,
 	View,
-} from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+} from 'react-native'
+import { Ionicons } from '@expo/vector-icons'
+import { colors } from '../../../../../utils/constants'
 
 const SearchBooks = () => {
 	return (
@@ -20,7 +21,7 @@ const SearchBooks = () => {
 				<Text style={styles.text}>Encuentra tu libro</Text>
 			</View>
 			<View style={styles.textInput}>
-				<TextInput placeholder='Buscar' style={styles.input} ri />
+				<TextInput placeholder='Buscar' style={styles.input} />
 				<Ionicons style={{ marginRight: 16 }} name='search-outline' size={24} />
 			</View>
 			<View style={styles.directionButtons}>
@@ -38,8 +39,8 @@ const SearchBooks = () => {
 				</TouchableOpacity>
 			</View>
 		</View>
-	);
-};
+	)
+}
 
 const styles = StyleSheet.create({
 	imgLogo: {
@@ -55,11 +56,13 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		alignItems: 'center',
 		justifyContent: 'space-between',
-		marginHorizontal: 8,
+		marginHorizontal: 18,
+		marginRight: 50,
 		marginVertical: 14,
 	},
 	input: {
 		height: 40,
+		width: '100%',
 		margin: 4,
 		padding: 10,
 	},
@@ -72,7 +75,7 @@ const styles = StyleSheet.create({
 		fontSize: 12,
 		fontWeight: '500',
 		textAlign: 'center',
-		color: '#908F9D',
+		color: colors.background,
 	},
 	directionButtons: {
 		flexDirection: 'row',
@@ -81,15 +84,15 @@ const styles = StyleSheet.create({
 	},
 	button: {
 		alignItems: 'center',
-		backgroundColor: '#f5ced0',
+		backgroundColor: colors.primary,
 		borderStyle: 'solid',
 		borderWidth: 1,
-		borderColor: '#EF797D',
+		borderColor: colors.primary,
 		width: 72,
 		height: 32,
 		borderRadius: 10,
 		padding: 8,
 	},
-});
+})
 
-export default SearchBooks;
+export default SearchBooks

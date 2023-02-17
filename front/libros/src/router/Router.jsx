@@ -1,11 +1,11 @@
-import * as React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-import TabNagivator from './TabNagivator';
-import AuthStack from './AuthStack';
-import { useSelector } from 'react-redux';
+import * as React from 'react'
+import { NavigationContainer } from '@react-navigation/native'
+import { createStackNavigator } from '@react-navigation/stack'
+import TabNagivator from './TabNagivator'
+import AuthStack from './AuthStack'
+import { useSelector } from 'react-redux'
 
-const Stack = createStackNavigator();
+const Stack = createStackNavigator()
 
 const LoggedStack = () => {
 	return (
@@ -16,8 +16,8 @@ const LoggedStack = () => {
 		>
 			<Stack.Screen name='Home' component={TabNagivator} />
 		</Stack.Navigator>
-	);
-};
+	)
+}
 
 const NoLoggedStack = () => {
 	return (
@@ -29,8 +29,8 @@ const NoLoggedStack = () => {
 		>
 			<Stack.Screen name='Auth' component={AuthStack} />
 		</Stack.Navigator>
-	);
-};
+	)
+}
 
 export default Router = () => {
 	//const isLogged = true;
@@ -39,5 +39,5 @@ export default Router = () => {
 		<NavigationContainer>
 			{!user ? <LoggedStack /> : <NoLoggedStack />}
 		</NavigationContainer>
-	);
-};
+	)
+}
