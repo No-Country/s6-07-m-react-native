@@ -7,6 +7,7 @@ const {
   deleteBook,
   searchBookBy,
   bookUpdate,
+  searchBookById,
 } = require("../services/Book.service");
 const { NotFound, Ok, Error } = require("../util/HttpResponse");
 const { getPaginationUrls } = require("../util/Paginate");
@@ -55,16 +56,31 @@ const searchBook = async (req, res) => {
     let bookFound = [];
     let totalBooks = 0;
     if (title) {
-      ({ books: bookFound, totalBooks } = await searchBookBy(title, "title", currentPage, limit));
+      ({ books: bookFound, totalBooks } = await searchBookBy(
+        title,
+        "title",
+        currentPage,
+        limit
+      ));
     } else if (author) {
-     ( { books: bookFound, totalBooks } = await searchBookBy(author, "author", currentPage, limit));
+      ({ books: bookFound, totalBooks } = await searchBookBy(
+        author,
+        "author",
+        currentPage,
+        limit
+      ));
     } else if (editorial) {
-     ( { books: bookFound, totalBooks } = await searchBookBy(editorial, "editorial", currentPage, limit));
+      ({ books: bookFound, totalBooks } = await searchBookBy(
+        editorial,
+        "editorial",
+        currentPage,
+        limit
+      ));
     }
     if (bookFound.length === 0) {
       return NotFound(res, "Book not found");
     }
-    console.log(totalBooks, "Total books")
+    console.log(totalBooks, "Total books");
     const totalPages = Math.ceil(totalBooks / limit); // Número total de páginas
 
     const paginationUrls = getPaginationUrls(req, currentPage, totalPages);
@@ -99,9 +115,25 @@ const updateBook = async (req, res) => {
     return Error(res, error.message);
   }
 };
+const getDetailBook = async (req, res) => {
+  const { id } = req.body;
+  try {
+    const bookFound = await searchBookById(id);
+    if (!bookFound) {
+      return NotFound(res, "Book not found");
+    }
+    return Ok(res, bookFound);
+  } catch (error) {
+    if (error.kind == "ObjectId") {
+      return Error(res, "Id is invalids");
+    }
+    return Error(res, error.message);
+  }
+};
 module.exports = {
   donateBook,
   searchBook,
   eraseBook,
   updateBook,
+  getDetailBook,
 };

@@ -5,6 +5,7 @@ import {
 	TouchableOpacity,
 	SafeAreaView,
 	Platform,
+	Pressable,
 } from 'react-native'
 import { styles } from './styles'
 import {
@@ -24,10 +25,12 @@ const BookDetail = ({ navigation }) => {
 			<Reviews data={books} />
 			<Distance />
 			<Mapa />
-
-			<View style={styles.container}>
-				<Text style={styles.text}>Book</Text>
-			</View>
+			<TouchableOpacity
+				style={styles.button}
+				onPress={() => navigation.navigate('BookDetail')}
+			>
+				<Text style={styles.text}>Solicitar</Text>
+			</TouchableOpacity>
 		</SafeAreaView>
 	)
 }
