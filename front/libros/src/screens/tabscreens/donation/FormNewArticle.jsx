@@ -14,6 +14,7 @@ import { colors, formStyles as stylesConstants } from '../../../utils/constants'
 import ModalPublicated from './ModalPublicated'
 import { formSchema, valuesSchema } from '../../../utils/formValidation'
 import * as ImagePicker from 'expo-image-picker'
+import { SweetAlert } from '../../../utils/alertsUtils'
 
 const FormNewArticle = () => {
 	const [modalVisible, setModalVisible] = useState(false)
@@ -54,8 +55,9 @@ const FormNewArticle = () => {
 			...values,
 			image,
 		}
+		SweetAlert('Test')
+		// setModalVisible(true)
 		console.log(objDonation)
-		setModalVisible(true)
 	}
 
 	return (
@@ -203,7 +205,7 @@ const styles = StyleSheet.create({
 		borderDash: [4, 2],
 	},
 	buttonSubmit: {
-		backgroundColor: '#FF3D45',
+		backgroundColor: colors.primary,
 		color: 'white',
 		width: 254,
 		height: 48,
