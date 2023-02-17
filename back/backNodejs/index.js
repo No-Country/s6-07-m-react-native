@@ -1,17 +1,21 @@
-const dotenv = require('dotenv').config();
-require("./connection");
+const dotenv = require("dotenv").config();
 const express = require("express");
-const routes = require("./router/index")
-const cors = require("cors");
+const swaggerUi = require("swagger-ui-express");
 const bodyParser = require("body-parser");
+const cors = require("cors");
+require("./connection");
+
+const routes = require("./router/index");
 const app = express();
-const createError = require("http-errors");
 const { errorHandler } = require("./middleware/error.handler");
+const specs = require("./swagger.js");
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cors());
-app.use("/", routes )
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs));
+app.use("/", routes);
+
 app.use(errorHandler);
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Server running in port ${PORT}`));
