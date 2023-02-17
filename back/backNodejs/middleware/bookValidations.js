@@ -27,3 +27,28 @@ exports.validationEraseBook = [
   body("id").notEmpty().withMessage("Didn't give user ID"),
   reportError,
 ];
+
+exports.validationUpdateBook = [
+  body("_id").notEmpty().withMessage("Didn't give user ID"),
+  body("image").optional().notEmpty().withMessage("Image is required"),
+  body("title")
+    .optional()
+    .notEmpty()
+    .isLength({ min: 5 })
+    .withMessage("Title must have more than 5 characters")
+    .isLength({ max: 19 })
+    .withMessage("Title must have less than 20 characters"),
+  body("description")
+    .optional()
+    .notEmpty()
+    .isLength({ min: 10 })
+    .withMessage("Description must have more than 10 characters")
+    .isLength({ max: 200 })
+    .withMessage("Description must have less than 200 characters"),
+  reportError,
+];
+
+exports.validationGetDetailBook = [
+  body("id").notEmpty().withMessage("Didn't give user ID"),
+  reportError,
+]

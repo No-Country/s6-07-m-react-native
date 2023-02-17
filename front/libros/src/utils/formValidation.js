@@ -1,18 +1,18 @@
 import * as Yup from "yup";
 
-export const EMAIL_REQUIRED = "Email is required.";
-export const EMAIL_FORMAT = "Invalid email.";
+export const EMAIL_REQUIRED = "El email es requerido.";
+export const EMAIL_FORMAT = "Email inválido.";
 export const EMAIL_TYPE = "Email must contain only alphabets characters.";
-export const NAME_REQUIRED = "Name is required.";
-export const NAME_TYPE = "Name must contain only alphabets characters.";
-export const USERNAME_REQUIRED = "Username is required.";
+export const NAME_REQUIRED = "El nombre es requerido.";
+export const NAME_TYPE = "El nombre no puede comer signos ni números.";
+export const USERNAME_REQUIRED = "El nombre de usuario es requerido.";
 export const USERNAME_TYPE = "Username must be at string format.";
-export const PASSWORD_REQUIRED = "Password is required.";
+export const PASSWORD_REQUIRED = "La contraseña es requerida.";
 export const PASSWORD_TYPE = "Password must be at string format.";
-export const PASSWORD_MIN = "The password must contain a min of 7 characters.";
-export const PASSWORD_MAX = "The password must contain a max of 14 characters.";
-export const PASSWORD_CONFIRM_REQUIRED = "Please confirm your password";
-export const PASSWORD_MATCH = "The passwords do not match.";
+export const PASSWORD_MIN = "La contraseña debe contener un mínimo de 6 caracteres.";
+export const PASSWORD_MAX = "La contraseña debe contener un máximo de 14 caracteres.";
+export const PASSWORD_CONFIRM_REQUIRED = "Confirma tu contraseña";
+export const PASSWORD_MATCH = "Las contraseñas no coinciden.";
 
 export const initialValues = {
     username: "",
@@ -36,7 +36,7 @@ export const valuesSchema = {
     password: Yup
         .string(PASSWORD_TYPE)
         .required(PASSWORD_REQUIRED)
-        .min(7, PASSWORD_MIN)
+        .min(6, PASSWORD_MIN)
         .max(14, PASSWORD_MAX),
     rePassword: Yup
         .string()

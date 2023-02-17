@@ -4,7 +4,8 @@ const BookSchema = new Schema(
   {
     image: {
       type: String,
-      default: "https://lamenteesmaravillosa.com/wp-content/uploads/2015/02/shutterstock_166743392.jpg",
+      default:
+        "https://lamenteesmaravillosa.com/wp-content/uploads/2015/02/shutterstock_166743392.jpg",
     },
     title: {
       type: String,
@@ -17,6 +18,14 @@ const BookSchema = new Schema(
     userId: {
       type: Schema.Types.ObjectId,
       ref: "User",
+    },
+    author: {
+      type: String,
+      required: true,
+    },
+    editorial: {
+      type: String,
+      required: true,
     },
   },
   {

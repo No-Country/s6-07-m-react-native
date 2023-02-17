@@ -3,6 +3,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import TabNagivator from './TabNagivator';
 import AuthStack from './AuthStack';
+import { useSelector } from 'react-redux';
 
 const Stack = createStackNavigator();
 
@@ -32,10 +33,11 @@ const NoLoggedStack = () => {
 };
 
 export default Router = () => {
-	const isLogged = false;
+	//const isLogged = true;
+	const user = useSelector(state => state.user.userId)
 	return (
 		<NavigationContainer>
-			{!isLogged ? <LoggedStack /> : <NoLoggedStack />}
+			{user ? <LoggedStack /> : <NoLoggedStack />}
 		</NavigationContainer>
 	);
 };
