@@ -34,10 +34,10 @@ const NoLoggedStack = () => {
 
 export default Router = () => {
 	//const isLogged = true;
-	const user = useSelector(state => state.user.userId)
+	const user = useSelector(state => state.user)
 	return (
 		<NavigationContainer>
-			{user ? <LoggedStack /> : <NoLoggedStack />}
+			{!user ? <LoggedStack /> : <NoLoggedStack />}
 		</NavigationContainer>
 	);
 };

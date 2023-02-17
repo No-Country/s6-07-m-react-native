@@ -3,14 +3,14 @@ import React from 'react';
 import { Ionicons } from '@expo/vector-icons';
 import HomeNavigator from './HomeStack';
 import Donation from '../screens/tabscreens/donation/Donation';
-import Chat from '../screens/Chat';
+import Chat from '../components/tabcomponents/chat/components/Chat';
 
 const Tab = createBottomTabNavigator();
 
 const TabNagivator = ({ navigation }) => {
 	return (
 		<Tab.Navigator
-			initialRouteName='HomeBooks'
+			initialRouteName='Chat'
 			screenOptions={{
 				headerShown: false,
 				tabBarActiveTintColor: '#8F77DB',
@@ -51,6 +51,7 @@ const TabNagivator = ({ navigation }) => {
 							color={focused ? '#8F77DB' : '#b2b2b2'}
 						/>
 					),
+					headerShown: false,
 				}}
 				name='Chat'
 				component={Chat}

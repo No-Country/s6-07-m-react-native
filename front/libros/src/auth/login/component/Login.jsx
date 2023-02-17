@@ -63,6 +63,7 @@ const Login = () => {
 			if(status === 200) {
 
 				await AsyncStorage.setItem("token", token)
+				
 				showAlert({
 					...alerts.success, 
 					title: "Mensaje.",
