@@ -8,6 +8,7 @@ import (
 	"os"
 
 	"github.com/No-Country/s6-07-m-react-native/tree/main/back/backGo/db"
+	"github.com/No-Country/s6-07-m-react-native/tree/main/back/backGo/socket.io"
 	"github.com/joho/godotenv"
 
 )
@@ -53,6 +54,8 @@ func run()error{
 		c.JSON(http.StatusOK, "Welcome to GiveAway 📖🤝📖")
 		
 	})
+	server := socketio.InitSocket()
+	socketio.HandleSocketIo(server)
 	routes.UserRoutes(r)
 	fmt.Printf("Listening on Port %v \n", port)
 	if err := r.Run(port); err != nil {
