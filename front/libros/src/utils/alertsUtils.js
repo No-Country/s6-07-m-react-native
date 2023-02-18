@@ -1,5 +1,5 @@
 import { Alert } from 'react-native'
-import Swal from 'sweetalert2'
+import Toast from 'react-native-toast-message'
 
 export const alerts = {
 	success: {
@@ -26,8 +26,12 @@ export const alerts = {
 	},
 }
 
-export const SweetAlert = ({ text }) => {
-	Swal.fire(text)
+export const alertToast = (type, text1, text2) => {
+	Toast.show({
+		type,
+		text1,
+		text2,
+	})
 }
 
 export const showAlert = ({ title, msg, options, cancelable }) => {
