@@ -1,0 +1,67 @@
+import { colors } from "../../../../../../../utils/constants"
+
+export const styles = {
+    /* container: {
+        content: "dice:",
+        width: "75%",
+        height: 80,
+        left: 20,
+        marginTop: 126,
+        backgroundColor: colors.primary,
+        position: "relative",        
+        borderTopLeftRadius: 0,       
+        borderBottomLeftRadius: 20,
+        borderBottomRightRadius: 20, 
+        borderTopRightRadius: 20,
+        borderLeftWidth: 15,
+        padding: 5,
+        borderStyle: 'solid', 
+        borderTopWidth: 10, 
+        borderRightWidth: 10, 
+        borderBottomWidth: 10, 
+        borderLeftWidth: 10, 
+        borderTopColor: 'green', 
+        borderRightColor: 'transparent', 
+        borderBottomColor: 'transparent', 
+        borderLeftColor: "red",
+    } */
+    containerReceiver: {
+        flexDirection: "row",
+        alignItems: "flex-start",
+        height: "auto",
+        backgroundColor: colors.primary,
+        borderStyle: 'solid',
+        borderBottomLeftRadius: 30,
+        borderBottomRightRadius: 30,
+        borderTopRightRadius: 10,
+        borderbottomRadius: 20,
+        borderTopWidth: 15,
+        borderRightWidth: 0,
+        borderBottomWidth: 15,
+        borderLeftWidth: 15,
+        borderTopColor: colors.primary,
+        borderRightColor: 'green',
+        borderBottomColor: colors.background,
+        borderLeftColor: colors.background,
+        /* marginTop: 400, */
+        marginLeft: 10,
+        marginBottom: 30,
+        /* maxWidth: "80%", */
+        /* padding: 10, */
+    },
+    text: {
+        backgroundColor: colors.primary,
+        borderWidth: 5,
+        borderColor: "black",
+        borderTopWidth: 10,
+        height: "auto",
+        borderBottomLeftRadius: 10,
+        borderBottomRightRadius: 10,
+        borderTopRightRadius: 0,
+        padding: 5,
+        paddingLeft: 10,
+        position: "relative",
+        top: -1,
+        width: "auto",
+    }
+}

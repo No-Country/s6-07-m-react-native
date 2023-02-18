@@ -3,6 +3,8 @@ import {
     View,
     Text,
 }from "react-native"
+//Components
+import Balloon from './balloon/Balloon';
 
 import { io } from "socket.io-client";
 
@@ -10,9 +12,10 @@ const Conversation = () => {
 
     const socket = io()
 
-    
   return (
-    <Text>Conversation</Text>
+    <View style={{backgroundColor: "white", height: "100%"}}>
+      <Balloon transmitter={false} />
+    </View>
   )
 }
 
