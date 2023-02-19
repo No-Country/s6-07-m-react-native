@@ -3,7 +3,7 @@ import React from 'react';
 import { Ionicons } from '@expo/vector-icons';
 import HomeNavigator from './HomeStack';
 import Donation from '../screens/tabscreens/donation/Donation';
-import Chat from '../components/tabcomponents/chat/components/Chat';
+import ChatStack from './ChatStack';
 
 const Tab = createBottomTabNavigator();
 
@@ -54,7 +54,7 @@ const TabNagivator = ({ navigation }) => {
 					headerShown: false,
 				}}
 				name='Chat'
-				component={Chat}
+				component={ChatStack}
 			/>
 		</Tab.Navigator>
 	);
