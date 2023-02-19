@@ -76,14 +76,12 @@ const router = Router();
 router.get("/getUser/:id", getUser);
 /**
  * @swagger
- * /updateUser:
+ * /user/updateUser:
  *   put:
  *     summary: Actualiza un usuario
  *     description: Actualiza el correo electrónico y la imagen de perfil de un usuario existente.
- *     tags:
- *       - Usuarios
+ *     tags: [User]
  *     requestBody:
- *       description: Datos del usuario a actualizar
  *       required: true
  *       content:
  *         application/json:

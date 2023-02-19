@@ -13,7 +13,6 @@ exports.validationcreateuser = [
 
 exports.validationUpdateUser = [
   body("name").optional().notEmpty().withMessage("Name is required"),
-  body("username").optional().notEmpty().withMessage("Username is required"),
   body("email").optional().isEmail().withMessage("Email is not valid"),
   reportError,
 ];
