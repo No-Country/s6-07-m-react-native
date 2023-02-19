@@ -16,6 +16,9 @@ const router = Router();
  *         name:
  *           type: string
  *           description: Nombre del usuario
+ *         username: 
+ *           type: string
+ *           description: Nombre de usuario unico
  *         email:
  *           type: string
  *           format: email
@@ -58,6 +61,7 @@ const router = Router();
  * @swagger 
  * /user/getUser/{id}:
  *   get:
+ *     tags: [Users]
  *     description: Returns a user by ID
  *     parameters:
  *       - in: path
@@ -80,7 +84,7 @@ router.get("/getUser/:id", getUser);
  *   put:
  *     summary: Actualiza un usuario
  *     description: Actualiza el correo electrónico y la imagen de perfil de un usuario existente.
- *     tags: [User]
+ *     tags: [Users]
  *     requestBody:
  *       required: true
  *       content:

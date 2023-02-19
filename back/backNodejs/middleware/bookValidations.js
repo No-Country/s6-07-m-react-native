@@ -2,6 +2,7 @@ const {
   body,
   validationResult,
   ValidationError,
+  param,
 } = require("express-validator");
 const { reportError } = require("./reportErrorValidation");
 
@@ -24,7 +25,7 @@ exports.validationDonateBook = [
 ];
 
 exports.validationEraseBook = [
-  body("id").notEmpty().withMessage("Didn't give user ID"),
+  param("id").notEmpty().withMessage("Didn't give user ID"),
   reportError,
 ];
 
@@ -49,6 +50,6 @@ exports.validationUpdateBook = [
 ];
 
 exports.validationGetDetailBook = [
-  body("id").notEmpty().withMessage("Didn't give user ID"),
+  param("id").notEmpty().withMessage("Didn't give user ID"),
   reportError,
 ]

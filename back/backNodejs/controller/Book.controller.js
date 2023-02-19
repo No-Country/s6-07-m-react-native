@@ -30,7 +30,7 @@ const donateBook = async (req, res) => {
 
 const eraseBook = async (req, res) => {
   try {
-    const deletedBook = await deleteBook(req.body.id);
+    const deletedBook = await deleteBook(req.params.id);
     if (!deletedBook) {
       return NotFound(res, "Book not found");
     }
@@ -39,12 +39,15 @@ const eraseBook = async (req, res) => {
       return NotFound(res, "User not found");
     }
     userFound.books = userFound.books.filter(
-      (book) => book.toString() !== req.body.id
+      (book) => book.toString() !== req.params.id
     );
     await saveUser(userFound);
     return Ok(res, deletedBook);
   } catch (error) {
     console.log(error);
+    if (error.kind == "ObjectId") {
+      return Error(res, "Id is invalids");
+    }
     return Error(res, error.message);
   }
 };
@@ -116,7 +119,7 @@ const updateBook = async (req, res) => {
   }
 };
 const getDetailBook = async (req, res) => {
-  const { id } = req.body;
+  const { id } = req.params;
   try {
     const bookFound = await searchBookById(id);
     if (!bookFound) {
