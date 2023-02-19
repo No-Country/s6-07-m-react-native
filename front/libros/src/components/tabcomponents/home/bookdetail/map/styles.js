@@ -12,7 +12,7 @@ export const styles = StyleSheet.create({
     },
     map: {
         width: "100%",
-        height: 245,
+        height: 205,
     },
     text: {
         color: "#263238",

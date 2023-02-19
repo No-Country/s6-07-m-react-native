@@ -10,7 +10,7 @@ export const styles = StyleSheet.create({
     button: {
         alignItems: "center",
 
-        backgroundColor: "#FF3D45",
+        backgroundColor: "#6427FF",
         padding: 10,
         marginTop: 20,
         borderRadius: 48,
@@ -27,12 +27,5 @@ export const styles = StyleSheet.create({
         alignSelf: "center",
         marginTop: 10,
         
-    },
-    centeredView: {
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-        marginTop: 22,
-        backgroundColor: "rgba(0,0,0,0.5)",
     },
 });
