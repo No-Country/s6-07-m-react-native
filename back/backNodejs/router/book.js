@@ -99,8 +99,61 @@ router.post("/donateBook", validationDonateBook, donateBook);
  *                 $ref: '#/components/schemas/Book'
  */
 router.get("/search", searchBook);
-router.get("/detailBook", validationGetDetailBook, getDetailBook);
-router.delete("/deleteBook", validationEraseBook, eraseBook);
+/**
+ * @swagger
+ * /book/detailBook/{id}:
+ *   get:
+ *     sumary: return details of the book for the id
+ *     tags: [Books]
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         description: The id of the book
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: OK
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Book'
+ *       404:
+ *         description: Book not found
+ *       500:
+ *         description: Error Interno del servidor
+ * 
+ */
+router.get("/detailBook/:id", validationGetDetailBook, getDetailBook);
+/**
+ * @swagger
+ * /book/deleteBook/{id}:
+ *   delete:
+ *     sumary: return details of the book for the id
+ *     tags: [Books]
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         description: The id of the book
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: OK
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Book'
+ *       404:
+ *         description: Not found
+ *       500:
+ *         description: Error Interno del servidor
+ * 
+ */
+router.delete("/deleteBook/:id", validationEraseBook, eraseBook);
+
 router.put("/updateBook", validationUpdateBook, updateBook);
 
 module.exports = router;
