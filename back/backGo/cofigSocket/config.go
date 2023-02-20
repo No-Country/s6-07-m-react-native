@@ -1,17 +1,32 @@
-package socketio
+package configSocket
 
-// import (
-// 	"fmt"
+import (
+
+	"github.com/gin-gonic/gin"
 	
-
-// 	socketio "github.com/googollee/go-socket.io"
-	
-// )
+)
 
 
 
-// func InitSocket() *socketio.Server {
-// 	server := socketio.NewServer(nil)
+func InitSocket(r *gin.Engine)  {
+
+	r.GET("/ws", RoutesWebSocket)
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// server := socketio.NewServer(nil)
 
 // 	server.OnConnect("/", func (s socketio.Conn)error  {
 // 		s.SetContext("")
@@ -25,5 +40,4 @@ package socketio
 // 	server.OnDisconnect("/", func (s socketio.Conn, reason string)  {
 // 		fmt.Printf("Client disconnected: %v . Reason: %v", s.ID(), reason)
 // 	})
-// 	return server
-// }
+// 
