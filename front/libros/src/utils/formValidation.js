@@ -17,7 +17,7 @@ export const TITLE_REQUIRED = 'El titulo es requerido'
 export const TITLE_MAX = 'El titulo es demasiado largo'
 export const DESCRIPTION_REQUIRED = 'La descripcion es requerida'
 export const EDITORIAL_REQUIRED = 'La editorial es requerida'
-export const CONDITIONS_REQUIRED = 'El estado del libro es requerido'
+export const AUTHOR_REQUIRED = 'El estado del libro es requerido'
 
 export const initialValues = {
 	username: '',
@@ -34,7 +34,7 @@ export const valuesSchema = {
 	title: Yup.string(TITLE_REQUIRED).required(TITLE_REQUIRED).max(16, TITLE_MAX),
 	description: Yup.string(DESCRIPTION_REQUIRED).required(DESCRIPTION_REQUIRED),
 	editorial: Yup.string(EDITORIAL_REQUIRED).required(EDITORIAL_REQUIRED),
-	conditions: Yup.string(CONDITIONS_REQUIRED).required(CONDITIONS_REQUIRED),
+	author: Yup.string(AUTHOR_REQUIRED).required(AUTHOR_REQUIRED),
 	password: Yup.string(PASSWORD_TYPE)
 		.required(PASSWORD_REQUIRED)
 		.min(7, PASSWORD_MIN)

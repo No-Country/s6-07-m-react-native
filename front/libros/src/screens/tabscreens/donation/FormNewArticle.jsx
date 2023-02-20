@@ -16,6 +16,7 @@ import { formSchema, valuesSchema } from '../../../utils/formValidation'
 import * as ImagePicker from 'expo-image-picker'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { alertToast } from '../../../utils/alertsUtils'
+import axios from 'axios'
 
 const FormNewArticle = () => {
 	const [modalVisible, setModalVisible] = useState(false)
@@ -25,14 +26,14 @@ const FormNewArticle = () => {
 		title: '',
 		description: '',
 		editorial: '',
-		conditions: '',
+		author: '',
 	}
 
 	const donationValueSchema = {
 		title: valuesSchema.title,
 		description: valuesSchema.description,
 		editorial: valuesSchema.editorial,
-		conditions: valuesSchema.conditions,
+		author: valuesSchema.author,
 	}
 
 	const uploadImage = async () => {
@@ -51,12 +52,21 @@ const FormNewArticle = () => {
 		}
 	}
 
-	const handleSubmit = (values, resetForm) => {
+	const handleSubmit = async (values, resetForm) => {
 		const objDonation = {
 			...values,
 			image,
 		}
-
+		try {
+			const response = await axios
+				.post('http://192.168.0.77:3000/book/donateBook', { ...values })
+				.then(function (response) {
+					console.log(response)
+				})
+			console.log(response)
+		} catch (error) {
+			console.log(error)
+		}
 		resetForm()
 
 		alertToast('success', 'Ahora si!', 'Publicacion creada correctamente!')
@@ -126,10 +136,10 @@ const FormNewArticle = () => {
 										{errors?.title && (
 											<Text style={stylesConstants.error}>{errors?.title}</Text>
 										)}
-										<Text style={stylesConstants.title}>Resumen</Text>
+										<Text style={stylesConstants.title}>Descripcion</Text>
 										<TextInput
 											style={stylesConstants.input}
-											placeholder='Resumen'
+											placeholder='Descripcion'
 											name='description'
 											onChangeText={handleChange('description')}
 											value={values.description}
@@ -154,19 +164,19 @@ const FormNewArticle = () => {
 												{errors?.editorial}
 											</Text>
 										)}
-										<Text style={stylesConstants.title}>Estado del libro</Text>
+										<Text style={stylesConstants.title}>Autor del libro</Text>
 										{/*Poner un select con distintasa opciones*/}
 										<TextInput
 											style={stylesConstants.input}
-											placeholder='Estado'
-											name='conditions'
-											onBlur={handleBlur('conditions')}
-											onChangeText={handleChange('conditions')}
-											value={values.conditions}
+											placeholder='Autor'
+											name='author'
+											onBlur={handleBlur('author')}
+											onChangeText={handleChange('author')}
+											value={values.author}
 										/>
-										{errors?.conditions && (
+										{errors?.author && (
 											<Text style={stylesConstants.error}>
-												{errors?.conditions}
+												{errors?.author}
 											</Text>
 										)}
 										<Text>MAPA</Text>

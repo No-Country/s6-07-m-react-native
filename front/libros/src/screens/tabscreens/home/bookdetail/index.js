@@ -6,7 +6,7 @@ import {
 	SafeAreaView,
 	Platform,
 	Pressable,
-	Modal
+	Modal,
 } from 'react-native'
 import { styles } from './styles'
 import {
@@ -19,7 +19,6 @@ import { books } from './../../../../../mocks/bookObj.json'
 import { StatusBar } from 'react-native'
 
 const BookDetail = ({ navigation }) => {
-
 	const [modalVisible, setModalVisible] = React.useState(false)
 	return (
 		<SafeAreaView>
@@ -34,8 +33,6 @@ const BookDetail = ({ navigation }) => {
 			>
 				<Text style={styles.text}>Solicitar</Text>
 			</TouchableOpacity>
-<<<<<<< Updated upstream
-=======
 			<Modal visible={modalVisible} animationType='slide'>
 				<View style={styles.centeredView}>
 					<View style={styles.modalView}>
@@ -51,9 +48,8 @@ const BookDetail = ({ navigation }) => {
 					</View>
 				</View>
 			</Modal>
->>>>>>> Stashed changes
 		</SafeAreaView>
 	)
 }
 
-export default BookDetail;
+export default BookDetail
