@@ -35,7 +35,7 @@ const Conversation = () => {
 				keyExtractor={(item, id) => id}
 				style={{ 
 					width: "100%",
-					marginTop: 25, 
+					marginTop: 0, 
 					marginBottom: 10,
 					overflow: "hidden"
 				}}

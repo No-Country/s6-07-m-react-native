@@ -5,8 +5,8 @@ export const styles = {
         padding: 5,
         flexDirection: "row",
         backgroundColor: colors.background,
-        paddingVertical: 10,
-        marginVertical: 5,
+        paddingVertical: 15,
+        marginVertical: 2,
     },
     textContainer: {
         

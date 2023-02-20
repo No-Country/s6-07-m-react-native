@@ -10,7 +10,8 @@ export const styles = {
     input: {
         borderWidth: 1,
         borderRadius: 20,
-        paddingVertical: 3,
+        fontSize: 18,
+        paddingVertical: 5,
         paddingHorizontal: 15,
         width: "70%",
     }

@@ -25,6 +25,7 @@ const Input = () => {
     //const socket = new WebSocket(REACT_APP_WEBSOCKET_URI)
 
     const [isOpen, setIsOpen] = useState(false)
+    let [showKeyboard, setShowKeyboard] = useState(true)
 
     let [msg, setMsg] = useState([])
     const user = useSelector(state => state.user)
@@ -55,7 +56,13 @@ const Input = () => {
 
     const toggleKeyboardType = () => {
         setIsOpen(!isOpen)
+        setShowKeyboard(false)
     }
+
+    /* useEffect(()=> {
+        //Keyboard.addListener("keyboardDidHide", ()=> inputRef.current.blur())
+        inputRef.current.focus()
+    }, []) */
 
     return (
         <View>
@@ -63,6 +70,8 @@ const Input = () => {
 
                 <TouchableHighlight
                     onPress={toggleKeyboardType}
+                    underlayColor={colors.secondary}
+                    style={{borderRadius: 20}}
                 >
                     <Ionicons
                         name={"happy-outline"}
@@ -78,9 +87,14 @@ const Input = () => {
                     onChangeText={(value) => setMsg(value)}
                     defaultValue={msg}
                     ref={inputRef}
+                    autoFocus={showKeyboard}
                 />
 
-                <TouchableWithoutFeedback onPress={submitMsg}>
+                <TouchableWithoutFeedback 
+                    onPress={submitMsg}
+                    underlayColor={colors.secondary}
+                    style={{borderRadius: 20}}
+                >
                     <Ionicons
                         name={"send-outline"}
                         size={24}
@@ -96,7 +110,9 @@ const Input = () => {
                     inputRef.current.blur()
                 }}
                 open={isOpen}
-                onClose={() => setIsOpen(false)}
+                onClose={() => {
+                    setIsOpen(false)
+                }}
             />
         </View>
     )

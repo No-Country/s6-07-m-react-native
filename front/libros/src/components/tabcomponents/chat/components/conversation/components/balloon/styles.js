@@ -49,7 +49,7 @@ export const styles = {
         borderTopRightRadius: 0,
         bottom: 15,
         color: "gainsboro",
-        fontSize: 15,
+        fontSize: 18,
         height: "auto",
         maxWidth: "90%",
         padding: 5,
