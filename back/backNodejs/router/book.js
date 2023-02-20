@@ -49,6 +49,91 @@ const router = Router();
  *         userId: "613d7c2e8c8c7f81f49d7542"
  *         author: "Gabriel García Márquez"
  *         editorial: "Sudamericana"
+ *     BookNotId:
+ *       type: object
+ *       properties:
+ *         image:
+ *           type: string
+ *           description: URL de la imagen del libro
+ *         title:
+ *           type: string
+ *           description: Título del libro
+ *         description:
+ *           type: string
+ *           description: Descripción del libro
+ *         userId:
+ *           type: string
+ *           description: ID del usuario que tiene el libro
+ *         author:
+ *           type: string
+ *           description: Autor del libro
+ *         editorial:
+ *           type: string
+ *           description: Editorial del libro
+ *       example:
+ *         image: "https://lamenteesmaravillosa.com/wp-content/uploads/2015/02/shutterstock_166743392.jpg"
+ *         title: "Cien años de soledad"
+ *         description: "Cien años de soledad es una novela del escritor colombiano Gabriel García Márquez."
+ *         userId: "613d7c2e8c8c7f81f49d7542"
+ *         author: "Gabriel García Márquez"
+ *         editorial: "Sudamericana"
+ *     BookUpdate:
+ *       type: object
+ *       properties:
+ *         id:
+ *           type: string
+ *           description: id of the book
+ *         image:
+ *           type: string
+ *           description: URL de la imagen del libro
+ *         title:
+ *           type: string
+ *           description: Título del libro
+ *         description:
+ *           type: string
+ *           description: Descripción del libro
+ *         userId:
+ *           type: string
+ *           description: ID del usuario que tiene el libro
+ *         author:
+ *           type: string
+ *           description: Autor del libro
+ *         editorial:
+ *           type: string
+ *           description: Editorial del libro
+ *       example:
+ *         id: "63ee524fc81e46a1e293a4b7"
+ *         image: "https://lamenteesmaravillosa.com/wp-content/uploads/2015/02/shutterstock_166743392.jpg"
+ *         title: "Cien años de soledad"
+ *         description: "Cien años de soledad es una novela del escritor colombiano Gabriel García Márquez."
+ *         userId: "613d7c2e8c8c7f81f49d7542"
+ *         author: "Gabriel García Márquez"
+ *         editorial: "Sudamericana"
+ */
+
+ /**
+ * @swagger
+ * /book/donateBook:
+ *   post:
+ *     sumary: created a mew book for donation
+ *     description: Create a mew book for donation
+ *     tags: [Books]
+ *     requestBody:
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/BookNotId'
+ *     responses:
+ *       200:
+ *         description: OK
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Book'
+ *       404:
+ *         description: Not found
+ *       500:
+ *         description: Internal Error
  */
 router.post("/donateBook", validationDonateBook, donateBook);
 /**
@@ -56,6 +141,7 @@ router.post("/donateBook", validationDonateBook, donateBook);
  * /book/search:
  *   get:
  *     summary: Returns the list of the books search
+ *     description: Returns the list of the books search
  *     tags: [Books]
  *     parameters:
  *       - name: title
@@ -104,6 +190,7 @@ router.get("/search", searchBook);
  * /book/detailBook/{id}:
  *   get:
  *     sumary: return details of the book for the id
+ *     description: return details of the book of the book for the id
  *     tags: [Books]
  *     parameters:
  *       - name: id
@@ -130,7 +217,8 @@ router.get("/detailBook/:id", validationGetDetailBook, getDetailBook);
  * @swagger
  * /book/deleteBook/{id}:
  *   delete:
- *     sumary: return details of the book for the id
+ *     sumary: delete book for id
+ *     description: Delete book for id
  *     tags: [Books]
  *     parameters:
  *       - name: id
@@ -153,7 +241,32 @@ router.get("/detailBook/:id", validationGetDetailBook, getDetailBook);
  * 
  */
 router.delete("/deleteBook/:id", validationEraseBook, eraseBook);
-
+ /**
+  * @swagger
+  * /book/updateBook:
+  *   put:
+  *     sumary: update information about the book
+  *     description: update information about the book
+  *     tags: [Books]
+  *     requestBody:
+  *       content:
+  *         application/json:
+  *           schema:
+  *             $ref: '#/components/schemas/BookUpdate'
+  *     responses:
+  *       200: 
+  *         description: OK
+  *         content:
+  *           application/json:
+  *             schema:
+  *               $ref: '#/components/schemas/Book'
+  *       404:
+  *         description: Not found
+  *       500:
+  *         description: Internal Error
+  * 
+  * 
+  */
 router.put("/updateBook", validationUpdateBook, updateBook);
 
 module.exports = router;
