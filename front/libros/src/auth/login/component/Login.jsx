@@ -59,12 +59,12 @@ const Login = () => {
 		try {
 			const {
 				status,
-				data: { token, user },
+				data/* : { token, user } */,
 			} = await post('/user/login', { ...values })
 
 			if(status === 200) {
 
-				await AsyncStorage.setItem("token", token)
+				await AsyncStorage.setItem("token", data.token)
 				
 				showAlert({
 					...alerts.success,
@@ -73,7 +73,7 @@ const Login = () => {
 					options: [
 						{
 							text: 'OK',
-							onPress: () => dispatch(setUser({ ...user })),
+							onPress: () => dispatch(setUser({ ...data.user })),
 						},
 					],
 				})

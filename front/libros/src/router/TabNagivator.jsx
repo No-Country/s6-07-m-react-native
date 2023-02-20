@@ -33,7 +33,7 @@ const TabNagivator = ({ navigation }) => {
 				options={{
 					tabBarIcon: ({ focused }) => (
 						<Ionicons
-							name={focused ? 'log-out' : 'log-out-outline'}
+							name={focused ? 'heart-circle' : 'heart-circle-outline'}
 							size={24}
 							color={focused ? '#8F77DB' : '#b2b2b2'}
 						/>
