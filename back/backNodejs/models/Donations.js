@@ -2,6 +2,7 @@ const { Schema, model } = require("mongoose");
 
 const UserSchema = new Schema(
   {
+    // Fecha de entrega, id donante, id solicitante, id libro
     profileImage: {
       type: String,
     },
