@@ -104,11 +104,11 @@ const searchBook = async (req, res) => {
 const updateBook = async (req, res) => {
   const body = req.body;
   try {
-    const bookFound = await searchBookById(body._id);
+    const bookFound = await searchBookById(body.id);
     if (!bookFound) {
       return NotFound(res, "Book not found");
     }
-    const updateBook = await bookUpdate(body, body._id);
+    const updateBook = await bookUpdate(body, body.id);
     return Ok(res, "Successful update");
   } catch (error) {
     console.log(error);
