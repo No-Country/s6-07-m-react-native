@@ -1,5 +1,5 @@
-import React from 'react';
-import Svg, { Circle, Path } from 'react-native-svg';
+import React from 'react'
+import Svg, { Circle, Path } from 'react-native-svg'
 
 const CircleGreen = props => (
 	<Svg
@@ -16,6 +16,6 @@ const CircleGreen = props => (
 			fill='white'
 		/>
 	</Svg>
-);
+)
 
-export default CircleGreen;
+export default CircleGreen

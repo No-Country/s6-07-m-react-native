@@ -16,23 +16,26 @@ import { formSchema, valuesSchema } from '../../../utils/formValidation'
 import * as ImagePicker from 'expo-image-picker'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { alertToast } from '../../../utils/alertsUtils'
+import axios from 'axios'
 
 const FormNewArticle = () => {
 	const [modalVisible, setModalVisible] = useState(false)
-	const [image, setImage] = useState(null)
+	const [image, setImage] = useState('')
+	const [newDonation, setNewDonation] = useState({})
+	console.log(newDonation)
 
 	const initialValues = {
 		title: '',
 		description: '',
 		editorial: '',
-		conditions: '',
+		author: '',
 	}
 
 	const donationValueSchema = {
 		title: valuesSchema.title,
 		description: valuesSchema.description,
 		editorial: valuesSchema.editorial,
-		conditions: valuesSchema.conditions,
+		author: valuesSchema.author,
 	}
 
 	const uploadImage = async () => {
@@ -47,23 +50,30 @@ const FormNewArticle = () => {
 		console.log(result)
 
 		if (!result.canceled) {
+			console.log(result.assets[0].uri)
 			setImage(result.assets[0].uri)
 		}
 	}
 
-	const handleSubmit = (values, resetForm) => {
+	const handleSubmit = async (values, resetForm) => {
 		const objDonation = {
 			...values,
 			image,
+			id: '63ea5f5c5323eae501ef1650',
+		}
+
+		try {
+			await axios
+				.post('http://192.168.0.77:3000/book/donateBook', objDonation)
+				.then(response => {
+					setNewDonation(response.data)
+				})
+		} catch (error) {
+			console.log('Esto esta mal :' + error)
 		}
 
 		resetForm()
-
-		alertToast('success', 'Ahora si!', 'Publicacion creada correctamente!')
-
 		setModalVisible(true)
-
-		console.log(objDonation)
 	}
 
 	return (
@@ -126,10 +136,10 @@ const FormNewArticle = () => {
 										{errors?.title && (
 											<Text style={stylesConstants.error}>{errors?.title}</Text>
 										)}
-										<Text style={stylesConstants.title}>Resumen</Text>
+										<Text style={stylesConstants.title}>Descripcion</Text>
 										<TextInput
 											style={stylesConstants.input}
-											placeholder='Resumen'
+											placeholder='Descripcion'
 											name='description'
 											onChangeText={handleChange('description')}
 											value={values.description}
@@ -154,19 +164,19 @@ const FormNewArticle = () => {
 												{errors?.editorial}
 											</Text>
 										)}
-										<Text style={stylesConstants.title}>Estado del libro</Text>
+										<Text style={stylesConstants.title}>Autor del libro</Text>
 										{/*Poner un select con distintasa opciones*/}
 										<TextInput
 											style={stylesConstants.input}
-											placeholder='Estado'
-											name='conditions'
-											onBlur={handleBlur('conditions')}
-											onChangeText={handleChange('conditions')}
-											value={values.conditions}
+											placeholder='Autor'
+											name='author'
+											onBlur={handleBlur('author')}
+											onChangeText={handleChange('author')}
+											value={values.author}
 										/>
-										{errors?.conditions && (
+										{errors?.author && (
 											<Text style={stylesConstants.error}>
-												{errors?.conditions}
+												{errors?.author}
 											</Text>
 										)}
 										<Text>MAPA</Text>
