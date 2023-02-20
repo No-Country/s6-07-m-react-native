@@ -1,15 +1,14 @@
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import React from 'react';
-import HomeBooks from './../screens/tabscreens/home/HomeBooks';
-import BookDetail from '../screens/tabscreens/home/bookdetail/index';
-import { TouchableOpacity, View, Image } from 'react-native';
-import { Avatar } from '../components/tabcomponents/home/index';
+import { createNativeStackNavigator } from '@react-navigation/native-stack'
+import React from 'react'
+import HomeBooks from './../screens/tabscreens/home/bookhome/index'
+import BookDetail from '../screens/tabscreens/home/bookdetail/index'
+import { Avatar } from '../components/tabcomponents/home/index'
 
-const Stack = createNativeStackNavigator();
+const Stack = createNativeStackNavigator()
 
 const HomeNavigator = ({ navigation }) => {
 	return (
-		<Stack.Navigator initialRouteName='BookDetail'>
+		<Stack.Navigator initialRouteName='HomeBooks'>
 			<Stack.Screen
 				name='HomeBooks'
 				options={{ headerShown: false }}
@@ -24,7 +23,7 @@ const HomeNavigator = ({ navigation }) => {
 				})}
 			/>
 		</Stack.Navigator>
-	);
-};
+	)
+}
 
-export default HomeNavigator;
+export default HomeNavigator

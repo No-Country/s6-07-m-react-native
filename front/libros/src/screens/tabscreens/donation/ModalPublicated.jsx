@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 import {
 	Modal,
 	Pressable,
@@ -6,49 +6,52 @@ import {
 	Text,
 	TouchableOpacity,
 	View,
-} from 'react-native';
-import CircleGreen from './svg/CircleGreen';
-import HandOkay from './svg/HandOkay';
+} from 'react-native'
+import CircleGreen from './svg/CircleGreen'
+import HandOkay from './svg/HandOkay'
+import { Ionicons } from '@expo/vector-icons'
 
 const ModalPublicated = ({ modalVisible = false, setModalVisible }) => {
 	return (
 		<Modal
-			style={styles.modal}
+			style={{ alignItems: 'center', justifyContent: 'center', marginLeft: 10 }}
 			animationType='fade'
 			transparent={true}
 			visible={modalVisible}
 			onRequestClose={() => {
-				setModalVisible(!modalVisible);
+				setModalVisible(!modalVisible)
 			}}
 		>
 			<View style={styles.modal}>
-				<CircleGreen />
-				<Text style={{ fontSize: 24, fontWeight: '500', marginVertical: 5 }}>
-					Gracias por publicar tu libro!
-				</Text>
-				<HandOkay />
 				<TouchableOpacity
-					style={{ marginTop: 30 }}
+					style={{ left: 110, bottom: 15 }}
 					onPress={() => setModalVisible(!modalVisible)}
 				>
-					<Text>Cerrar modal</Text>
+					<Ionicons name='close-circle' size={30} />
 				</TouchableOpacity>
+				<CircleGreen />
+				<Text style={{ fontSize: 24, fontWeight: '500', marginVertical: 10 }}>
+					Gracias por {'\n'}publicar tu libro!
+				</Text>
+				<HandOkay />
 			</View>
 		</Modal>
-	);
-};
+	)
+}
 
 const styles = StyleSheet.create({
 	modal: {
-		width: 271,
+		marginLeft: '18%',
+		marginTop: 120,
+		maxWidth: 271,
 		height: 330,
 		borderWidth: 1,
 		borderColor: 'gray',
 		borderRadius: 20,
 		backgroundColor: '#f1ebf1',
 		alignItems: 'center',
-		paddingTop: 30,
+		paddingTop: 20,
 	},
-});
+})
 
-export default ModalPublicated;
+export default ModalPublicated
