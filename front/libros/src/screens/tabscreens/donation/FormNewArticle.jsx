@@ -14,7 +14,8 @@ import { colors, formStyles as stylesConstants } from '../../../utils/constants'
 import ModalPublicated from './ModalPublicated'
 import { formSchema, valuesSchema } from '../../../utils/formValidation'
 import * as ImagePicker from 'expo-image-picker'
-import { SweetAlert } from '../../../utils/alertsUtils'
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+import { alertToast } from '../../../utils/alertsUtils'
 
 const FormNewArticle = () => {
 	const [modalVisible, setModalVisible] = useState(false)
@@ -50,13 +51,18 @@ const FormNewArticle = () => {
 		}
 	}
 
-	const handleSubmit = values => {
+	const handleSubmit = (values, resetForm) => {
 		const objDonation = {
 			...values,
 			image,
 		}
-		SweetAlert('Test')
-		// setModalVisible(true)
+
+		resetForm()
+
+		alertToast('success', 'Ahora si!', 'Publicacion creada correctamente!')
+
+		setModalVisible(true)
+
 		console.log(objDonation)
 	}
 
@@ -68,114 +74,116 @@ const FormNewArticle = () => {
 					setModalVisible={setModalVisible}
 				/>
 			) : (
-				<View>
-					<View style={styles.header}>
-						<Text style={{ fontSize: 18, fontWeight: '500' }}>
-							Dona tu libro
-						</Text>
-						<Image
-							source={{ uri: 'https://picsum.photos/200/300' }}
-							style={{ width: 36, height: 36, borderRadius: 20 }}
-						/>
-					</View>
-
-					{image && (
-						<Image
-							source={{ uri: image }}
-							style={{ width: 200, height: 200 }}
-						/>
-					)}
-					<View style={styles.containerForm}>
-						<Formik
-							validationSchema={formSchema(donationValueSchema)}
-							initialValues={initialValues}
-							onSubmit={(values, actions) => {
-								handleSubmit(values)
-								actions.resetForm()
-							}}
-						>
-							{({
-								handleChange,
-								handleBlur,
-								handleSubmit,
-								values,
-								errors,
-								isValid,
-							}) => (
-								<>
-									<TouchableOpacity
-										onPress={uploadImage}
-										style={{ alignItems: 'center' }}
-									>
-										<View style={styles.uploadImg}>
-											<View style={{ alignItems: 'center', paddingTop: 8 }}>
-												<SvgComponent />
-												<Text style={{ marginTop: 6 }}>Cargar Imagen</Text>
-											</View>
-										</View>
-									</TouchableOpacity>
-									<Text style={stylesConstants.title}>Titulo</Text>
-									<TextInput
-										style={stylesConstants.input}
-										placeholder='Titulo del libro'
-										name='title'
-										onChangeText={handleChange('title')}
-									/>
-									{errors?.title && (
-										<Text style={stylesConstants.error}>{errors?.title}</Text>
-									)}
-									<Text style={stylesConstants.title}>Resumen</Text>
-									<TextInput
-										style={stylesConstants.input}
-										placeholder='Resumen'
-										name='description'
-										onChangeText={handleChange('description')}
-									/>
-									{errors?.description && (
-										<Text style={stylesConstants.error}>
-											{errors?.description}
-										</Text>
-									)}
-									<Text style={stylesConstants.title}>Editorial</Text>
-									<TextInput
-										style={stylesConstants.input}
-										placeholder='Editorial'
-										name='editorial'
-										onChangeText={handleChange('editorial')}
-									/>
-									{errors?.editorial && (
-										<Text style={stylesConstants.error}>
-											{errors?.editorial}
-										</Text>
-									)}
-									<Text style={stylesConstants.title}>Estado del libro</Text>
-									{/*Poner un select con distintasa opciones*/}
-									<TextInput
-										style={stylesConstants.input}
-										placeholder='Estado'
-										name='conditions'
-										onChangeText={handleChange('conditions')}
-									/>
-									{errors?.conditions && (
-										<Text style={stylesConstants.error}>
-											{errors?.conditions}
-										</Text>
-									)}
-									<Text>MAPA</Text>
-									<View style={{ alignItems: 'center' }}>
+				<KeyboardAwareScrollView>
+					<View>
+						<View style={styles.header}>
+							<Text style={{ fontSize: 18, fontWeight: '500' }}>
+								Dona tu libro
+							</Text>
+							<Image
+								source={{ uri: 'https://picsum.photos/200/300' }}
+								style={{ width: 36, height: 36, borderRadius: 20 }}
+							/>
+						</View>
+						<View style={styles.containerForm}>
+							<Formik
+								validationSchema={formSchema(donationValueSchema)}
+								initialValues={initialValues}
+								onSubmit={(values, { resetForm }) => {
+									handleSubmit(values, resetForm)
+								}}
+							>
+								{({
+									handleChange,
+									handleSubmit,
+									handleBlur,
+									values,
+									errors,
+									isValid,
+									resetForm,
+								}) => (
+									<>
 										<TouchableOpacity
-											style={styles.buttonSubmit}
-											onPress={handleSubmit}
-											disabled={!isValid}
+											onPress={uploadImage}
+											style={{ alignItems: 'center' }}
 										>
-											<Text style={styles.textButton}>Publicar</Text>
+											<View style={styles.uploadImg}>
+												<View style={{ alignItems: 'center', paddingTop: 8 }}>
+													<SvgComponent />
+													<Text style={{ marginTop: 6 }}>Cargar Imagen</Text>
+												</View>
+											</View>
 										</TouchableOpacity>
-									</View>
-								</>
-							)}
-						</Formik>
+										<Text style={stylesConstants.title}>Titulo</Text>
+										<TextInput
+											style={stylesConstants.input}
+											placeholder='Titulo del libro'
+											name='title'
+											onChangeText={handleChange('title')}
+											value={values.title}
+											onBlur={handleBlur('title')}
+										/>
+										{errors?.title && (
+											<Text style={stylesConstants.error}>{errors?.title}</Text>
+										)}
+										<Text style={stylesConstants.title}>Resumen</Text>
+										<TextInput
+											style={stylesConstants.input}
+											placeholder='Resumen'
+											name='description'
+											onChangeText={handleChange('description')}
+											value={values.description}
+											onBlur={handleBlur('description')}
+										/>
+										{errors?.description && (
+											<Text style={stylesConstants.error}>
+												{errors?.description}
+											</Text>
+										)}
+										<Text style={stylesConstants.title}>Editorial</Text>
+										<TextInput
+											style={stylesConstants.input}
+											placeholder='Editorial'
+											name='editorial'
+											onChangeText={handleChange('editorial')}
+											value={values.editorial}
+											onBlur={handleBlur('editorial')}
+										/>
+										{errors?.editorial && (
+											<Text style={stylesConstants.error}>
+												{errors?.editorial}
+											</Text>
+										)}
+										<Text style={stylesConstants.title}>Estado del libro</Text>
+										{/*Poner un select con distintasa opciones*/}
+										<TextInput
+											style={stylesConstants.input}
+											placeholder='Estado'
+											name='conditions'
+											onBlur={handleBlur('conditions')}
+											onChangeText={handleChange('conditions')}
+											value={values.conditions}
+										/>
+										{errors?.conditions && (
+											<Text style={stylesConstants.error}>
+												{errors?.conditions}
+											</Text>
+										)}
+										<Text>MAPA</Text>
+										<View style={{ alignItems: 'center' }}>
+											<TouchableOpacity
+												style={styles.buttonSubmit}
+												onPress={handleSubmit}
+											>
+												<Text style={styles.textButton}>Publicar</Text>
+											</TouchableOpacity>
+										</View>
+									</>
+								)}
+							</Formik>
+						</View>
 					</View>
-				</View>
+				</KeyboardAwareScrollView>
 			)}
 		</View>
 	)
