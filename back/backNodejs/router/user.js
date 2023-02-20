@@ -56,6 +56,11 @@ const router = Router();
  *           type: array
  *           items:
  *             $ref: '#/components/schemas/User'
+ *       example:
+ *         name: "usuario de prueba"
+ *         usermane: "pepito"
+ *         email: "pepito@hotmail.com"
+ *         password: "0123456"
  */
 /**
  * @swagger 
