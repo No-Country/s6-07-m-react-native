@@ -20,7 +20,9 @@ import axios from 'axios'
 
 const FormNewArticle = () => {
 	const [modalVisible, setModalVisible] = useState(false)
-	const [image, setImage] = useState(null)
+	const [image, setImage] = useState('')
+	const [newDonation, setNewDonation] = useState({})
+	console.log(newDonation)
 
 	const initialValues = {
 		title: '',
@@ -48,6 +50,7 @@ const FormNewArticle = () => {
 		console.log(result)
 
 		if (!result.canceled) {
+			console.log(result.assets[0].uri)
 			setImage(result.assets[0].uri)
 		}
 	}
@@ -56,24 +59,21 @@ const FormNewArticle = () => {
 		const objDonation = {
 			...values,
 			image,
+			id: '63ea5f5c5323eae501ef1650',
 		}
+
 		try {
-			const response = await axios
-				.post('http://192.168.0.77:3000/book/donateBook', { ...values })
-				.then(function (response) {
-					console.log(response)
+			await axios
+				.post('http://192.168.0.77:3000/book/donateBook', objDonation)
+				.then(response => {
+					setNewDonation(response.data)
 				})
-			console.log(response)
 		} catch (error) {
-			console.log(error)
+			console.log('Esto esta mal :' + error)
 		}
+
 		resetForm()
-
-		alertToast('success', 'Ahora si!', 'Publicacion creada correctamente!')
-
 		setModalVisible(true)
-
-		console.log(objDonation)
 	}
 
 	return (
