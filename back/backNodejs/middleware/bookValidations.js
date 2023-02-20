@@ -30,7 +30,7 @@ exports.validationEraseBook = [
 ];
 
 exports.validationUpdateBook = [
-  body("_id").notEmpty().withMessage("Didn't give user ID"),
+  body("id").notEmpty().withMessage("Didn't give user ID"),
   body("image").optional().notEmpty().withMessage("Image is required"),
   body("title")
     .optional()
