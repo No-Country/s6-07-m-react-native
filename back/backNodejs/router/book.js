@@ -116,7 +116,6 @@ const router = Router();
  * /book/donateBook:
  *   post:
  *     sumary: created a mew book for donation
- *     description: Create a mew book for donation
  *     tags: [Books]
  *     requestBody:
  *       content:
@@ -141,7 +140,6 @@ router.post("/donateBook", validationDonateBook, donateBook);
  * /book/search:
  *   get:
  *     summary: Returns the list of the books search
- *     description: Returns the list of the books search
  *     tags: [Books]
  *     parameters:
  *       - name: title
@@ -190,7 +188,6 @@ router.get("/search", searchBook);
  * /book/detailBook/{id}:
  *   get:
  *     sumary: return details of the book for the id
- *     description: return details of the book of the book for the id
  *     tags: [Books]
  *     parameters:
  *       - name: id
@@ -217,8 +214,7 @@ router.get("/detailBook/:id", validationGetDetailBook, getDetailBook);
  * @swagger
  * /book/deleteBook/{id}:
  *   delete:
- *     sumary: delete book for id
- *     description: Delete book for id
+ *     sumary: return details of the book for the id
  *     tags: [Books]
  *     parameters:
  *       - name: id
@@ -245,9 +241,8 @@ router.delete("/deleteBook/:id", validationEraseBook, eraseBook);
   * @swagger
   * /book/updateBook:
   *   put:
-  *     sumary: update information about the book
-  *     description: update information about the book
   *     tags: [Books]
+  *     description: update information about the book
   *     requestBody:
   *       content:
   *         application/json:
