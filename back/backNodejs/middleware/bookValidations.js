@@ -20,7 +20,7 @@ exports.validationDonateBook = [
     .withMessage("Description must have more than 10 characters")
     .isLength({ max: 200 })
     .withMessage("Description must have less than 200 characters"),
-  body("id").notEmpty().withMessage("Didn't give user ID"),
+  body("userId").notEmpty().withMessage("Didn't give user ID"),
   reportError,
 ];
 

@@ -6,7 +6,7 @@ const saveBook = async (data) => {
     image: data.image,
     title: data.title,
     description: data.description,
-    userId: data.id,
+    userId: data.userId,
     author: data.author,
     editorial: data.editorial,
   });
