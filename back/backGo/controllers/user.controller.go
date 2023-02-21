@@ -92,8 +92,8 @@ func SignUp(c *gin.Context) {
 	body.Password = string(hashPassword)
 	newUser := model.User{
 		Password: body.Password,
-		Username: body.Username,
-		Email:    body.Email,
+		Username: strings.ToLower(body.Username),
+		Email:    strings.ToLower(body.Email) ,
 	}
 	cursor, err := userColl.InsertOne(context.TODO(), newUser)
 	if err != nil {
@@ -122,7 +122,7 @@ func Login(c *gin.Context) {
 	}
 
 	UserColl := db.GetDBCollection("users")
-	filter := bson.M{"email": body.Email}
+	filter := bson.M{"email": strings.ToLower(body.Email)}
 	projection := bson.M{"name": 1, "profileImage": 1, "username": 1, "password": 1}
 	if err := UserColl.FindOne(context.TODO(), filter, options.FindOne().SetProjection(projection)).Decode(&user); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"done": false, "msg": "Incorrect email or password"})

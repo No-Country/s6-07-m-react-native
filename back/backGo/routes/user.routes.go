@@ -11,4 +11,8 @@ func UserRoutes(r *gin.Engine) {
 
 	UserGroup.POST("/signup", controllers.SignUp)
 	UserGroup.POST("/login", controllers.Login)
+
+	ChatGroup := r.Group("/chat")
+
+	ChatGroup.POST("/", controllers.CreateChat)
 }
