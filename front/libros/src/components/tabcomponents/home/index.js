@@ -1,5 +1,9 @@
-export  { default as Avatar } from './bookdetail/avatar';
-export  { default as Book } from './bookdetail/book';
-export  { default as Reviews } from './bookdetail/reviews';
-export { default as Distance } from './bookdetail/distance';
-export { default as Mapa } from './bookdetail/map';
+export { default as Avatar } from './bookdetail/avatar'
+export { default as Book } from './bookdetail/book'
+export { default as Reviews } from './bookdetail/reviews'
+export { default as Distance } from './bookdetail/distance'
+export { default as Mapa } from './bookdetail/map'
+export { default as BookList } from './homeBook/booklist'
+export { default as SearchBooks } from './homeBook/searchbooks'
+export { default as CustomModal } from './bookdetail/modal'
+export { default as CardReview } from './bookdetail/cardreview'

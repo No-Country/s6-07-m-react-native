@@ -1,94 +1,82 @@
 //React
 import React, { useState } from 'react'
-import { useNavigation } from '@react-navigation/core';
+import { useNavigation } from '@react-navigation/core'
 import {
-  Text,
-  View,
-  TextInput,
-  TouchableOpacity,
-  TouchableWithoutFeedback,
-  Alert
+	Text,
+	View,
+	TextInput,
+	TouchableOpacity,
+	TouchableWithoutFeedback,
+	Alert,
 } from 'react-native'
 //Styles
-import { colors, formStyles as styles } from '../../../utils/constants';
+import { colors, formStyles as styles } from '../../../utils/constants'
 //Icons
-import { Ionicons } from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons'
 //Formik
-import { Formik } from "formik";
+import { Formik } from 'formik'
 //Validation
 import {
-  initialValues,
-  valuesSchema,
-  formSchema
-} from '../../../utils/formValidation';
+	initialValues,
+	valuesSchema,
+	formSchema,
+} from '../../../utils/formValidation'
 
-import { post, get } from '../../../utils/apiUtils';
-
+import { post, get } from '../../../utils/apiUtils'
 
 const Register = () => {
+	const { navigate } = useNavigation()
 
-  const { navigate } = useNavigation();
+	const { username, email, password, rePassword } = initialValues
 
-  const {
-    username,
-    email,
-    password,
-    rePassword,
-  } = initialValues;
+	const registerValuesSchema = {
+		username: valuesSchema.username,
+		email: valuesSchema.email,
+		password: valuesSchema.password,
+		rePassword: valuesSchema.rePassword,
+	}
 
-  const registerValuesSchema = {
-    username: valuesSchema.username,
-    email: valuesSchema.email,
-    password: valuesSchema.password,
-    rePassword: valuesSchema.rePassword
-  }
+	let [showPass, setShowPass] = useState(false)
+	let [toggleEye, setToggleEye] = useState('eye-off-outline')
 
-  let [showPass, setShowPass] = useState(false);
-  let [toggleEye, setToggleEye] = useState("eye-off-outline")
+	const ShowHidePass = () => {
+		if (!showPass) {
+			setShowPass(true)
+			setToggleEye('eye-outline')
+		} else {
+			setShowPass(false)
+			setToggleEye('eye-off-outline')
+		}
+	}
 
-  const ShowHidePass = () => {
-    if (!showPass) {
-      setShowPass(true)
-      setToggleEye("eye-outline")
-    } else {
-      setShowPass(false)
-      setToggleEye("eye-off-outline")
-    }
-  }
+	const alerts = {
+		success: {
+			title: 'Registro',
+			msg: 'Registro exitoso',
+			options: [
+				{
+					text: 'OK',
+					onPress: () => console.log('OK Pressed'),
+				},
+			],
+			cancelable: false,
+		},
+		error: {
+			title: 'Error',
+			msg: 'Ocurrió un error. Intenta nuevamente mas tarde.',
+			options: [
+				{
+					text: 'OK',
+					onPress: () => console.log('OK Pressed'),
+				},
+			],
+			cancelable: false,
+		},
+	}
 
-  const alerts = {
-    success: {
-      title: "Registro",
-      msg: "Registro exitoso",
-      options: [
-        {
-          text: "OK",
-          onPress: () => console.log("OK Pressed")
-        }
-      ],
-      cancelable: false,
-    },
-    error: {
-      title: "Error",
-      msg: "Ocurrió un error. Intenta nuevamente mas tarde.",
-      options: [
-        {
-          text: "OK",
-          onPress: () => console.log("OK Pressed")
-        }
-      ],
-      cancelable: false,
-    },
-  }
-
-  showAlert = ({title, msg, options, cancelable}) => {
-    Alert.alert(
-      title,
-      msg,
-      options,
-      { cancelable },
-    );
-  };
+	showAlert = ({ title, msg, options, cancelable }) => {
+		Alert.alert(title, msg, options, { cancelable })
+	}
 
   const onSubmit = async (values) => {
     try {
@@ -107,31 +95,32 @@ const Register = () => {
     }
   }
 
-  return (
-    <View style={styles.container}>
-
-      <Formik
-        initialValues={{
-          username,
-          email,
-          password,
-          rePassword
-        }}
-        validationSchema={formSchema(registerValuesSchema)}
-        onSubmit={(values) => {
-          onSubmit(values)
-        }}
-      >
-        {({ handleChange, handleSubmit, errors }) => (
-          <>
-            <Text style={styles.title}>Nombre de usuario</Text>
-            <TextInput
-              style={styles.input}
-              placeholder="Nombre de usuario"
-              name="username"
-              onChangeText={handleChange("username")}
-            />
-            {errors?.username && <Text style={styles.error}>{errors?.username}</Text>}
+	return (
+		<View style={styles.container}>
+			<Formik
+				initialValues={{
+					username,
+					email,
+					password,
+					rePassword,
+				}}
+				validationSchema={formSchema(registerValuesSchema)}
+				onSubmit={values => {
+					onSubmit(values)
+				}}
+			>
+				{({ handleChange, handleSubmit, errors }) => (
+					<>
+						<Text style={styles.title}>Nombre de usuario</Text>
+						<TextInput
+							style={styles.input}
+							placeholder='Nombre de usuario'
+							name='username'
+							onChangeText={handleChange('username')}
+						/>
+						{errors?.username && (
+							<Text style={styles.error}>{errors?.username}</Text>
+						)}
 
             <Text style={styles.title}>Email</Text>
             <TextInput
@@ -142,60 +131,57 @@ const Register = () => {
             />
             {errors?.email && <Text style={styles.error}>{errors?.email}</Text>}
 
-            <Text style={styles.title}>Contraseña</Text>
-            <View style={styles.pass}>
-              <TextInput
-                style={styles.input}
-                name="password"
-                placeholder="Contraseña"
-                onChangeText={handleChange("password")}
-                secureTextEntry={!showPass}
-              />
-              <Ionicons
-                style={styles.eye}
-                name={toggleEye}
-                size={24}
-                color={colors.text}
-                onPress={ShowHidePass}
-              />
-            </View>
-            {errors?.password && <Text style={styles.error}>{errors?.password}</Text>}
+						<Text style={styles.title}>Contraseña</Text>
+						<View style={styles.pass}>
+							<TextInput
+								style={styles.input}
+								name='password'
+								placeholder='Contraseña'
+								onChangeText={handleChange('password')}
+								secureTextEntry={!showPass}
+							/>
+							<Ionicons
+								style={styles.eye}
+								name={toggleEye}
+								size={24}
+								color={colors.text}
+								onPress={ShowHidePass}
+							/>
+						</View>
+						{errors?.password && (
+							<Text style={styles.error}>{errors?.password}</Text>
+						)}
 
-            <Text style={styles.title}>Repetir contraseña</Text>
-            <TextInput
-              style={styles.input}
-              name="rePassword"
-              placeholder="Repetir contraseña"
-              onChangeText={handleChange("rePassword")}
-              secureTextEntry={!showPass}
-            />
-            {errors?.rePassword && <Text style={styles.error}>{errors?.rePassword}</Text>}
+						<Text style={styles.title}>Repetir contraseña</Text>
+						<TextInput
+							style={styles.input}
+							name='rePassword'
+							placeholder='Repetir contraseña'
+							onChangeText={handleChange('rePassword')}
+							secureTextEntry={!showPass}
+						/>
+						{errors?.rePassword && (
+							<Text style={styles.error}>{errors?.rePassword}</Text>
+						)}
 
-            <TouchableOpacity
-              style={styles.btn}
-              onPress={handleSubmit}
-            >
-              <Text style={styles.btnTxt}>Registrarse</Text>
-            </TouchableOpacity>
-          </>
-        )}
-      </Formik>
+						<TouchableOpacity style={styles.btn} onPress={handleSubmit}>
+							<Text style={styles.btnTxt}>Registrarse</Text>
+						</TouchableOpacity>
+					</>
+				)}
+			</Formik>
 
-      <View style={styles.toLoginContainer}>
-        <Text style={styles.toLoginTitle}>
-          ¿Ya tienes una cuenta?
-        </Text>
-        <TouchableWithoutFeedback
-          style={styles.touchable}
-          onPress={() => navigate("Inicio de sesión")}
-        >
-          <Text style={styles.touchableTxt}>
-            Inicia sesión
-          </Text>
-        </TouchableWithoutFeedback>
-      </View>
-    </View>
-  )
+			<View style={styles.toLoginContainer}>
+				<Text style={styles.toLoginTitle}>¿Ya tienes una cuenta?</Text>
+				<TouchableWithoutFeedback
+					style={styles.touchable}
+					onPress={() => navigate('Inicio de sesión')}
+				>
+					<Text style={styles.touchableTxt}>Inicia sesión</Text>
+				</TouchableWithoutFeedback>
+			</View>
+		</View>
+	)
 }
 
 export default Register

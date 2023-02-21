@@ -21,6 +21,8 @@ exports.validationDonateBook = [
     .isLength({ max: 200 })
     .withMessage("Description must have less than 200 characters"),
   body("userId").notEmpty().withMessage("Didn't give user ID"),
+  body("author").notEmpty().withMessage("You must specify an Author"),
+  body("editorial").notEmpty().withMessage("You must specify the editorial of the book"),
   reportError,
 ];
 

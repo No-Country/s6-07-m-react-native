@@ -1,35 +1,50 @@
-import  React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react'
 import {
 	View,
 	Text,
 	TouchableOpacity,
 	SafeAreaView,
 	Platform,
-} from 'react-native';
-import { styles } from './styles';
+	Pressable,
+	Modal,
+} from 'react-native'
+import { styles } from './styles'
 import {
 	Book,
 	Distance,
 	Mapa,
-} from './../../../../components/tabcomponents/home/index';
-import { Reviews } from './../../../../components/tabcomponents/home/index';
-import { books } from './../../../../../mocks/bookObj.json';
-import { StatusBar } from 'react-native';
+	CustomModal,
+} from './../../../../components/tabcomponents/home/index'
+import { Reviews } from './../../../../components/tabcomponents/home/index'
+import { books } from './../../../../../mocks/bookObj.json'
+import { StatusBar } from 'react-native'
 
 const BookDetail = ({ navigation }) => {
+	const [modalVisible, setModalVisible] = useState(false)
+
+	const onHandlePress = () => {
+		setModalVisible(!modalVisible)
+	}
 	return (
 		<SafeAreaView>
-			<StatusBar backgroundColor='#FF3D45' />
+			<StatusBar backgroundColor='#6427FF' />
 			<Book />
 			<Reviews data={books} />
 			<Distance />
 			<Mapa />
-
-			<View style={styles.container}>
-				<Text style={styles.text}>Book</Text>
-			</View>
+			<TouchableOpacity style={styles.button} onPress={onHandlePress}>
+				<Text style={styles.text}>Solicitar</Text>
+			</TouchableOpacity>
+			<Modal visible={modalVisible} animationType='slide'>
+				<CustomModal
+					data={books}
+					modalVisible={modalVisible}
+					setModalVisible={setModalVisible}
+					styles={styles}
+				/>
+			</Modal>
 		</SafeAreaView>
-	);
-};
+	)
+}
 
-export default BookDetail;
+export default BookDetail

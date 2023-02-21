@@ -1,80 +1,80 @@
 //React
-import React, { useState } from 'react';
-import { useNavigation } from '@react-navigation/core';
+import React, { useState } from 'react'
+import { useNavigation } from '@react-navigation/core'
 import {
 	Text,
 	View,
 	TextInput,
 	TouchableOpacity,
 	TouchableWithoutFeedback,
-} from 'react-native';
+} from 'react-native'
 //Styles
-import { colors, formStyles as styles } from '../../../utils/constants';
+import { colors, formStyles as styles } from '../../../utils/constants'
 //Icons
-import { Ionicons } from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons'
 //Formik
-import { Formik } from 'formik';
+import { Formik } from 'formik'
 //Validation
 import {
 	initialValues,
 	valuesSchema,
 	formSchema,
-} from '../../../utils/formValidation';
+} from '../../../utils/formValidation'
 //Axios
-import { post } from '../../../utils/apiUtils';
+import { post } from '../../../utils/apiUtils'
 //Redux
 import { useDispatch } from 'react-redux'
-import {setUser} from "../../../store/slices/user.slice";
+import { setUser } from '../../../store/slices/user.slice'
 //Storage
-import AsyncStorage from "@react-native-async-storage/async-storage"
+import AsyncStorage from '@react-native-async-storage/async-storage'
 //Alerts
-import { showAlert, alerts } from '../../../utils/alertsUtils';
+import { showAlert, alerts } from '../../../utils/alertsUtils'
 
 const Login = () => {
-	const { navigate } = useNavigation();
+	const { navigate } = useNavigation()
 
-	const { email, password } = initialValues;
+	const { email, password } = initialValues
 
 	const registerValuesSchema = {
 		email: valuesSchema.email,
 		password: valuesSchema.password,
-	};
+	}
 
-	let [showPass, setShowPass] = useState(false);
-	let [toggleEye, setToggleEye] = useState('eye-off-outline');
+	let [showPass, setShowPass] = useState(false)
+	let [toggleEye, setToggleEye] = useState('eye-off-outline')
 
 	const ShowHidePass = () => {
 		if (!showPass) {
-			setShowPass(true);
-			setToggleEye('eye-outline');
+			setShowPass(true)
+			setToggleEye('eye-outline')
 		} else {
-			setShowPass(false);
-			setToggleEye('eye-off-outline');
+			setShowPass(false)
+			setToggleEye('eye-off-outline')
 		}
-	};
+	}
 
-	let dispatch = useDispatch();
+	let dispatch = useDispatch()
 
-	const onSubmit = async (values)=> {
-
+	const onSubmit = async values => {
 		try {
-			const {status, data: {token, user}} = await post("/user/login", { ...values })
+			const {
+				status,
+				data: { token, user },
+			} = await post('/user/login', { ...values })
 
-			if(status === 200) {
-
-				await AsyncStorage.setItem("token", token)
+			if (status === 200) {
+				await AsyncStorage.setItem('token', token)
 				showAlert({
-					...alerts.success, 
-					title: "Mensaje.",
-					msg: "Inicio de sesión exitoso.",
+					...alerts.success,
+					title: 'Mensaje.',
+					msg: 'Inicio de sesión exitoso.',
 					options: [
-					{
-					  text: "OK",
-					  onPress: () => dispatch(setUser({...user}))
-					}
-				  ]
+						{
+							text: 'OK',
+							onPress: () => dispatch(setUser({ ...user })),
+						},
+					],
 				})
-
 			} else {
 				showAlert(alerts.error)
 			}
@@ -143,7 +143,7 @@ const Login = () => {
 				</TouchableWithoutFeedback>
 			</View>
 		</View>
-	);
-};
+	)
+}
 
-export default Login;
+export default Login
