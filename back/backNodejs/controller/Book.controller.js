@@ -79,6 +79,13 @@ const searchBook = async (req, res) => {
         currentPage,
         limit
       ));
+    } else {
+      ({ books: bookFound, totalBooks } = await searchBookBy(
+        "all",
+        "all",
+        currentPage,
+        limit
+      ));
     }
     if (bookFound.length === 0) {
       return NotFound(res, "Book not found");
