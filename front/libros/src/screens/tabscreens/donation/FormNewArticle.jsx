@@ -15,14 +15,14 @@ import ModalPublicated from './ModalPublicated'
 import { formSchema, valuesSchema } from '../../../utils/formValidation'
 import * as ImagePicker from 'expo-image-picker'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
-import { alertToast } from '../../../utils/alertsUtils'
 import axios from 'axios'
+import { REACT_APP_API_URI_NODE } from '@env'
+import { alertToast } from '../../../utils/alertsUtils'
 
 const FormNewArticle = () => {
 	const [modalVisible, setModalVisible] = useState(false)
 	const [image, setImage] = useState('')
 	const [newDonation, setNewDonation] = useState({})
-	console.log(newDonation)
 
 	const initialValues = {
 		title: '',
@@ -47,10 +47,12 @@ const FormNewArticle = () => {
 			quality: 1,
 		})
 
-		console.log(result)
-
 		if (!result.canceled) {
-			console.log(result.assets[0].uri)
+			alertToast(
+				'success',
+				'Imagen cargada',
+				'La imagen se cargo correctamente!'
+			)
 			setImage(result.assets[0].uri)
 		}
 	}
@@ -64,16 +66,22 @@ const FormNewArticle = () => {
 
 		try {
 			await axios
-				.post('http://192.168.0.77:3000/book/donateBook', objDonation)
+				.post(`${REACT_APP_API_URI_NODE}/book/donateBook`, objDonation)
 				.then(response => {
-					setNewDonation(response.data)
+					if (response.data.status === 200) {
+						setNewDonation(response.data)
+						setModalVisible(true)
+					} else {
+						alertToast('error', 'Error', 'Error al crear la publicacion')
+					}
 				})
 		} catch (error) {
-			console.log('Esto esta mal :' + error)
+			console.log(error)
+			alertToast('error', 'Error', 'Error al crear la publicacion')
 		}
 
 		resetForm()
-		setModalVisible(true)
+		setImage('')
 	}
 
 	return (
@@ -95,6 +103,7 @@ const FormNewArticle = () => {
 								style={{ width: 36, height: 36, borderRadius: 20 }}
 							/>
 						</View>
+
 						<View style={styles.containerForm}>
 							<Formik
 								validationSchema={formSchema(donationValueSchema)}
@@ -119,8 +128,26 @@ const FormNewArticle = () => {
 										>
 											<View style={styles.uploadImg}>
 												<View style={{ alignItems: 'center', paddingTop: 8 }}>
-													<SvgComponent />
-													<Text style={{ marginTop: 6 }}>Cargar Imagen</Text>
+													{image ? (
+														<Image
+															source={{ uri: image }}
+															style={{
+																width: 170,
+																height: 82,
+																bottom: 10,
+																borderRadius: 8,
+															}}
+														/>
+													) : (
+														<View>
+															<View style={{ left: 28 }}>
+																<SvgComponent />
+															</View>
+															<Text style={{ marginTop: 6 }}>
+																Cargar Imagen
+															</Text>
+														</View>
+													)}
 												</View>
 											</View>
 										</TouchableOpacity>

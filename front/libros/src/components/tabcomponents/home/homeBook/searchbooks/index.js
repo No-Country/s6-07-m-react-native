@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import {
 	Image,
 	StyleSheet,
@@ -9,8 +9,46 @@ import {
 } from 'react-native'
 import { Ionicons } from '@expo/vector-icons'
 import { colors } from '../../../../../utils/constants'
+import axios from 'axios'
+import { REACT_APP_API_URI_NODE } from '@env'
 
 const SearchBooks = () => {
+	const [books, setBooks] = useState({})
+	const [textInput, setTextInput] = useState('')
+	const [filterSelect, setFilterSelect] = useState('')
+	console.log(books)
+
+	useEffect(() => {
+		getAllBooks()
+	}, [])
+
+	const getAllBooks = async () => {
+		try {
+			await axios(`${REACT_APP_API_URI_NODE}/book/search`).then(response =>
+				setBooks(response.data.data)
+			)
+		} catch (error) {
+			console.log(error)
+		}
+		setTextInput('')
+		setFilterSelect('')
+	}
+
+	const handleSearch = async () => {
+		try {
+			await axios(
+				`${REACT_APP_API_URI_NODE}/book/search?${filterSelect}=${textInput}`
+			).then(response => setBooks(response.data.data))
+		} catch (error) {
+			console.log(error)
+			if (error === 404) {
+				console.log('No existe')
+			}
+		}
+		setTextInput('')
+		setFilterSelect('')
+	}
+
 	return (
 		<View style={{ marginBottom: 16 }}>
 			<View style={styles.directionView}>
@@ -21,20 +59,40 @@ const SearchBooks = () => {
 				<Text style={styles.text}>Encuentra tu libro</Text>
 			</View>
 			<View style={styles.textInput}>
-				<TextInput placeholder='Buscar' style={styles.input} />
-				<Ionicons style={{ marginRight: 16 }} name='search-outline' size={24} />
+				<TextInput
+					onChangeText={text => setTextInput(text)}
+					placeholder='Buscar'
+					style={styles.input}
+					value={textInput}
+				/>
+				<TouchableOpacity onPress={handleSearch}>
+					<Ionicons
+						style={{ marginRight: 16 }}
+						name='search-outline'
+						size={24}
+					/>
+				</TouchableOpacity>
 			</View>
 			<View style={styles.directionButtons}>
-				<TouchableOpacity style={styles.button}>
+				<TouchableOpacity onPress={getAllBooks} style={styles.button}>
 					<Text style={styles.textButton}>Todos</Text>
 				</TouchableOpacity>
-				<TouchableOpacity style={styles.button}>
+				<TouchableOpacity
+					onPress={() => setFilterSelect('title')}
+					style={styles.button}
+				>
 					<Text style={styles.textButton}>Titulos</Text>
 				</TouchableOpacity>
-				<TouchableOpacity style={styles.button}>
+				<TouchableOpacity
+					onPress={() => setFilterSelect('editorial')}
+					style={styles.button}
+				>
 					<Text style={styles.textButton}>Editorial</Text>
 				</TouchableOpacity>
-				<TouchableOpacity style={styles.button}>
+				<TouchableOpacity
+					onPress={() => setFilterSelect('author')}
+					style={styles.button}
+				>
 					<Text style={styles.textButton}>Autor</Text>
 				</TouchableOpacity>
 			</View>
