@@ -12,10 +12,18 @@ const ReviewSchema = new Schema(
           type: Schema.Types.ObjectId,
           ref: "User",
         },
-        bookId: {
-          type: Schema.Types.ObjectId,
-          ref: "Book",
+        stars: {
+          type: Number,
+          required: true,
         },
+        message: {
+            type: String,
+            default: "",
+        },
+        likes: {
+            type: Number,
+            default: 0,
+        }
       },
     ],
   },
