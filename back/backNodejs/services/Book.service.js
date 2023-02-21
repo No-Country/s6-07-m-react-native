@@ -6,7 +6,7 @@ const saveBook = async (data) => {
     image: data.image,
     title: data.title,
     description: data.description,
-    userId: data.userId,
+    userId: data.id,
     author: data.author,
     editorial: data.editorial,
   });
@@ -24,9 +24,6 @@ const searchBookBy = async (query, type, page, limit) => {
   let searchFields;
 
   switch (type) {
-    case 'all':
-      searchFields = {}
-      break
     case "title":
       searchFields = { title: regex };
       break;
