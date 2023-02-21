@@ -24,6 +24,9 @@ const searchBookBy = async (query, type, page, limit) => {
   let searchFields;
 
   switch (type) {
+    case 'all':
+      searchFields = {}
+      break
     case "title":
       searchFields = { title: regex };
       break;
