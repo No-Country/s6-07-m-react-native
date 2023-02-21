@@ -11,12 +11,14 @@ import { Ionicons } from '@expo/vector-icons'
 import { colors } from '../../../../../utils/constants'
 import axios from 'axios'
 import { REACT_APP_API_URI_NODE } from '@env'
+import { useSelector, useDispatch } from 'react-redux'
+import { setBooks } from '../../../../../store/slices/books.slice'
 
 const SearchBooks = () => {
-	const [books, setBooks] = useState({})
+	const books = useSelector(state => state.books)
+	const dispatch = useDispatch()
 	const [textInput, setTextInput] = useState('')
 	const [filterSelect, setFilterSelect] = useState('')
-	console.log(books)
 
 	useEffect(() => {
 		getAllBooks()
@@ -25,7 +27,7 @@ const SearchBooks = () => {
 	const getAllBooks = async () => {
 		try {
 			await axios(`${REACT_APP_API_URI_NODE}/book/search`).then(response =>
-				setBooks(response.data.data)
+				dispatch(setBooks({ ...response.data.data }))
 			)
 		} catch (error) {
 			console.log(error)
@@ -38,7 +40,7 @@ const SearchBooks = () => {
 		try {
 			await axios(
 				`${REACT_APP_API_URI_NODE}/book/search?${filterSelect}=${textInput}`
-			).then(response => setBooks(response.data.data))
+			).then(response => dispatch(setBooks({ ...response.data.data })))
 		} catch (error) {
 			console.log(error)
 			if (error === 404) {

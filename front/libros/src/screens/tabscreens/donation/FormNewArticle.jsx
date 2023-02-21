@@ -18,12 +18,19 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import axios from 'axios'
 import { REACT_APP_API_URI_NODE } from '@env'
 import { alertToast } from '../../../utils/alertsUtils'
+import { useSelector } from 'react-redux'
+
+import { Ionicons } from '@expo/vector-icons'
 
 const FormNewArticle = () => {
 	const [modalVisible, setModalVisible] = useState(false)
 	const [image, setImage] = useState('')
 	const [newDonation, setNewDonation] = useState({})
+	const user = useSelector(state => state)
 
+	console.log(user.user.ID)
+
+	console.log(user)
 	const initialValues = {
 		title: '',
 		description: '',
@@ -61,9 +68,9 @@ const FormNewArticle = () => {
 		const objDonation = {
 			...values,
 			image,
-			id: '63ea5f5c5323eae501ef1650',
+			userId: user.user.ID,
 		}
-
+		console.log(objDonation)
 		try {
 			await axios
 				.post(`${REACT_APP_API_URI_NODE}/book/donateBook`, objDonation)
@@ -129,15 +136,28 @@ const FormNewArticle = () => {
 											<View style={styles.uploadImg}>
 												<View style={{ alignItems: 'center', paddingTop: 8 }}>
 													{image ? (
-														<Image
-															source={{ uri: image }}
-															style={{
-																width: 170,
-																height: 82,
-																bottom: 10,
-																borderRadius: 8,
-															}}
-														/>
+														<View>
+															<TouchableOpacity
+																onPress={() => setImage('')}
+																style={{
+																	position: 'absolute',
+																	bottom: 90,
+																	left: 140,
+																}}
+															>
+																<Ionicons name='close-circle' size={30} />
+															</TouchableOpacity>
+															<Image
+																source={{ uri: image }}
+																style={{
+																	position: 'relative',
+																	width: 170,
+																	height: 82,
+																	bottom: 10,
+																	borderRadius: 8,
+																}}
+															/>
+														</View>
 													) : (
 														<View>
 															<View style={{ left: 28 }}>

@@ -1,0 +1,18 @@
+{
+	"user": {
+		"Address": {
+			"City": "",
+			"Geolocation": [],
+			"Number": 0,
+			"PostalCode": 0,
+			"Street": ""
+		},
+		"Books": null,
+		"Email": "",
+		"ID": "63ee48e9034b765ca0118c00",
+		"Name": "",
+		"Password": "$2a$10$9DbYmMkus4gMeknfQLstYez/cSTgzXjQYVAfOgHnbEarNpid82PJm",
+		"ProfileImage": "",
+		"Username": "franrey "
+	}
+}
