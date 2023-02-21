@@ -1,0 +1,16 @@
+{
+	"data": {
+		"__v": 0,
+		"_id": "63f3c226c8b30f380fba881c",
+		"author": "rey",
+		"createdAt": "2023-02-20T18:55:34.454Z",
+		"description": "guardando response.data",
+		"editorial": "test",
+		"image": "https://lamenteesmaravillosa.com/wp-content/uploads/2015/02/shutterstock_166743392.jpg",
+		"title": "Nueva prueba",
+		"updatedAt": "2023-02-20T18:55:34.454Z",
+		"userId": "63ea5f5c5323eae501ef1650"
+	},
+	"status": 200,
+	"statusMsg": "Success"
+}
