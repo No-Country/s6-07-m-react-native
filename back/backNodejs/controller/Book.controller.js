@@ -14,12 +14,12 @@ const { getPaginationUrls } = require("../util/Paginate");
 
 const donateBook = async (req, res) => {
   try {
-    const userFound = await findUser(req.body.id);
+    const userFound = await findUser(req.body.userId);
     if (!userFound) {
       return NotFound(res, "User ID not found");
     }
     const savedBook = await saveBook(req.body);
-    userFound.books = [...userFound.books, savedBook.id];
+    userFound.books = [...userFound.books, savedBook.userId];
     await saveUser(userFound);
     return Ok(res, savedBook);
   } catch (error) {
