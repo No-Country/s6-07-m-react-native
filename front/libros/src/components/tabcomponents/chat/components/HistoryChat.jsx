@@ -42,7 +42,7 @@ const HistoryChat = () => {
 	return (
 		<View style={{ marginTop: 30 }}>
 			{
-                historyChat.length > 0 
+                !historyChat.length > 0 
                 ?
 				    <FlatList
 					    data={items}

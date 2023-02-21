@@ -18,7 +18,8 @@ import { REACT_APP_WEBSOCKET_URI } from '@env'
 //Redux
 import { useSelector } from 'react-redux'
 //Emojis
-import EmojiPicker from 'rn-emoji-keyboard'
+import EmojiPicker, {EmojiKeyboard} from 'rn-emoji-keyboard'
+
 
 const Input = () => {
 
@@ -166,6 +167,10 @@ const Input = () => {
 					inputRef.current.blur()
 				}}
 				open={isOpen}
+				expandable={false}
+				enableRecentlyUsed
+				enableSearchBar
+				categoryPosition={'top'}
 				onClose={() => {
 					setIsOpen(false)
 				}}

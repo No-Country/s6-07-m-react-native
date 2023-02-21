@@ -1,12 +1,12 @@
 //React
 import React, { useState, useEffect } from 'react'
-import { View, ScrollView, FlatList, Text } from "react-native"
+import { View, ScrollView, FlatList, Text, Dimensions } from "react-native"
 //Components
 import Balloon from './balloon/Balloon'
 import Input from './input/Input'
 //Redux
 import { useSelector, useDispatch } from "react-redux"
-import { setConversation } from "../../../../../store/slices/conversation.slice";
+import { setConversation } from "../../../../../../store/slices/conversation.slice"
 
 const Conversation = ({ID}) => {
 
@@ -73,7 +73,19 @@ const Conversation = ({ID}) => {
 						}}
 					/>
 				:
-				<Text>Loading...</Text>
+				<View style={{
+					alignItems: "center",
+					justifyContent: "center",
+					height: "100%",
+					width: "100%",
+				}}>
+					<Text style={{
+						fontFamily: "Roboto-Black",
+						fontSize: 20,
+					}}>
+						Rompe el hielo :)
+					</Text>
+				</View>
 			}
 			<Input />
 		</View>
