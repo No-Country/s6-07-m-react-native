@@ -7,6 +7,27 @@ const router = Router();
  * @swagger
  * components:
  *   schemas:
+ *     userUpdate:
+ *       type: object
+ *       properties:
+ *         userId:
+ *           type: string
+ *           description: ID del usuario
+ *         username:
+ *           type: string
+ *           description: Nuevo nombre de usuario (opcional)
+ *         email:
+ *           type: string
+ *           format: email
+ *           description: Nuevo correo electrónico del usuario (opcional)
+ *         profileImage:
+ *           type: string
+ *           description: Nueva imagen de perfil (opcional)
+ *       example:
+ *         userId: "63ea5f5c5323eae501ef1650"
+ *         usermane: "pepito"
+ *         email: "pepito@hotmail.com"
+ *         profileImage: "https://img.freepik.com/vector-gratis/ilustracion-pila-libros-diseno-plano-dibujado-mano_23-2149341898.jpg"
  *     User:
  *       type: object
  *       properties:
@@ -96,7 +117,7 @@ router.get("/getUser/:id", getUser);
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/User'
+ *             $ref: '#/components/schemas/userUpdate'
  *     responses:
  *       200:
  *         description: OK

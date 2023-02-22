@@ -1,32 +1,28 @@
 //React
 import React, { useState, useEffect } from 'react'
-import { useNavigation } from '@react-navigation/native';
-import {
-  Text,
-  Image,
-  View,
-  TouchableWithoutFeedback
-} from 'react-native'
+import { useNavigation } from '@react-navigation/native'
+import { Text, Image, View, TouchableWithoutFeedback } from 'react-native'
 //Icons
-import { Ionicons } from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons'
 //Styles
 import { styles } from '../styles/styles'
-import { colors } from '../../../../../utils/constants';
+import { colors } from '../../../../../utils/constants'
 //Components
-import Avatar from '../../bookdetail/avatar';
+import Avatar from '../../bookdetail/avatar'
 
 const BookCard = ({ book }) => {
+	let [author, setAuthor] = useState('')
+	const { navigate } = useNavigation()
 
-  let [author, setAuthor] = useState("")
-  const { navigate } = useNavigation();
+	const trimAuthor = author => {
+		return author?.length > 8
+			? setAuthor(author?.substring(0, 10) + '...')
+			: setAuthor(author)
+	}
 
-  const trimAuthor = (author) => {
-    return author.length > 8 ? setAuthor(author.substring(0, 10) + "...") : setAuthor(author)
-  }
-
-  useEffect(() => {
-    trimAuthor(book.author)
-  }, [])
+	useEffect(() => {
+		trimAuthor(book.author)
+	}, [])
 
   return (
     <TouchableWithoutFeedback onPress={() => navigate('BookDetail')}>
