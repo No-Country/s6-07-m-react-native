@@ -5,8 +5,7 @@ import "go.mongodb.org/mongo-driver/bson/primitive"
 type Chat struct {
 	ID       primitive.ObjectID   `bson:"_id,omitempty"`
 	Messages []primitive.ObjectID `bson:"messages"`
-	UserOne  primitive.ObjectID   `bson:"userOne"`
-	UserTwo  primitive.ObjectID   `bson:"userTwo"`
+	Users    []primitive.ObjectID `bson:"users"`
 }
 
 type Message struct {

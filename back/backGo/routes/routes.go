@@ -1,12 +1,21 @@
 package routes
 
+import (
+	"github.com/No-Country/s6-07-m-react-native/tree/main/back/backGo/controllers"
+	"github.com/gin-gonic/gin"
+)
 
-// import (
-// 	"github.com/gofiber/fiber/v2"
-// )
+func Routes(r *gin.Engine) {
 
-// func Routes(app *fiber.App) {
+	UserGroup := r.Group("/user")
 
-// 	userRoutes := app.Group("/user")
+	// User Routes
+	UserGroup.POST("/signup", controllers.SignUp)
+	UserGroup.POST("/login", controllers.Login)
 
-// }
+	ChatGroup := r.Group("/chat")
+
+	// Chat Routes
+	ChatGroup.POST("/", controllers.CreateChat)
+	ChatGroup.GET("/history/:id", controllers.GetHistoryChats)
+}

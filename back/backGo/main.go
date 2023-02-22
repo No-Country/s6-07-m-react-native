@@ -64,7 +64,7 @@ func run()error{
 	})
 	
 	configSocket.InitSocket(r)
-	routes.UserRoutes(r)
+	routes.Routes(r)
 
 	fmt.Printf("Listening on Port %v \n", port)
 	if err := r.Run(port); err != nil {
