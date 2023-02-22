@@ -25,8 +25,28 @@ const useNewArticle = () => {
 				'Imagen cargada',
 				'La imagen se cargo correctamente!'
 			)
+			let newFile = {
+				uri: result.assets[0].uri,
+				type: `test/${result.assets[0].uri.split('.')[1]}`,
+			}
+			uploadCloudinary(newFile)
 			setImage(result.assets[0].uri)
+		} else {
+			alertToast(
+				'error',
+				'Imagen rechazada',
+				'La imagen no se cargo correctamente!'
+			)
 		}
+	}
+
+	const uploadCloudinary = image => {
+		const data = new FormData()
+		data.append('file', image)
+		data.append('upload_preset', 'librosapp')
+		axios
+			.post('https://api.cloudinary.com/v1_1/dtjoj3fui/image/upload', data)
+			.then(response => console.log(response))
 	}
 
 	const handleSubmit = async (values, resetForm) => {
@@ -56,6 +76,7 @@ const useNewArticle = () => {
 	return {
 		modalVisible,
 		image,
+		setImage,
 		uploadImage,
 		handleSubmit,
 		setModalVisible,

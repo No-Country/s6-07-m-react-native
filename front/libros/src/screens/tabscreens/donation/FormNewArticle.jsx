@@ -18,8 +18,14 @@ import { Ionicons } from '@expo/vector-icons'
 import useNewArticle from '../../../hooks/useNewArticle'
 
 const FormNewArticle = () => {
-	const { modalVisible, image, uploadImage, handleSubmit, setModalVisible } =
-		useNewArticle()
+	const {
+		modalVisible,
+		image,
+		uploadImage,
+		setImage,
+		handleSubmit,
+		setModalVisible,
+	} = useNewArticle()
 
 	const initialValues = {
 		title: '',
