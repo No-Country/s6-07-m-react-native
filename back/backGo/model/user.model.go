@@ -23,6 +23,6 @@ type User struct {
 	Password     string               `bson:"password"`
 	ProfileImage string               `bson:"profileImage,omitempty"`
 	Address      Address              `bson:"address"`
-	Chats        []primitive.ObjectID `bson:"chats"`
+	Chats        []primitive.ObjectID `bson:"chats,omitempty"`
 	Books        []primitive.ObjectID `bson:"books,omitempty"`
 }

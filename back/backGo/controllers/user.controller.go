@@ -49,7 +49,7 @@ func SignUp(c *gin.Context) {
 		return
 
 	}
-	//body.Name == ""
+	
 	if body.Password == "" || body.Email == "" || body.Username == "" {
 		c.JSON(http.StatusBadRequest, gin.H{"done": false, "msg": "Incomplete values"})
 		return
@@ -102,7 +102,7 @@ func SignUp(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, gin.H{"done": true, "userId": cursor.InsertedID, "msg": "User successfully created"})
-	return
+	
 }
 
 func Login(c *gin.Context) {
@@ -148,5 +148,5 @@ func Login(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, gin.H{"done": true, "user": user, "token": signedToken})
-	return
+	
 }
