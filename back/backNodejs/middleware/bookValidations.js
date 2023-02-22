@@ -20,19 +20,19 @@ exports.validationDonateBook = [
     .withMessage("Description must have more than 10 characters")
     .isLength({ max: 200 })
     .withMessage("Description must have less than 200 characters"),
-  body("userId").notEmpty().withMessage("Didn't give user ID"),
+  body("userId").isMongoId().withMessage("Invalid user ID"),
   body("author").notEmpty().withMessage("You must specify an Author"),
   body("editorial").notEmpty().withMessage("You must specify the editorial of the book"),
   reportError,
 ];
 
 exports.validationEraseBook = [
-  param("id").notEmpty().withMessage("Didn't give user ID"),
+  param("id").isMongoId().withMessage("Invalid book ID"),
   reportError,
 ];
 
 exports.validationUpdateBook = [
-  body("id").notEmpty().withMessage("Didn't give user ID"),
+  body("id").isMongoId().withMessage("Invalid book ID"),
   body("image").optional().notEmpty().withMessage("Image is required"),
   body("title")
     .optional()
@@ -52,6 +52,6 @@ exports.validationUpdateBook = [
 ];
 
 exports.validationGetDetailBook = [
-  param("id").notEmpty().withMessage("Didn't give user ID"),
+  param("id").isMongoId().withMessage("Invalid book ID"),
   reportError,
 ]
