@@ -68,11 +68,6 @@ func CreateChat(c *gin.Context) {
 }
 
 
-
-// type ChatsArray struct{
-// 	ChatsGroup []ChatStruct `bson:"chatsGroup"`
-// }
-
 type UserChat struct {
 	ID    primitive.ObjectID   `bson:"_id"`
 	Chats []primitive.ObjectID `bson:"chats"`
@@ -124,19 +119,13 @@ func GetHistoryChats(c *gin.Context) {
 		})
 		return
 	}
-	// fmt.Printf("USER: %v \n", user)
-	// c.JSON(http.StatusAccepted, gin.H{
-	// 	"done": true,
-	// 	"user": user,
-	// })
-	// var chatsGroup []ChatStruct
+
 	var ChatsGroupName []ChatUserName
 	for i := 0; i < len(user.Chats); i++ {
 		chat := ChatStruct{}
 		messagesColl := db.GetDBCollection("messages")
 		lastMessage := LastMessage{}
-		// message := bson.M{}
-		// result := bson.M{"chats": []bson.M{}}
+	
 		userName := bson.M{}
 		projectionChat := bson.M{"users": 1 , "messages": 1}
 		filterChat := bson.M{"_id": user.Chats[i]}
@@ -145,9 +134,7 @@ func GetHistoryChats(c *gin.Context) {
 			return
 		}
 		messagesLen := len(chat.Messages)
-		// fmt.Println(messagesLen)
-
-		fmt.Printf("DATA: %v \n" ,chat.Users)
+		
 		
 		if messagesLen > 0 {
 			if err := messagesColl.FindOne(context.TODO(), bson.M{"_id": chat.Messages[messagesLen-1]}, options.FindOne().SetProjection(bson.M{"content": 1})).Decode(&lastMessage); err != nil {
@@ -183,3 +170,5 @@ func GetHistoryChats(c *gin.Context) {
 		"chats": ChatsGroupName,
 	})
 }
+
+
