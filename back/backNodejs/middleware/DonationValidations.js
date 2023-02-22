@@ -9,9 +9,10 @@ exports.validationCreateDonation = [
 ];
 exports.validationFindDonationId = [
   param("id").isMongoId().withMessage("Invalid donation ID"),
+  param("id").isMongoId().withMessage("Invalid donation ID"),
   reportError,
 ];
 exports.validationFindAllDonations = [
-  param("userId").isMongoId().withMessage("Invalid user ID"),
+  param("userId").isMongoId().withMessage("Invalid userId"),
   reportError,
 ];
