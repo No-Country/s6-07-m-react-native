@@ -1,6 +1,5 @@
-import React, { useState } from 'react'
+import React from 'react'
 import {
-	Button,
 	Image,
 	StyleSheet,
 	Text,
@@ -13,20 +12,14 @@ import SvgComponent from './svg/SvgComponent'
 import { colors, formStyles as stylesConstants } from '../../../utils/constants'
 import ModalPublicated from './ModalPublicated'
 import { formSchema, valuesSchema } from '../../../utils/formValidation'
-import * as ImagePicker from 'expo-image-picker'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
-import axios from 'axios'
-import { REACT_APP_API_URI_NODE } from '@env'
-import { alertToast } from '../../../utils/alertsUtils'
-import { useSelector } from 'react-redux'
 
 import { Ionicons } from '@expo/vector-icons'
+import useNewArticle from '../../../hooks/useNewArticle'
 
 const FormNewArticle = () => {
-	const [modalVisible, setModalVisible] = useState(false)
-	const [image, setImage] = useState('')
-	const [newDonation, setNewDonation] = useState({})
-	const user = useSelector(state => state)
+	const { modalVisible, image, uploadImage, handleSubmit, setModalVisible } =
+		useNewArticle()
 
 	const initialValues = {
 		title: '',
@@ -40,48 +33,6 @@ const FormNewArticle = () => {
 		description: valuesSchema.description,
 		editorial: valuesSchema.editorial,
 		author: valuesSchema.author,
-	}
-
-	const uploadImage = async () => {
-		let result = await ImagePicker.launchImageLibraryAsync({
-			mediaTypes: ImagePicker.MediaTypeOptions.Images,
-			allowsEditing: true,
-			aspect: [4, 3],
-			quality: 1,
-		})
-
-		if (!result.canceled) {
-			alertToast(
-				'success',
-				'Imagen cargada',
-				'La imagen se cargo correctamente!'
-			)
-			setImage(result.assets[0].uri)
-		}
-	}
-
-	const handleSubmit = async (values, resetForm) => {
-		const objDonation = {
-			...values,
-			image,
-			userId: user.user.ID,
-		}
-		try {
-			await axios
-				.post(`${REACT_APP_API_URI_NODE}/book/donateBook`, objDonation)
-				.then(response => {
-					if (response.data.status === 200) {
-						setNewDonation(response.data)
-						setModalVisible(true)
-					}
-				})
-		} catch (error) {
-			console.log(error)
-			alertToast('error', '❌', 'Error al crear la publicacion')
-		}
-
-		resetForm()
-		setImage('')
 	}
 
 	return (
@@ -118,8 +69,6 @@ const FormNewArticle = () => {
 									handleBlur,
 									values,
 									errors,
-									isValid,
-									resetForm,
 								}) => (
 									<>
 										<TouchableOpacity
