@@ -8,10 +8,10 @@ exports.validationCreateDonation = [
   reportError,
 ];
 exports.validationFindDonationId = [
-  param("id").notEmpty().withMessage("id of donation is required"),
+  param("id").isMongoId().withMessage("Invalid donation ID"),
   reportError,
 ];
 exports.validationFindAllDonations = [
-  param("userId").notEmpty().withMessage("userId of donation is required"),
+  param("userId").isMongoId().withMessage("Invalid userId"),
   reportError,
 ];

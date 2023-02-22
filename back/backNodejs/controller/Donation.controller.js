@@ -1,3 +1,4 @@
+const mongoose = require('mongoose');
 const { searchBookById } = require("../services/Book.service");
 const {
   savedDonation,
@@ -50,7 +51,7 @@ const findAllDonations = async (req, res) => {
 };
 const findDonationsId = async (req, res) => {
   const { id } = req.params;
-  try {
+  try { 
     const findDonation = await findDonationById(id);
 
     if (!findDonation) {
@@ -58,11 +59,14 @@ const findDonationsId = async (req, res) => {
     }
     return Ok(res, findDonation);
   } catch (error) {
-    console.log(error);
+    console.log(error, "error");
     if (error.kind == "ObjectId") {
-      return Error(res, "Id is invalids");
+      return Error(res, "Invalid Id format. Please enter a valid Id");
+    } else if (error.name === 'CastError') {
+      return Error(res, "Invalid Id type. Please enter a valid Id type");
+    } else {
+      return Error(res, error.message);
     }
-    return Error(res, error.message);
   }
 };
 module.exports = {
