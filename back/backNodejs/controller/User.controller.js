@@ -31,15 +31,15 @@ const updateUser = async (req, res) => {
     }
     //Meter condicionales para los datos, pensar que datos
     //Email, Foto, Username
-    if (req.body.email.length !== 0) {
-      userFound.email = req.body.email;
-    }
-    if (req.body.username.length !== 0) {
-      userFound.username = req.body.username;
-    }
-    if (req.body.profileImage.length !== 0) {
-      userFound.profileImage = req.body.image;
-    }
+if (req.body.email && req.body.email.length !== 0) {
+  userFound.email = req.body.email;
+}
+if (req.body.username && req.body.username.length !== 0) {
+  userFound.username = req.body.username;
+}
+if (req.body.profileImage && req.body.profileImage.length !== 0) {
+  userFound.profileImage = req.body.profileImage;
+}
     const savedUser = await saveUser(userFound);
     return Ok(res, savedUser);
   } catch (error) {

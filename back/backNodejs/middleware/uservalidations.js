@@ -12,8 +12,9 @@ exports.validationcreateuser = [
 ];
 
 exports.validationUpdateUser = [
-  body("name").optional().notEmpty().withMessage("Name is required"),
-  body("email").optional().isEmail().withMessage("Email is not valid"),
+  body("username").optional().notEmpty().withMessage("usermane not bal"),
+  body("email").optional().notEmpty().isEmail().withMessage("Email is not valid"),
+  body("profileImage").optional().notEmpty().isURL().withMessage("Invalid URL"),
   reportError,
 ];
 
