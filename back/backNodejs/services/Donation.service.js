@@ -17,10 +17,28 @@ const findAllDonation = async (userId) => {
         applicantId: userId,
       },
     ],
-  });
+  }).populate({
+    path: "bookId",
+    model: "Book",
+    select: "title author",
+    populate: {
+      path: "userId",
+      model: "User",
+      select: "username",
+    },
+  });;
 };
 const findDonationById = async (id) => {
-    return await Donation.findById({_id: id});
+    return await Donation.findById({_id: id}).populate({
+      path: 'bookId',
+      model: 'Book',
+      select: 'title author',
+      populate: {
+        path: 'userId',
+        model: 'User',
+        select: 'username',
+      },
+    });;
 }
 
 module.exports = {
