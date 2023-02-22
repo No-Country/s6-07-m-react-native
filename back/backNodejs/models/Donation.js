@@ -1,8 +1,6 @@
 const { Schema, model } = require("mongoose");
 
 const DonationSchema = new Schema(
-  {
-    donations: [
       {
         donatorId: {
           type: Schema.Types.ObjectId,
@@ -17,8 +15,6 @@ const DonationSchema = new Schema(
           ref: "Book",
         },
       },
-    ],
-  },
   {
     timestamps: true,
   }
