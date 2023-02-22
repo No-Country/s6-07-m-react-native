@@ -5,7 +5,7 @@ const { NotFound, Ok, Error } = require("../util/HttpResponse");
 // Buscar Usuario por ID
 const getUser = async (req, res) => {
   try {
-    console.log(req.params.id)
+    console.log(req.params.id);
     const data = await findUser(req.params.id);
     console.log(data, "data");
     if (!data) {
@@ -23,20 +23,29 @@ const getUser = async (req, res) => {
 
 // Actualizar usuario
 const updateUser = async (req, res) => {
-  console.log(req, "req")
+  console.log(req, "req");
   try {
     const userFound = await findUser(req.body.id);
     if (!userFound) {
       return NotFound(res, "User not found");
     }
-    userFound.email = req.body.email;
-    userFound.profileImage = req.body.image;
+    //Meter condicionales para los datos, pensar que datos
+    //Email, Foto, Username
+    if (req.body.email.length !== 0) {
+      userFound.email = req.body.email;
+    }
+    if (req.body.username.length !== 0) {
+      userFound.username = req.body.username;
+    }
+    if (req.body.profileImage.length !== 0) {
+      userFound.profileImage = req.body.image;
+    }
     const savedUser = await saveUser(userFound);
     return Ok(res, savedUser);
   } catch (error) {
     console.log(error);
     if (error.kind == "ObjectId") {
-      return Error(res, "Id is invalids");
+      return Error(res, "Id is invalid");
     }
     return Error(res, error.message);
   }
