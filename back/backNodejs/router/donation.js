@@ -31,6 +31,38 @@ const router = Router();
  *         donatorId: ""
  *         applicantId: ""
  *         bookId: ""
+ *     NotFound:
+ *       type: object
+ *       properties:
+ *         status:
+ *           type: string
+ *           description: status of the peticion
+ *         statusMsg: 
+ *           type: string
+ *           description: status of the message
+ *         error: 
+ *           type: string
+ *           description: message of error
+ *       example:
+ *         status: "404"
+ *         statusMsg: "Not Found"
+ *         error: "Not Found Donation"
+ *     Error:
+ *       type: object
+ *       properties:
+ *         status:
+ *           type: string
+ *           description: status of the peticion
+ *         statusMsg: 
+ *           type: string
+ *           description: status of the message
+ *         error: 
+ *           type: string
+ *           description: message of error
+ *       example:
+ *         status: "404"
+ *         statusMsg: "Not Found"
+ *         error: "Not Found Donation"
  */
 
 /**
@@ -54,6 +86,10 @@ const router = Router();
  *               $ref: '#/components/schemas/Donation'
  *       404:
  *         description: Not found
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/NotFound'
  *       500:
  *         description: Internal Error
  */
@@ -81,6 +117,10 @@ router.post("/donate", validationCreateDonation, createDonation);
  *               $ref: '#/components/schemas/Donation'
  *       404:
  *         description: Not found
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/NotFound'
  *       500:
  *         description: Internal Error
  */
@@ -89,6 +129,36 @@ router.get(
   validationFindAllDonations,
   findAllDonations
 );
+/**
+ * @swagger
+ * /donation/finddonation/{id}:
+ *   get:
+ *     description: return information about the donation for id
+ *     sumary: return donation for id
+ *     tags: [Donations]
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         description: id of the donation
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: OK
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Donation'
+ *       404:
+ *         description: Not found
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/NotFound'
+ *       500:
+ *         description: Internal Error
+ */
 router.get("/finddonation/:id", validationFindDonationId, findDonationsId);
 
 module.exports = router;
