@@ -12,7 +12,9 @@ import { colors } from '../../../../../utils/constants'
 import axios from 'axios'
 import { REACT_APP_API_URI_NODE } from '@env'
 import { useSelector, useDispatch } from 'react-redux'
-import { setBooks } from '../../../../../store/slices/books.slice'
+import { setBooks } from '../../../../../store/slices/books.slice';
+import HeaderComponent 	from '../../../../headerComponent';
+
 
 const SearchBooks = () => {
 	const books = useSelector(state => state.books)
@@ -53,13 +55,15 @@ const SearchBooks = () => {
 
 	return (
 		<View style={{ marginBottom: 16 }}>
-			<View style={styles.directionView}>
+			<HeaderComponent right={true} title={"Encuentra tu libro"} />
+
+			{/* <View style={styles.directionView}>
 				<Image
 					source={{ uri: 'https://picsum.photos/200/300' }}
 					style={styles.imgLogo}
 				/>
 				<Text style={styles.text}>Encuentra tu libro</Text>
-			</View>
+			</View> */}
 			<View style={styles.textInput}>
 				<TextInput
 					onChangeText={text => setTextInput(text)}

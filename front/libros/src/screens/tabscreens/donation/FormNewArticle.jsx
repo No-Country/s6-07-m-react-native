@@ -20,7 +20,9 @@ import { REACT_APP_API_URI_NODE } from '@env'
 import { alertToast } from '../../../utils/alertsUtils'
 import { useSelector } from 'react-redux'
 
-import { Ionicons } from '@expo/vector-icons'
+import { Ionicons } from '@expo/vector-icons';
+import HeaderComponent from '../../../components/headerComponent';
+
 
 const FormNewArticle = () => {
 	const [modalVisible, setModalVisible] = useState(false)
@@ -101,7 +103,9 @@ const FormNewArticle = () => {
 			) : (
 				<KeyboardAwareScrollView>
 					<View>
-						<View style={styles.header}>
+						<HeaderComponent left={true} title={'Dona tu Libro'}/>
+						{/* Reemplace el componente de abajo por el de arriba para poder poner el drawer*/}
+						{/* <View style={styles.header}>
 							<Text style={{ fontSize: 18, fontWeight: '500' }}>
 								Dona tu libro
 							</Text>
@@ -109,7 +113,7 @@ const FormNewArticle = () => {
 								source={{ uri: 'https://picsum.photos/200/300' }}
 								style={{ width: 36, height: 36, borderRadius: 20 }}
 							/>
-						</View>
+						</View> */}
 
 						<View style={styles.containerForm}>
 							<Formik
