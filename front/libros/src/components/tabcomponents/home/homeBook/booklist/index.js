@@ -1,14 +1,17 @@
 import React from 'react'
-import { FlatList } from 'react-native'
-import bookObj from '../../../../../../mocks/bookObj.json'
+import { FlatList, VirtualizedList } from 'react-native'
 import BookCard from '../../bookCard/component/BookCard'
+import { useSelector } from 'react-redux'
 
 const BooksList = () => {
+	const books = useSelector(state => state)
+	
+
 	return (
 		<FlatList
-			data={bookObj.books}
+			data={books.books.books}
 			renderItem={({ item }) => <BookCard book={item} />}
-			keyExtractor={item => item.isbn}
+			keyExtractor={item => item._id}
 		/>
 	)
 }

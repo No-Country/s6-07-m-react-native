@@ -7,7 +7,6 @@ const UserSchema = new Schema(
     },
     name: {
       type: String,
-      required: true,
     },
     username: {
       type: String,
@@ -51,6 +50,7 @@ const UserSchema = new Schema(
         ref: "Book",
       },
     ],
+    
   },
   {
     timestamps: true,

@@ -1,6 +1,5 @@
-import React, { useState } from 'react'
+import React from 'react'
 import {
-	Button,
 	Image,
 	StyleSheet,
 	Text,
@@ -13,57 +12,33 @@ import SvgComponent from './svg/SvgComponent'
 import { colors, formStyles as stylesConstants } from '../../../utils/constants'
 import ModalPublicated from './ModalPublicated'
 import { formSchema, valuesSchema } from '../../../utils/formValidation'
-import * as ImagePicker from 'expo-image-picker'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
-import { alertToast } from '../../../utils/alertsUtils'
+
+import { Ionicons } from '@expo/vector-icons'
+import useNewArticle from '../../../hooks/useNewArticle'
 
 const FormNewArticle = () => {
-	const [modalVisible, setModalVisible] = useState(false)
-	const [image, setImage] = useState(null)
+	const {
+		modalVisible,
+		image,
+		uploadImage,
+		setImage,
+		handleSubmit,
+		setModalVisible,
+	} = useNewArticle()
 
 	const initialValues = {
 		title: '',
 		description: '',
 		editorial: '',
-		conditions: '',
+		author: '',
 	}
 
 	const donationValueSchema = {
 		title: valuesSchema.title,
 		description: valuesSchema.description,
 		editorial: valuesSchema.editorial,
-		conditions: valuesSchema.conditions,
-	}
-
-	const uploadImage = async () => {
-		// No permissions request is necessary for launching the image library
-		let result = await ImagePicker.launchImageLibraryAsync({
-			mediaTypes: ImagePicker.MediaTypeOptions.Images,
-			allowsEditing: true,
-			aspect: [4, 3],
-			quality: 1,
-		})
-
-		console.log(result)
-
-		if (!result.canceled) {
-			setImage(result.assets[0].uri)
-		}
-	}
-
-	const handleSubmit = (values, resetForm) => {
-		const objDonation = {
-			...values,
-			image,
-		}
-
-		resetForm()
-
-		alertToast('success', 'Ahora si!', 'Publicacion creada correctamente!')
-
-		setModalVisible(true)
-
-		console.log(objDonation)
+		author: valuesSchema.author,
 	}
 
 	return (
@@ -85,6 +60,7 @@ const FormNewArticle = () => {
 								style={{ width: 36, height: 36, borderRadius: 20 }}
 							/>
 						</View>
+
 						<View style={styles.containerForm}>
 							<Formik
 								validationSchema={formSchema(donationValueSchema)}
@@ -99,8 +75,6 @@ const FormNewArticle = () => {
 									handleBlur,
 									values,
 									errors,
-									isValid,
-									resetForm,
 								}) => (
 									<>
 										<TouchableOpacity
@@ -109,8 +83,39 @@ const FormNewArticle = () => {
 										>
 											<View style={styles.uploadImg}>
 												<View style={{ alignItems: 'center', paddingTop: 8 }}>
-													<SvgComponent />
-													<Text style={{ marginTop: 6 }}>Cargar Imagen</Text>
+													{image ? (
+														<View>
+															<TouchableOpacity
+																onPress={() => setImage('')}
+																style={{
+																	position: 'absolute',
+																	bottom: 90,
+																	left: 140,
+																}}
+															>
+																<Ionicons name='close-circle' size={30} />
+															</TouchableOpacity>
+															<Image
+																source={{ uri: image }}
+																style={{
+																	position: 'relative',
+																	width: 170,
+																	height: 82,
+																	bottom: 10,
+																	borderRadius: 8,
+																}}
+															/>
+														</View>
+													) : (
+														<View>
+															<View style={{ left: 28 }}>
+																<SvgComponent />
+															</View>
+															<Text style={{ marginTop: 6 }}>
+																Cargar Imagen
+															</Text>
+														</View>
+													)}
 												</View>
 											</View>
 										</TouchableOpacity>
@@ -126,10 +131,10 @@ const FormNewArticle = () => {
 										{errors?.title && (
 											<Text style={stylesConstants.error}>{errors?.title}</Text>
 										)}
-										<Text style={stylesConstants.title}>Resumen</Text>
+										<Text style={stylesConstants.title}>Descripcion</Text>
 										<TextInput
 											style={stylesConstants.input}
-											placeholder='Resumen'
+											placeholder='Descripcion'
 											name='description'
 											onChangeText={handleChange('description')}
 											value={values.description}
@@ -154,19 +159,19 @@ const FormNewArticle = () => {
 												{errors?.editorial}
 											</Text>
 										)}
-										<Text style={stylesConstants.title}>Estado del libro</Text>
+										<Text style={stylesConstants.title}>Autor del libro</Text>
 										{/*Poner un select con distintasa opciones*/}
 										<TextInput
 											style={stylesConstants.input}
-											placeholder='Estado'
-											name='conditions'
-											onBlur={handleBlur('conditions')}
-											onChangeText={handleChange('conditions')}
-											value={values.conditions}
+											placeholder='Autor'
+											name='author'
+											onBlur={handleBlur('author')}
+											onChangeText={handleChange('author')}
+											value={values.author}
 										/>
-										{errors?.conditions && (
+										{errors?.author && (
 											<Text style={stylesConstants.error}>
-												{errors?.conditions}
+												{errors?.author}
 											</Text>
 										)}
 										<Text>MAPA</Text>

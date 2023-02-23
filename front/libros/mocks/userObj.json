@@ -1,11 +1,10 @@
 {
-    "user": 
-        {
-            "id": "user1234",
-			"name": "Maria Salazar",
-			"stars_Avg": "4.6",
-			"location": "Mexico, Cuernavaca",
-			"avatar": "../assets/avatar.jpeg"
-        }
-    
+	"user": {
+		"id": "user1234",
+		"name": "Maria Salazar",
+		"stars_Avg": "4.6",
+		"location": "Mexico, Cuernavaca",
+		"avatar": "../assets/avatar.jpeg"
+	}
 }
+

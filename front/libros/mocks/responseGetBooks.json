@@ -1,0 +1,146 @@
+{
+	"user": {
+		"ID": "63ee48e9034b765ca0118c00",
+		"Name": "",
+		"Username": "franrey ",
+		"Email": "",
+		"Password": "$2a$10$9DbYmMkus4gMeknfQLstYez/cSTgzXjQYVAfOgHnbEarNpid82PJm",
+		"ProfileImage": "",
+		"Address": {
+			"Street": "",
+			"Number": 0,
+			"City": "",
+			"PostalCode": 0,
+			"Geolocation": { "Latitude": 0, "Longitude": 0 }
+		},
+		"Books": null
+	},
+	"books": {
+		"books": [
+			{
+				"_id": "63ebf81c46f8721ea610d617",
+				"image": "https://1.bp.blogspot.com/-weT3oUntP_g/WDOm0-iaMkI/AAAAAAAAkyk/i6q9qAjyC5cjU-IrADwMkgKnNb915zbQQCLcB/s1600/Qu%25C3%25A9%2Bes%2Bun%2BLibro.jpg",
+				"title": "La pricesita",
+				"description": "Un libro para niños y niñas",
+				"userId": "63ea5f5c5323eae501ef1650",
+				"createdAt": "2023-02-14T21:07:40.929Z",
+				"updatedAt": "2023-02-15T22:44:31.165Z",
+				"__v": 0
+			},
+			{
+				"_id": "63f3b350628e16fc9674b933",
+				"image": "https://lamenteesmaravillosa.com/wp-content/uploads/2015/02/shutterstock_166743392.jpg",
+				"title": "Cien años",
+				"description": "Cien años de soledad.",
+				"userId": "63ea5f5c5323eae501ef1650",
+				"author": "Gabriel García Márquez",
+				"editorial": "Sudamericana",
+				"createdAt": "2023-02-20T17:52:16.933Z",
+				"updatedAt": "2023-02-20T17:52:16.933Z",
+				"__v": 0
+			},
+			{
+				"_id": "63f3bda1c8b30f380fba8810",
+				"image": "https://lamenteesmaravillosa.com/wp-content/uploads/2015/02/shutterstock_166743392.jpg",
+				"title": "Cien años 2",
+				"description": "Cien años de soledad. 2",
+				"userId": "63ea5f5c5323eae501ef1650",
+				"author": "Gabriel García Márquez",
+				"editorial": "Sudamericana 2",
+				"createdAt": "2023-02-20T18:36:17.491Z",
+				"updatedAt": "2023-02-20T18:36:17.491Z",
+				"__v": 0
+			},
+			{
+				"_id": "63f3c198c8b30f380fba8814",
+				"image": "https://lamenteesmaravillosa.com/wp-content/uploads/2015/02/shutterstock_166743392.jpg",
+				"title": "Testeando post",
+				"description": "Probando post desde emulador con imagen hardcodeada",
+				"userId": "63ea5f5c5323eae501ef1650",
+				"author": "Rey",
+				"editorial": "Rey",
+				"createdAt": "2023-02-20T18:53:12.847Z",
+				"updatedAt": "2023-02-20T18:53:12.847Z",
+				"__v": 0
+			},
+			{
+				"_id": "63f3c1d2c8b30f380fba8818",
+				"image": "https://lamenteesmaravillosa.com/wp-content/uploads/2015/02/shutterstock_166743392.jpg",
+				"title": "Probando obj ",
+				"description": "Prueba guardando en estado",
+				"userId": "63ea5f5c5323eae501ef1650",
+				"author": "Rey",
+				"editorial": "Objeto",
+				"createdAt": "2023-02-20T18:54:10.964Z",
+				"updatedAt": "2023-02-20T18:54:10.964Z",
+				"__v": 0
+			},
+			{
+				"_id": "63f3c226c8b30f380fba881c",
+				"image": "https://lamenteesmaravillosa.com/wp-content/uploads/2015/02/shutterstock_166743392.jpg",
+				"title": "Nueva prueba",
+				"description": "guardando response.data",
+				"userId": "63ea5f5c5323eae501ef1650",
+				"author": "rey",
+				"editorial": "test",
+				"createdAt": "2023-02-20T18:55:34.454Z",
+				"updatedAt": "2023-02-20T18:55:34.454Z",
+				"__v": 0
+			},
+			{
+				"_id": "63f3c28cc8b30f380fba8820",
+				"image": "file:///data/user/0/host.exp.exponent/cache/ExperienceData/%2540anonymous%252Flibros-fa883d64-677c-49f5-959e-88eb7a5f9065/ImagePicker/b8e8f8a2-53f8-4fcf-a50a-cff308cb7305.jpeg",
+				"title": "Prueba img celu",
+				"description": "Probando subir img de galeria",
+				"userId": "63ea5f5c5323eae501ef1650",
+				"author": "Rey",
+				"editorial": "Galeria",
+				"createdAt": "2023-02-20T18:57:16.160Z",
+				"updatedAt": "2023-02-20T18:57:16.160Z",
+				"__v": 0
+			},
+			{
+				"_id": "63f4e2cf8d1ef18569518d3b",
+				"image": "file:///data/user/0/host.exp.exponent/cache/ExperienceData/%2540anonymous%252Flibros-fa883d64-677c-49f5-959e-88eb7a5f9065/ImagePicker/6de8af13-22d8-453a-8f32-d56045305148.jpeg",
+				"title": "El gato",
+				"description": "Probando nuevo articulo",
+				"userId": "63ea5f5c5323eae501ef1650",
+				"author": "Gato",
+				"editorial": "el gato",
+				"createdAt": "2023-02-21T15:27:11.411Z",
+				"updatedAt": "2023-02-21T15:27:11.411Z",
+				"__v": 0
+			},
+			{
+				"_id": "63f4e6d88d1ef18569518d47",
+				"image": "file:///data/user/0/host.exp.exponent/cache/ExperienceData/%2540anonymous%252Flibros-fa883d64-677c-49f5-959e-88eb7a5f9065/ImagePicker/c9700fe8-82f1-4c84-88e1-dd42b720aa46.jpeg",
+				"title": "El 10",
+				"description": "Probando otro articulo",
+				"userId": "63ea5f5c5323eae501ef1650",
+				"author": "Filtrar",
+				"editorial": "El filtro",
+				"createdAt": "2023-02-21T15:44:24.991Z",
+				"updatedAt": "2023-02-21T15:44:24.991Z",
+				"__v": 0
+			},
+			{
+				"_id": "63f4e73a8d1ef18569518d4b",
+				"image": "file:///data/user/0/host.exp.exponent/cache/ExperienceData/%2540anonymous%252Flibros-fa883d64-677c-49f5-959e-88eb7a5f9065/ImagePicker/7d721f7c-72e2-49db-a7ee-57a4f95e8d68.jpeg",
+				"title": "El perro",
+				"description": "El perro negro ",
+				"userId": "63ea5f5c5323eae501ef1650",
+				"author": "Perrito",
+				"editorial": "Perro",
+				"createdAt": "2023-02-21T15:46:02.006Z",
+				"updatedAt": "2023-02-21T15:46:02.006Z",
+				"__v": 0
+			}
+		],
+		"pagination": {
+			"currentPage": 1,
+			"totalPages": 3,
+			"nextPage": "http://192.168.0.77:3000/book/search?page=2",
+			"next": 2
+		}
+	}
+}

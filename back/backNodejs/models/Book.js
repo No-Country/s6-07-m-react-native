@@ -2,6 +2,10 @@ const { Schema, model } = require("mongoose");
 
 const BookSchema = new Schema(
   {
+    userId: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+    },
     image: {
       type: String,
       default:
@@ -15,10 +19,6 @@ const BookSchema = new Schema(
       type: String,
       required: true,
     },
-    userId: {
-      type: Schema.Types.ObjectId,
-      ref: "User",
-    },
     author: {
       type: String,
       required: true,
@@ -26,6 +26,9 @@ const BookSchema = new Schema(
     editorial: {
       type: String,
       required: true,
+    },
+    bookStatus: {
+      type: String,
     },
   },
   {
