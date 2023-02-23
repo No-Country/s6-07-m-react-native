@@ -23,6 +23,7 @@ exports.validationDonateBook = [
   body("userId").isMongoId().withMessage("Invalid user ID"),
   body("author").notEmpty().withMessage("You must specify an Author"),
   body("editorial").notEmpty().withMessage("You must specify the editorial of the book"),
+  body("id").notEmpty().withMessage("Didn't give user ID"),
   reportError,
 ];
 
