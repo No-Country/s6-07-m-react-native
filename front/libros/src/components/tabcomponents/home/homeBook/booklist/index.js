@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux'
 
 const BooksList = () => {
 	const books = useSelector(state => state)
-	// console.log('esto viene de books list' + JSON.stringify(books.books.books))
+	
 
 	return (
 		<FlatList
