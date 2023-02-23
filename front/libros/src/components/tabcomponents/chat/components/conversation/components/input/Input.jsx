@@ -21,9 +21,8 @@ import { useSelector } from 'react-redux'
 //Emojis
 import EmojiPicker from 'rn-emoji-keyboard'
 
-
 const Input = () => {
-
+	
     //Modelo de objeto que te envío vía websocket.
 	const msgModel = {
 		channel: "newMsg",

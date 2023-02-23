@@ -25,7 +25,7 @@ func CreateChat(c *gin.Context) {
 		return
 	}
 
-	if reflect.TypeOf(body.Messages) != reflect.TypeOf([]primitive.ObjectID{}) || reflect.TypeOf(body.Users[0]) != reflect.TypeOf(primitive.ObjectID{}) || reflect.TypeOf(body.Users[1]) != reflect.TypeOf(primitive.ObjectID{}) {
+	if reflect.TypeOf(body.Messages) != reflect.TypeOf([]primitive.ObjectID{}) || reflect.TypeOf(body.Users[0]) != reflect.TypeOf(primitive.ObjectID{}) || reflect.TypeOf(body.Users[1]) != reflect.TypeOf(primitive.ObjectID{}) || reflect.TypeOf(body.BookId) != reflect.TypeOf(primitive.ObjectID{}) {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"done": false,
 			"msg":  "Wrong parameters",

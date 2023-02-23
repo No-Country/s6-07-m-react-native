@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux'
 
 const BooksList = () => {
 	const books = useSelector(state => state)
-	
+	console.log("Listado de libros: ", books.books.books)
 
 	return (
 		<FlatList
