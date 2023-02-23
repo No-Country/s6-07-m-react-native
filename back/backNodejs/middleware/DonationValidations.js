@@ -15,3 +15,7 @@ exports.validationFindAllDonations = [
   param("userId").isMongoId().withMessage("Invalid userId"),
   reportError,
 ];
+exports.validationFindAllApplication = [
+  param("userId").isMongoId().withMessage("Invalid userId"),
+  reportError,
+];
