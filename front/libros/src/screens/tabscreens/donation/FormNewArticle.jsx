@@ -30,9 +30,6 @@ const FormNewArticle = () => {
 	const [newDonation, setNewDonation] = useState({})
 	const user = useSelector(state => state)
 
-	console.log(user.user.ID)
-
-	console.log(user)
 	const initialValues = {
 		title: '',
 		description: '',
@@ -48,7 +45,6 @@ const FormNewArticle = () => {
 	}
 
 	const uploadImage = async () => {
-		// No permissions request is necessary for launching the image library
 		let result = await ImagePicker.launchImageLibraryAsync({
 			mediaTypes: ImagePicker.MediaTypeOptions.Images,
 			allowsEditing: true,
@@ -72,7 +68,6 @@ const FormNewArticle = () => {
 			image,
 			userId: user.user.ID,
 		}
-		console.log(objDonation)
 		try {
 			await axios
 				.post(`${REACT_APP_API_URI_NODE}/book/donateBook`, objDonation)
@@ -80,13 +75,11 @@ const FormNewArticle = () => {
 					if (response.data.status === 200) {
 						setNewDonation(response.data)
 						setModalVisible(true)
-					} else {
-						alertToast('error', 'Error', 'Error al crear la publicacion')
 					}
 				})
 		} catch (error) {
 			console.log(error)
-			alertToast('error', 'Error', 'Error al crear la publicacion')
+			alertToast('error', '❌', 'Error al crear la publicacion')
 		}
 
 		resetForm()

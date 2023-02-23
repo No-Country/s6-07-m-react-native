@@ -11,13 +11,18 @@ import { Ionicons } from '@expo/vector-icons'
 import { colors } from '../../../../../utils/constants'
 import axios from 'axios'
 import { REACT_APP_API_URI_NODE } from '@env'
+<<<<<<< HEAD
 import { useSelector, useDispatch } from 'react-redux'
 import { setBooks } from '../../../../../store/slices/books.slice';
 import HeaderComponent 	from '../../../../headerComponent';
 
+=======
+import { useDispatch } from 'react-redux'
+import { setBooks } from '../../../../../store/slices/books.slice'
+import { alertToast } from '../../../../../utils/alertsUtils'
+>>>>>>> 98022618071047bbd372dab253629e724546d62e
 
 const SearchBooks = () => {
-	const books = useSelector(state => state.books)
 	const dispatch = useDispatch()
 	const [textInput, setTextInput] = useState('')
 	const [filterSelect, setFilterSelect] = useState('')
@@ -39,14 +44,21 @@ const SearchBooks = () => {
 	}
 
 	const handleSearch = async () => {
+		if (filterSelect === '' || textInput === '') {
+			return alertToast('info', 'ℹ️', 'No ingresaste ninguna informacion')
+		}
 		try {
 			await axios(
 				`${REACT_APP_API_URI_NODE}/book/search?${filterSelect}=${textInput}`
-			).then(response => dispatch(setBooks({ ...response.data.data })))
+			).then(response => {
+				if (response.data.status === 200) {
+					alertToast('success', '👍', 'Busqueda correcta')
+					dispatch(setBooks({ ...response.data.data }))
+				}
+			})
 		} catch (error) {
-			console.log(error)
-			if (error === 404) {
-				console.log('No existe')
+			if (error.response && error.response.status === 404) {
+				alertToast('error', '❌', 'No se encontraron resultados')
 			}
 		}
 		setTextInput('')
