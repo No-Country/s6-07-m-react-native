@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import { widthPixel,pixelSizeHorizontal, pixelSizeVertical, heightPixel, fontPixel} from '../../../../../utils/normalize';
 
 export const styles = StyleSheet.create({
 	container: {
@@ -6,16 +7,16 @@ export const styles = StyleSheet.create({
 		alignItems: 'center',
         justifyContent: 'space-between',
 		width: '100%',
-		height: 52,
+		height: heightPixel(52),
 		flexDirection: 'row',
         marginTop: 1
 	
 	},
 	avatar: {
-		width: 32,
-		height: 32, 
+		width: widthPixel(32),
+		height: heightPixel(32), 
 		borderRadius: 25,
-        marginRight: 8,
+        marginRight: pixelSizeHorizontal(8),
         borderWidth: 1,
         borderColor: '#0099ff'
 	
@@ -25,10 +26,7 @@ export const styles = StyleSheet.create({
 		backgroundColor: '#fff',
 		alignItems: 'center',
 		justifyContent: 'center',
-	
         marginLeft: 16,
-    
-      
 	},
 	textAvatar: {
 		fontSize: 12,
@@ -40,7 +38,6 @@ export const styles = StyleSheet.create({
 		alignItems: 'center',
 		justifyContent: 'space-around',
 		height: 32,
-
         marginRight: 16,
         width: 100, 
 	},
