@@ -1,4 +1,5 @@
 import { StyleSheet } from "react-native";
+import { widthPixel, heghtPixel, pixelSizeHorizontal, pixelSizeVertical, heightPixel } from "../../../../../utils/normalize";
 
 export const styles = StyleSheet.create({
     container: {
@@ -12,12 +13,11 @@ export const styles = StyleSheet.create({
     },
     map: {
         width: "100%",
-        height: 205,
+        height: heightPixel(197),
     },
     text: {
         color: "#263238",
         fontSize: 20,
     },
-
 });
 

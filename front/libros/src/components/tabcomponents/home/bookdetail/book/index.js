@@ -18,7 +18,6 @@ const Book = ({ navigation }) => {
 			</View>
 		)
 	}
-
 	return (
 		<View style={styles.container}>
 			<Detail data={bookObj} />

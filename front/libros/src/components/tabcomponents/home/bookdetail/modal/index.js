@@ -3,9 +3,12 @@ import { View, Text, TouchableOpacity, Pressable, Image,FlatList } from 'react-n
 import { Ionicons } from '@expo/vector-icons'
 import { styles } from './styles'
 import CardReview from './../cardreview'
+import { Platform } from 'react-native'
 
 
 const CustomModal = ({ data, setModalVisible, modalVisible }) => {
+ const Ionicons = Platform.OS === 'ios' ? require('react-native-vector-icons/Ionicons').default : require('react-native-vector-icons/Ionicons').default
+	
 	return (
 		<View style={styles.centeredView}>
 			{/*
