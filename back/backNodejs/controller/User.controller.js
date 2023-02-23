@@ -13,40 +13,30 @@ const getUser = async (req, res) => {
     }
     return Ok(res, data);
   } catch (error) {
-    console.log(error);
-    if (error.kind == "ObjectId") {
-      return Error(res, "Id is invalid");
-    }
     return Error(res, error.message);
   }
 };
 
 // Actualizar usuario
 const updateUser = async (req, res) => {
-  console.log(req, "req");
   try {
-    const userFound = await findUser(req.body.id);
+    const userFound = await findUser(req.body.userId);
     if (!userFound) {
       return NotFound(res, "User not found");
     }
-    //Meter condicionales para los datos, pensar que datos
-    //Email, Foto, Username
-    if (req.body.email.length !== 0) {
+    if (req.body.email && req.body.email.length !== 0) {
       userFound.email = req.body.email;
     }
-    if (req.body.username.length !== 0) {
+    if (req.body.username && req.body.username.length !== 0) {
       userFound.username = req.body.username;
     }
-    if (req.body.profileImage.length !== 0) {
-      userFound.profileImage = req.body.image;
+    if (req.body.profileImage && req.body.profileImage.length !== 0) {
+      userFound.profileImage = req.body.profileImage;
     }
     const savedUser = await saveUser(userFound);
     return Ok(res, savedUser);
   } catch (error) {
     console.log(error);
-    if (error.kind == "ObjectId") {
-      return Error(res, "Id is invalid");
-    }
     return Error(res, error.message);
   }
 };
