@@ -116,7 +116,9 @@ const router = Router();
  * /book/donateBook:
  *   post:
  *     sumary: created a mew book for donation
+
  *     description: Create a mew book for donation
+
  *     tags: [Books]
  *     requestBody:
  *       content:
@@ -245,9 +247,11 @@ router.delete("/deleteBook/:id", validationEraseBook, eraseBook);
   * @swagger
   * /book/updateBook:
   *   put:
+
   *     sumary: update information about the book
   *     description: update information about the book
   *     tags: [Books]
+
   *     requestBody:
   *       content:
   *         application/json:

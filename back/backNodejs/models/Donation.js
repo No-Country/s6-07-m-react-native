@@ -20,7 +20,4 @@ const DonationSchema = new Schema(
   }
 );
 
-/**
- * 
- */
 module.exports = model("Donation", DonationSchema);

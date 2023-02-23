@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import {
 	Image,
 	StyleSheet,
@@ -9,54 +9,21 @@ import {
 } from 'react-native'
 import { Ionicons } from '@expo/vector-icons'
 import { colors } from '../../../../../utils/constants'
-import axios from 'axios'
-import { REACT_APP_API_URI_NODE } from '@env'
-import { useDispatch } from 'react-redux'
-import { setBooks } from '../../../../../store/slices/books.slice'
-import { alertToast } from '../../../../../utils/alertsUtils'
+import useSearchBooks from '../../../../../hooks/useSearchBooks'
 
 const SearchBooks = () => {
-	const dispatch = useDispatch()
-	const [textInput, setTextInput] = useState('')
-	const [filterSelect, setFilterSelect] = useState('')
+	const {
+		textInput,
+		setTextInput,
+		filterSelect,
+		setFilterSelect,
+		handleSearch,
+		getAllBooks,
+	} = useSearchBooks()
 
 	useEffect(() => {
 		getAllBooks()
 	}, [])
-
-	const getAllBooks = async () => {
-		try {
-			await axios(`${REACT_APP_API_URI_NODE}/book/search`).then(response =>
-				dispatch(setBooks({ ...response.data.data }))
-			)
-		} catch (error) {
-			console.log(error)
-		}
-		setTextInput('')
-		setFilterSelect('')
-	}
-
-	const handleSearch = async () => {
-		if (filterSelect === '' || textInput === '') {
-			return alertToast('info', 'ℹ️', 'No ingresaste ninguna informacion')
-		}
-		try {
-			await axios(
-				`${REACT_APP_API_URI_NODE}/book/search?${filterSelect}=${textInput}`
-			).then(response => {
-				if (response.data.status === 200) {
-					alertToast('success', '👍', 'Busqueda correcta')
-					dispatch(setBooks({ ...response.data.data }))
-				}
-			})
-		} catch (error) {
-			if (error.response && error.response.status === 404) {
-				alertToast('error', '❌', 'No se encontraron resultados')
-			}
-		}
-		setTextInput('')
-		setFilterSelect('')
-	}
 
 	return (
 		<View style={{ marginBottom: 16 }}>
@@ -83,24 +50,53 @@ const SearchBooks = () => {
 				</TouchableOpacity>
 			</View>
 			<View style={styles.directionButtons}>
-				<TouchableOpacity onPress={getAllBooks} style={styles.button}>
+				<TouchableOpacity
+					onPress={getAllBooks}
+					style={[
+						styles.button,
+						{
+							backgroundColor:
+								filterSelect === '' ? colors.primary : colors.secondary,
+						},
+					]}
+				>
 					<Text style={styles.textButton}>Todos</Text>
 				</TouchableOpacity>
 				<TouchableOpacity
 					onPress={() => setFilterSelect('title')}
-					style={styles.button}
+					style={[
+						styles.button,
+						{
+							backgroundColor:
+								filterSelect === 'title' ? colors.primary : colors.secondary,
+						},
+					]}
 				>
 					<Text style={styles.textButton}>Titulos</Text>
 				</TouchableOpacity>
 				<TouchableOpacity
 					onPress={() => setFilterSelect('editorial')}
-					style={styles.button}
+					style={[
+						styles.button,
+						{
+							backgroundColor:
+								filterSelect === 'editorial'
+									? colors.primary
+									: colors.secondary,
+						},
+					]}
 				>
 					<Text style={styles.textButton}>Editorial</Text>
 				</TouchableOpacity>
 				<TouchableOpacity
 					onPress={() => setFilterSelect('author')}
-					style={styles.button}
+					style={[
+						styles.button,
+						{
+							backgroundColor:
+								filterSelect === 'author' ? colors.primary : colors.secondary,
+						},
+					]}
 				>
 					<Text style={styles.textButton}>Autor</Text>
 				</TouchableOpacity>
@@ -151,7 +147,7 @@ const styles = StyleSheet.create({
 	},
 	button: {
 		alignItems: 'center',
-		backgroundColor: colors.primary,
+		backgroundColor: colors.secondary,
 		borderStyle: 'solid',
 		borderWidth: 1,
 		borderColor: colors.primary,
