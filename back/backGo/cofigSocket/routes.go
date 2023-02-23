@@ -3,7 +3,7 @@ package configSocket
 import (
 	"fmt"
 
-	// "github.com/No-Country/s6-07-m-react-native/tree/main/back/backGo/controllers"
+	"github.com/No-Country/s6-07-m-react-native/tree/main/back/backGo/controllers"
 	"github.com/gin-gonic/gin"
 	"github.com/gorilla/websocket"
 	// "go.mongodb.org/mongo-driver/bson"
@@ -55,11 +55,11 @@ func RoutesWebSocket(c *gin.Context) {
 
 			fmt.Printf("Id del usuario conectado: %v \n Usuarios conectados: %v \n", id, connections)
 		}
-		// if body.Channel == "NEW_MESSAGE" {
-		// 	// res := controllers.PostMessage(body.ChatId, body.Content, body.UserId)
-			
+		if body.Channel == "NEW_MESSAGE" {
+			res := controllers.PostMessage(body.ChatId, body.Content, body.UserId)
+			fmt.Println(res)
 
-		// }
+		}
 	}
 
 }
