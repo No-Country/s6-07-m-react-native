@@ -1,53 +1,60 @@
 package configSocket
 
-import "github.com/gin-gonic/gin"
-
-import(
+import (
 	"fmt"
+
+	// "github.com/No-Country/s6-07-m-react-native/tree/main/back/backGo/controllers" 
+	"github.com/gin-gonic/gin"
 	"github.com/gorilla/websocket"
 )
 
 var upgrader = websocket.Upgrader{
-	ReadBufferSize: 1024,
+	ReadBufferSize:  1024,
 	WriteBufferSize: 1024,
 }
 
 var connections = make(map[string]*websocket.Conn)
 
-func RoutesWebSocket(c *gin.Context){
-	
-		conn, err := upgrader.Upgrade(c.Writer, c.Request,nil)
-	if err != nil{
+type FrontMessage struct {
+	// ID string `bson:"id"`
+	Channel string `json:"channel"`
+	Content string `json:"content"`
+	UserId  string `json:"userId"`
+}
+
+func RoutesWebSocket(c *gin.Context) {
+
+	conn, err := upgrader.Upgrade(c.Writer, c.Request, nil)
+	if err != nil {
 		fmt.Println(err)
-	return
+		return
 	}
 	fmt.Println("Conexion establecida")
-	
-	defer conn.Close()
-	
-	message := []byte("Conexión establecida con éxito")
-  err = conn.WriteMessage(websocket.TextMessage, message)
-  if err != nil {
-   fmt.Println(err)
-    return
-  }
 
-	for{
-		
-		_, message, err := conn.ReadMessage()
-		if err != nil {
-			fmt.Println(err)
-		}
-		fmt.Printf("Received message: %v \n Connections: %v \n" , string(message), connections)
-		id := string(message)
-	connections[id] = conn
-	fmt.Printf("conexiones: %v , id del usuario: %v", connections, id)
-		err = connections[id].WriteMessage(websocket.TextMessage, []byte("Hola wacho, te contesto desde el back"))
-		if err != nil {
-			fmt.Println(err)
-		}
-		
+	defer conn.Close()
+
+	message := []byte("Conexión establecida con éxito")
+	err = conn.WriteMessage(websocket.TextMessage, message)
+	if err != nil {
+		fmt.Println(err)
+		return
 	}
 
-	
+	for {
+		body := FrontMessage{}
+		if err := conn.ReadJSON(&body); err != nil {
+			fmt.Println(err)
+		}
+		if body.Channel == "USER_ID" {
+			id := string(body.UserId)
+			connections[id] = conn
+			fmt.Printf("Objecto que llega: %v \n", body.Channel)
+
+			fmt.Printf("Id del usuario conectado: %v \n Usuarios conectados: %v \n", id, connections)
+		}
+		// if body.Channel == "NEW_MESSAGE"{
+		// 	// controllers.PostMessage
+		// }
+	}
+
 }

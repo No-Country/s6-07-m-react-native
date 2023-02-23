@@ -17,15 +17,17 @@ import { colors } from '../../../../../../../utils/constants'
 import { REACT_APP_WEBSOCKET_URI } from '@env'
 //Redux
 import { useSelector } from 'react-redux'
+//import {setState} from "../../../../../../../store/slices/conversation.slice"
 //Emojis
-import EmojiPicker, {EmojiKeyboard} from 'rn-emoji-keyboard'
+import EmojiPicker from 'rn-emoji-keyboard'
 
 
 const Input = () => {
 
     //Modelo de objeto que te envío vía websocket.
 	const msgModel = {
-		msgID: '1234',
+		channel: "newMsg",
+		chatID: '1234',
 	 	userID: 'Mateo',
 		content: 'Hola',
 	}
@@ -41,6 +43,8 @@ const Input = () => {
         ],
         userID: "",
     }
+
+
 
 	//Proceso de chat:
 	/* 
@@ -77,8 +81,10 @@ const Input = () => {
 	const socket = new WebSocket(REACT_APP_WEBSOCKET_URI)
 	let [msg, setMsg] = useState("")
     let [socketResponse, setSocketResponse] = useState("")
+
     //Redux states
 	const user = useSelector(state => state.user)
+	//const conversation = useSelector(state => state.conversation)
 
 	const [isOpen, setIsOpen] = useState(false)
 	let [showKeyboard, setShowKeyboard] = useState(true)
@@ -89,7 +95,11 @@ const Input = () => {
 
 	useEffect(() => {
 		socket.addEventListener('open', () => {
-			socket.send(user.ID)
+			const data = {
+				channel: "USER_ID",
+				userID: user.ID
+			}
+			socket.send(JSON.stringify(data))
 		})
 	}, [])
 
@@ -102,12 +112,15 @@ const Input = () => {
 	const submitMsg = () => {
 		console.log('Send Message pressed.')
         const newMsg = {
-            conversationID: '1234',
+			channel: "NEW_MESSAGE",
+            /* chatID: conversation.ID, */
             userID: user.ID,
-            content: msg,
+            content: "Esta es una prueba importante.",
         }
-		socket.send(newMsg)
+		socket.send(JSON.stringify(newMsg))
+		/* setState() */
 	}
+	//submitMsg()
 
 	console.log('Message: ', msg)
 	console.log('Socket Response: ', socketResponse)

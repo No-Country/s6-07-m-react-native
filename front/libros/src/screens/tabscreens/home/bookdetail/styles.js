@@ -17,7 +17,7 @@ export const styles = StyleSheet.create({
         width: 350,
         height: 60,
         alignSelf: "center",
-        
+        marginBottom: 80,
     },
     text: {
         color: "white",

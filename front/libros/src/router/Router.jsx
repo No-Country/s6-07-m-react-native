@@ -38,7 +38,7 @@ export default Router = () => {
 	
 	return (
 		<NavigationContainer>
-			{!user ? <LoggedStack /> : <NoLoggedStack />}
+			{user ? <LoggedStack /> : <NoLoggedStack />}
 		</NavigationContainer>
 	)
 }
