@@ -10,6 +10,7 @@ import {
 import CircleGreen from './svg/CircleGreen'
 import HandOkay from './svg/HandOkay'
 import { Ionicons } from '@expo/vector-icons'
+import useNewArticle from '../../../hooks/useNewArticle'
 
 const ModalPublicated = ({ modalVisible = false, setModalVisible }) => {
 	return (
