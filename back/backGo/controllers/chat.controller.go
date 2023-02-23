@@ -67,7 +67,6 @@ func CreateChat(c *gin.Context) {
 
 }
 
-
 type UserChat struct {
 	ID    primitive.ObjectID   `bson:"_id"`
 	Chats []primitive.ObjectID `bson:"chats"`
@@ -75,7 +74,7 @@ type UserChat struct {
 
 type ChatStruct struct {
 	ID       primitive.ObjectID   `bson:"_id"`
-	Users    []primitive.ObjectID   `bson:"users"`
+	Users    []primitive.ObjectID `bson:"users"`
 	Messages []primitive.ObjectID `bson:"messages"`
 }
 type ChatUserName struct {
@@ -125,17 +124,16 @@ func GetHistoryChats(c *gin.Context) {
 		chat := ChatStruct{}
 		messagesColl := db.GetDBCollection("messages")
 		lastMessage := LastMessage{}
-	
+
 		userName := bson.M{}
-		projectionChat := bson.M{"users": 1 , "messages": 1}
+		projectionChat := bson.M{"users": 1, "messages": 1}
 		filterChat := bson.M{"_id": user.Chats[i]}
 		if err := chatColl.FindOne(context.TODO(), filterChat, options.FindOne().SetProjection(projectionChat)).Decode(&chat); err != nil {
 			c.JSON(http.StatusBadRequest, gin.H{"done": false, "msg": user})
 			return
 		}
 		messagesLen := len(chat.Messages)
-		
-		
+
 		if messagesLen > 0 {
 			if err := messagesColl.FindOne(context.TODO(), bson.M{"_id": chat.Messages[messagesLen-1]}, options.FindOne().SetProjection(bson.M{"content": 1})).Decode(&lastMessage); err != nil {
 				c.JSON(http.StatusBadRequest, gin.H{"done": false, "msg": err.Error()})
@@ -145,7 +143,7 @@ func GetHistoryChats(c *gin.Context) {
 		} else {
 			lastMessage.Empty = true
 		}
-		
+
 		if user.ID == chat.Users[0] {
 			filterNames := bson.M{"_id": chat.Users[1]}
 			if err := userColl.FindOne(context.TODO(), filterNames, options.FindOne().SetProjection(bson.M{"username": 1, "_id": 0})).Decode(&userName); err != nil {
@@ -171,4 +169,41 @@ func GetHistoryChats(c *gin.Context) {
 	})
 }
 
+func searchInSlice(slc []primitive.ObjectID, id primitive.ObjectID) bool {
+	for _, v := range slc {
+		if v == id {
+			return true
+		}
+	}
+	return false
+}
 
+func PostMessage(chatId, message, userId string) bson.M {
+	MessageColl := db.GetDBCollection("messages")
+	ChatColl := db.GetDBCollection("chats")
+
+	if userId == "" || !primitive.IsValidObjectID(userId) {
+		return bson.M{"done": false, "msg": "Inavlid userID"}
+	}
+	if chatId == "" || !primitive.IsValidObjectID(chatId) {
+		return bson.M{"done": false, "msg": "Inavlid ChatID"}
+	}
+	chat := model.Chat{}
+	if err := ChatColl.FindOne(context.TODO(), bson.M{"_id": chatId}).Decode(&chat); err != nil {
+		return bson.M{"done": false, "msg": err.Error()}
+	}
+	idUser, err := primitive.ObjectIDFromHex(userId)
+	if err != nil {
+		return bson.M{"done": false, "msg": "Problem with userId"}
+	}
+	if !searchInSlice(chat.Users, idUser) {
+		return bson.M{"done": false, "msg": "User does not match with the chat"}
+	}
+	body := model.Message{UserId: idUser, Content: message}
+	cursor, err := MessageColl.InsertOne(context.TODO(),body)
+	if err != nil {
+		return bson.M{"done": false, "msg": err.Error()}
+	}
+	return bson.M{"done": true, "msg": "Message successfully created", "idMessage": cursor.InsertedID}
+
+}

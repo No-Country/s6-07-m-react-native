@@ -10,9 +10,12 @@ const conversation = createSlice({
 	initialState,
 	reducers: {
 		setConversation: (state, action) => action.payload,
+		/* setState: (state, action) => {
+			state.conversation: {action.payload, state: "idle"}
+		} */
 	},
 });
 
-export const { setConversation } = conversation.actions
+export const { setConversation/* , setState */ } = conversation.actions
 
 export default conversation.reducer
