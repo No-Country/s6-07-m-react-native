@@ -56,10 +56,8 @@ func RoutesWebSocket(c *gin.Context) {
 			fmt.Printf("Id del usuario conectado: %v \n Usuarios conectados: %v \n", id, connections)
 		}
 		if body.Channel == "NEW_MESSAGE" {
-			res := controllers.PostMessage(body.ChatId, body.Content, body.UserId)
-			if res.Done == true {
-				
-			}
+			// res := controllers.PostMessage(body.ChatId, body.Content, body.UserId)
+			
 
 		}
 	}
