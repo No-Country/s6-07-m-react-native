@@ -9,6 +9,7 @@ import (
 
 	"github.com/No-Country/s6-07-m-react-native/tree/main/back/backGo/db"
 	"github.com/No-Country/s6-07-m-react-native/tree/main/back/backGo/model"
+	// "github.com/No-Country/s6-07-m-react-native/tree/main/back/backGo/configSocket"
 	"github.com/gin-gonic/gin"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
@@ -178,32 +179,33 @@ func searchInSlice(slc []primitive.ObjectID, id primitive.ObjectID) bool {
 	return false
 }
 
-func PostMessage(chatId, message, userId string) bson.M {
+func PostMessage(chatId, message, userId string) model.RetMessage{
+	
 	MessageColl := db.GetDBCollection("messages")
 	ChatColl := db.GetDBCollection("chats")
 
 	if userId == "" || !primitive.IsValidObjectID(userId) {
-		return bson.M{"done": false, "msg": "Inavlid userID"}
+		return model.RetMessage{Done: false, Msg: "Inavlid userID"}
 	}
 	if chatId == "" || !primitive.IsValidObjectID(chatId) {
-		return bson.M{"done": false, "msg": "Inavlid ChatID"}
+		return model.RetMessage{Done: false, Msg: "Inavlid ChatID"}
 	}
 	chat := model.Chat{}
 	if err := ChatColl.FindOne(context.TODO(), bson.M{"_id": chatId}).Decode(&chat); err != nil {
-		return bson.M{"done": false, "msg": err.Error()}
+		return model.RetMessage{Done: false, Msg: err.Error()}
 	}
 	idUser, err := primitive.ObjectIDFromHex(userId)
 	if err != nil {
-		return bson.M{"done": false, "msg": "Problem with userId"}
+		return model.RetMessage{Done: false, Msg: "Problem with userId"}
 	}
 	if !searchInSlice(chat.Users, idUser) {
-		return bson.M{"done": false, "msg": "User does not match with the chat"}
+		return model.RetMessage{Done: false, Msg: "User does not match with the chat"}
 	}
 	body := model.Message{UserId: idUser, Content: message}
 	cursor, err := MessageColl.InsertOne(context.TODO(),body)
 	if err != nil {
-		return bson.M{"done": false, "msg": err.Error()}
+		return model.RetMessage{Done: false, Msg: err.Error()}
 	}
-	return bson.M{"done": true, "msg": "Message successfully created", "idMessage": cursor.InsertedID}
+	return model.RetMessage{Done: true, Msg: "Message successfully created", Data: bson.M{"messageId": cursor.InsertedID}}
 
 }
