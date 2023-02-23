@@ -25,12 +25,8 @@ const useNewArticle = () => {
 				'Imagen cargada',
 				'La imagen se cargo correctamente!'
 			)
-			let newFile = {
-				uri: result.assets[0].uri,
-				type: `test/${result.assets[0].uri.split('.')[1]}`,
-			}
-			uploadCloudinary(newFile)
 			setImage(result.assets[0].uri)
+			uploadCloudinary(result.assets[0])
 		} else {
 			alertToast(
 				'error',
@@ -40,13 +36,21 @@ const useNewArticle = () => {
 		}
 	}
 
-	const uploadCloudinary = image => {
-		const data = new FormData()
-		data.append('file', image)
-		data.append('upload_preset', 'librosapp')
-		axios
-			.post('https://api.cloudinary.com/v1_1/dtjoj3fui/image/upload', data)
-			.then(response => console.log(response))
+	const uploadCloudinary = async image => {
+		try {
+			const data = new FormData()
+			data.append('file', image)
+			data.append('upload_preset', 'libros-app')
+			data.append('cloud_name', 'dtjoj3fui')
+			console.log(data)
+			const response = await axios.post(
+				'https://api.cloudinary.com/v1_1/dtjoj3fui/image/upload',
+				data
+			)
+			console.log('anda' + response)
+		} catch (error) {
+			console.log('aca', error)
+		}
 	}
 
 	const handleSubmit = async (values, resetForm) => {
