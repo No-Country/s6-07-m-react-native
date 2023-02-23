@@ -87,8 +87,9 @@ const router = Router();
  * @swagger 
  * /user/getUser/{id}:
  *   get:
- *     tags: [Users]
+ *     sumary: Get User By Id
  *     description: Returns a user by ID
+ *     tags: [Users]
  *     parameters:
  *       - in: path
  *         name: id

@@ -33,7 +33,9 @@ exports.validationEraseBook = [
 ];
 
 exports.validationUpdateBook = [
+
   body("id").isMongoId().withMessage("Invalid book ID"),
+
   body("image").optional().notEmpty().withMessage("Image is required"),
   body("title")
     .optional()
