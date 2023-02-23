@@ -24,55 +24,62 @@ const BookCard = ({ book }) => {
 		trimAuthor(book.author)
 	}, [])
 
-	return (
-		<View style={styles.container}>
-			<TouchableWithoutFeedback onPress={() => navigate('BookDetail')}>
-				<Image
-					style={{ width: 80, height: 125 }}
-					source={{ uri: book.image }}
-				/>
-			</TouchableWithoutFeedback>
+  return (
+    <TouchableWithoutFeedback onPress={() => navigate('BookDetail')}>
+      <View style={styles.container}>
+        <Image
+          style={{ width: 80, height: 125 }}
+          source={{ uri: book.url }}
+        />
 
-			<View style={styles.infoContainer}>
-				<View>
-					<Text style={styles.title}>{book.title.substring(0, 20)}</Text>
+        <View style={styles.infoContainer}>
 
-					<View style={styles.authorContainer}>
-						<View style={styles.avatarContainer}>
-							<Avatar />
-							<Text style={styles.authorTitle}>{author}</Text>
-						</View>
+          <View>
 
-						<View style={styles.avgContainer}>
-							<Ionicons
-								style={styles.star}
-								name='star'
-								size={14}
-								color={colors.warning}
-							/>
-							<Text style={styles.contact}>4.3</Text>
-						</View>
-					</View>
-				</View>
+            <Text style={styles.title}>{book.title.substring(0, 20)}</Text>
 
-				<View style={styles.contactContainer}>
-					<View style={styles.locationContainer}>
-						<Ionicons
-							name='location-outline'
-							size={15}
-							color={colors.auxiliar}
-						/>
-						<Text style={styles.contact}>15km</Text>
-					</View>
+            <View style={styles.authorContainer}>
+              <View style={styles.avatarContainer}>
+                <Avatar />
+                <Text style={styles.authorTitle}>{author}</Text>
+              </View>
 
-					<View style={styles.locationContainer}>
-						<Ionicons name='mail-outline' size={15} color={colors.auxiliar} />
-						<Text style={styles.contact}>Contacta</Text>
-					</View>
-				</View>
-			</View>
-		</View>
-	)
+              <View style={styles.avgContainer}>
+                <Ionicons
+                  style={styles.star}
+                  name="star"
+                  size={14}
+                  color={colors.warning}
+                />
+                <Text style={styles.contact}>4.3</Text>
+              </View>
+            </View>
+          </View>
+
+          <View style={styles.contactContainer}>
+
+            <View style={styles.locationContainer}>
+              <Ionicons
+                name="location-outline"
+                size={15}
+                color={colors.auxiliar}
+              />
+              <Text style={styles.contact}>15km</Text>
+            </View>
+
+            <View style={styles.locationContainer}>
+              <Ionicons
+                name="mail-outline"
+                size={15}
+                color={colors.auxiliar}
+              />
+              <Text style={styles.contact}>Contacta</Text>
+            </View>
+          </View>
+        </View>
+      </View>
+    </TouchableWithoutFeedback>
+  )
 }
 
 export default BookCard

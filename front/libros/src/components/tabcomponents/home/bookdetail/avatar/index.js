@@ -6,11 +6,7 @@ import styles from './styles';
 const Avatar = ({ image, navigation }) => {
 
 	return (
-		<TouchableOpacity
-			onPress={() => {
-				navigation.navigate('BookDetail');
-			}}
-		>
+		<TouchableOpacity>
 			<View style={styles.container}>
 				<Image
 					style={styles.image}

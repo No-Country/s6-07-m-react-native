@@ -15,7 +15,7 @@ export const styles = StyleSheet.create({
         width: widthPixel(254),
         height: heightPixel(48),
         alignSelf: "center",
-        
+        marginBottom: 80,
     },
     text: {
         color: "white", 
