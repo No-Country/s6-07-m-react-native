@@ -1,6 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit'
 
-const initialState = false
+const initialState = {
+	historychat: [],
+	status: "idle",
+}
 
 const historyChat = createSlice({
 	name: 'historyChat',
@@ -8,7 +11,7 @@ const historyChat = createSlice({
 	reducers: {
 		setHistoryChat: (state, action) => action.payload,
 	},
-});
+})
 
 export const { setHistoryChat } = historyChat.actions
 

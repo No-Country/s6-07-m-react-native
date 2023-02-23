@@ -1,6 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit'
 
-const initialState = false
+const initialState = {
+	conversation: [],
+	status: "idle"
+}
 
 const conversation = createSlice({
 	name: 'conversation',
