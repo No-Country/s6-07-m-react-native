@@ -45,6 +45,7 @@ const BookDetail = ({ navigation, book }) => {
 				/>
 			</Modal>
 		</SafeAreaView>
+		
 	)
 }
 

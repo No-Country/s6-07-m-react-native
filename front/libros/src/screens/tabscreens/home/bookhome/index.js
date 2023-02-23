@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		marginTop: 56,
-		marginBottom: 40,
+		marginBottom: 12,
 	},
 })
 
