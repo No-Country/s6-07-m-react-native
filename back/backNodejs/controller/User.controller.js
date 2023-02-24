@@ -1,5 +1,5 @@
 const User = require("../models/User");
-const { findUser, saveUser } = require("../services/User.service");
+const { findUser, saveUser, deleteUser } = require("../services/User.service");
 const { NotFound, Ok, Error } = require("../util/HttpResponse");
 
 // Buscar Usuario por ID
@@ -41,4 +41,17 @@ const updateUser = async (req, res) => {
   }
 };
 
-module.exports = { getUser, updateUser };
+//eliminar Usuario
+const deleteUsers = async (req, res) => {
+ 
+  try {
+    const userDelete = await deleteUser(req.params.id)
+    if(userDelete === null){
+      return NotFound(res, 'User not found')
+    }
+    return Ok(res, userDelete)
+  } catch (error) {
+    return Error(res, error.message)
+  }
+}
+module.exports = { getUser, updateUser, deleteUsers };
