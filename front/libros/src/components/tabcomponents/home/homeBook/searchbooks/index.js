@@ -19,11 +19,8 @@ const SearchBooks = () => {
 		setFilterSelect,
 		handleSearch,
 		getAllBooks,
+		setPage,
 	} = useSearchBooks()
-
-	useEffect(() => {
-		getAllBooks()
-	}, [])
 
 	return (
 		<View style={{ marginBottom: 16 }}>

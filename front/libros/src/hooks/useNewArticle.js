@@ -6,10 +6,33 @@ import { REACT_APP_API_URI_NODE } from '@env'
 import * as ImagePicker from 'expo-image-picker'
 
 const useNewArticle = () => {
+	const user = useSelector(state => state)
+
 	const [modalVisible, setModalVisible] = useState(false)
 	const [image, setImage] = useState('')
 	const [newDonation, setNewDonation] = useState({})
-	const user = useSelector(state => state)
+
+	const uploadCloudinary = async imageCloud => {
+		console.log(imageCloud)
+		const data = new FormData()
+		data.append('file', {
+			uri: imageCloud.uri,
+			type: imageCloud.image,
+			fileName: imageCloud.fileName || 'photo.jpg',
+		})
+		data.append('upload_preset', 'libros-app')
+
+		try {
+			const response = await axios.post(
+				'https://api.cloudinary.com/v1_1/dtjoj3fui/image/upload',
+				data
+			)
+			const data = await response.json()
+			console.log('Upload successful:', data)
+		} catch (error) {
+			console.log('cloudinary', error)
+		}
+	}
 
 	const uploadImage = async () => {
 		let result = await ImagePicker.launchImageLibraryAsync({
@@ -36,27 +59,13 @@ const useNewArticle = () => {
 		}
 	}
 
-	const uploadCloudinary = async image => {
-		try {
-			const data = new FormData()
-			data.append('file', image)
-			data.append('upload_preset', 'libros-app')
-			data.append('cloud_name', 'dtjoj3fui')
-			console.log(data)
-			const response = await axios.post(
-				'https://api.cloudinary.com/v1_1/dtjoj3fui/image/upload',
-				data
-			)
-			console.log('anda' + response)
-		} catch (error) {
-			console.log('aca', error)
-		}
-	}
-
 	const handleSubmit = async (values, resetForm) => {
 		const objDonation = {
 			...values,
-			image,
+			image:
+				image === ''
+					? 'https://noticias.uai.cl/assets/uploads/2020/04/nota-dia-del-libro-euge-980x470-c-default.jpg'
+					: image,
 			userId: user.user.ID,
 		}
 		try {
