@@ -20,7 +20,8 @@ export const UI = {
 }
 
 export const fontSizes = {
-    title: 16,
+    title: 18,
+    secondary: 16,
 }
 
 export const formStyles = {
@@ -35,6 +36,7 @@ export const formStyles = {
     input: {
         borderColor: colors.textSecondary,
         borderBottomWidth: 1,
+        fontSize: fontSizes.secondary,
         marginTop: 3
     },
     pass: {
