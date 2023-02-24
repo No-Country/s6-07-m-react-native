@@ -2,6 +2,7 @@ const {
   body,
   validationResult,
   ValidationError,
+  param,
 } = require("express-validator");
 const { reportError } = require("./reportErrorValidation");
 
@@ -18,7 +19,19 @@ exports.validationcreateuser = [
 exports.validationUpdateUser = [
   body("userId").isMongoId().withMessage("Invalid user ID"),
   body("username").optional().notEmpty().withMessage("Username is not valid"),
-  body("email").optional().notEmpty().isEmail().withMessage("Email is not valid"),
+  body("email")
+    .optional()
+    .notEmpty()
+    .isEmail()
+    .withMessage("Email is not valid"),
   body("profileImage").optional().notEmpty().isURL().withMessage("Invalid URL"),
   reportError,
 ];
+exports.validationDeleteUser = [
+  param("id").isMongoId().withMessage("Invalid Id of The User"),
+  reportError,
+];
+exports.validationGetUser = [
+  param("id").isMongoId().withMessage("Invalid Id of The User"),
+  reportError,
+]
