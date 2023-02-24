@@ -3,11 +3,13 @@ const {
   createDonation,
   findAllDonations,
   findDonationsId,
+  findAllApplication,
 } = require("../controller/Donation.controller");
 const {
   validationCreateDonation,
   validationFindDonationId,
   validationFindAllDonations,
+  validationFindAllApplication,
 } = require("../middleware/DonationValidations");
 
 const router = Router();
@@ -129,6 +131,37 @@ router.get(
   validationFindAllDonations,
   findAllDonations
 );
+/**
+ * @swagger
+ * /donation/allapplication/{userId}:
+ *   get:
+ *     sumary: return all application of one user
+ *     description: return all donations of  one user by userId
+ *     tags: [Donations]
+ *     parameters:
+ *       - name: userId
+ *         in: path
+ *         description: the userId of the donation
+ *         required: true
+ *         schema: 
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: OK
+ *         content:
+ *           application/json:
+ *             schema: 
+ *               $ref: '#/components/schemas/Donation'
+ *       404:
+ *         description: Not found
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/NotFound'
+ *       500:
+ *         description: Internal Error
+ */
+router.get("/allapplication/:userId",validationFindAllApplication, findAllApplication )
 /**
  * @swagger
  * /donation/finddonation/{id}:

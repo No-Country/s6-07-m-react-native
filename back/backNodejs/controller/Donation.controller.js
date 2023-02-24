@@ -4,6 +4,7 @@ const {
   savedDonation,
   findAllDonation,
   findDonationById,
+  allfindApplications,
 } = require("../services/Donation.service");
 const { findUser } = require("../services/User.service");
 const { NotFound, Ok } = require("../util/HttpResponse");
@@ -34,12 +35,22 @@ const createDonation = async (req, res) => {
     return Error(res, error.message);
   }
 };
+const findAllApplication = async (req, res) => {
+  const { userId } = req.params
+  try {
+    const findsolituds = await allfindApplications(userId);
+    if(!findsolituds.length){
+      return NotFound(res, "applications not found")
+    }
+    return Ok(res, findsolituds)
+  } catch (error) {
+    return Error(res, error.message);
+  }
+}
 const findAllDonations = async (req, res) => {
   const { userId } = req.params;
   try {
     const findDonation = await findAllDonation(userId);
-    console.log(findDonation)
-    console.log(findDonation.length, "foundDonation")
     if (!findDonation.length) {
       return NotFound(res, "Donation not founds");
     }
@@ -73,4 +84,5 @@ module.exports = {
   createDonation,
   findAllDonations,
   findDonationsId,
+  findAllApplication
 };
