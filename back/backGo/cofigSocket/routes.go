@@ -1,6 +1,7 @@
 package configSocket
 
 import (
+	"encoding/json"
 	"fmt"
 
 	"github.com/No-Country/s6-07-m-react-native/tree/main/back/backGo/controllers"
@@ -24,6 +25,9 @@ type FrontMessage struct {
 	ChatId  string `json:"chatId"`
 }
 
+type responeObj struct{
+	 Done bool `json:"done"`
+}
 
 func RoutesWebSocket(c *gin.Context) {
 
@@ -57,7 +61,17 @@ func RoutesWebSocket(c *gin.Context) {
 		}
 		if body.Channel == "NEW_MESSAGE" {
 			res := controllers.PostMessage(body.ChatId, body.Content, body.UserId)
-			fmt.Println(res)
+			
+			if res.Done{
+				resObj := responeObj{Done:true}
+				resJson, _ := json.Marshal(resObj)
+				
+				err = conn.WriteMessage(websocket.TextMessage, resJson)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+			}
 
 		}
 	}

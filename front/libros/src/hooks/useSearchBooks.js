@@ -13,8 +13,16 @@ const useSearchBooks = () => {
 
 	const getAllBooks = async () => {
 		try {
-			await axios(`${REACT_APP_API_URI_NODE}/book/search`).then(response =>
-				dispatch(setBooks({ ...response.data.data }))
+			await axios(`${REACT_APP_API_URI_NODE}/book/search`).then(response =>{
+				dispatch(
+					setBooks({
+						books: response.data.data.books,
+						status: 'succeded',
+						error: null,
+						bookSelected: null,
+					})
+				)
+				}
 			)
 		} catch (error) {
 			console.log(error)
