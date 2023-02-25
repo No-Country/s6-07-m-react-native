@@ -16,6 +16,11 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
+type ChatModelForSearch struct {
+	ID    primitive.ObjectID   `bson:"_id"`
+	Users []primitive.ObjectID `bson:"users"`
+}
+
 func CreateChat(c *gin.Context) {
 	chatColl := db.GetDBCollection("chats")
 	userColl := db.GetDBCollection("users")
@@ -32,7 +37,47 @@ func CreateChat(c *gin.Context) {
 		})
 		return
 	}
+	if len(body.Users) > 2 {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"done": false,
+			"msg":  "Only 2 users are accepted",
+		})
+		return
+	}
+	if body.Users[0] == body.Users[1]{
+		c.JSON(http.StatusBadRequest,gin.H{"done": false,"msg": "Cannot create a chat with the same 2 users"})
+		return
+	}
+	if body.BookId == primitive.NilObjectID || body.Users[0] == primitive.NilObjectID || body.Users[1] == primitive.NilObjectID {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"done": false,
+			"msg":  "Invalid BookId or UserId",
+		})
+		return
+	}
+	// busco en los chats si coincide con el book en caso de coincider veo si coinciden los users
+	var chatsSameBook []ChatModelForSearch
+	fmt.Println(body.BookId)
+	res, err := chatColl.Find(context.TODO(), bson.M{"bookId": body.BookId}, options.Find().SetProjection(bson.M{"users":1}))
+	if err != nil{
+		fmt.Println(err.Error())
+	}
+	res.All(context.TODO(), &chatsSameBook)
+	fmt.Printf("CHAT: %v \n", chatsSameBook)
+	if len(chatsSameBook) > 0 {
+		
+		for i := 0; i < len(chatsSameBook); i++ {
+			
+			
+			if chatsSameBook[i].Users[0] == body.Users[0] && chatsSameBook[i].Users[1] == body.Users[1] || chatsSameBook[i].Users[0] == body.Users[1] && chatsSameBook[i].Users[1] == body.Users[0] {
 
+				c.JSON(http.StatusAccepted, gin.H{"done": true, "msg": "Chat already exists", "chatId": chatsSameBook[i].ID})
+				return
+			
+			}
+
+		}
+	}
 	cursor, err := chatColl.InsertOne(context.TODO(), body)
 	if err != nil {
 		c.JSON(http.StatusConflict, gin.H{
@@ -179,8 +224,8 @@ func searchInSlice(slc []primitive.ObjectID, id primitive.ObjectID) bool {
 	return false
 }
 
-func PostMessage(chatId, message, userId string) model.RetMessage{
-	
+func PostMessage(chatId, message, userId string) model.RetMessage {
+
 	MessageColl := db.GetDBCollection("messages")
 	ChatColl := db.GetDBCollection("chats")
 
@@ -202,10 +247,11 @@ func PostMessage(chatId, message, userId string) model.RetMessage{
 		return model.RetMessage{Done: false, Msg: "User does not match with the chat"}
 	}
 	body := model.Message{UserId: idUser, Content: message}
-	cursor, err := MessageColl.InsertOne(context.TODO(),body)
+	cursor, err := MessageColl.InsertOne(context.TODO(), body)
 	if err != nil {
 		return model.RetMessage{Done: false, Msg: err.Error()}
 	}
 	return model.RetMessage{Done: true, Msg: "Message successfully created", Data: bson.M{"messageId": cursor.InsertedID}}
 
 }
+
