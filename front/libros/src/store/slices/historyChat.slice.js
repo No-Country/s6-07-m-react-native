@@ -1,8 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit'
 
-const initialState = {
-	historychat: [],
+let initialState = {
+	historyChat: [],
 	status: "idle",
+	error: null,
+	conversation: []
 }
 
 const historyChat = createSlice({

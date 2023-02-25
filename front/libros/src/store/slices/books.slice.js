@@ -17,6 +17,4 @@ const books = createSlice({
 
 export const { setBooks } = books.actions
 
-export const bookSelected = (state) => state.books.bookSelected
-
 export default books.reducer

@@ -9,10 +9,18 @@ import { styles } from '../styles/styles'
 import { colors } from '../../../../../utils/constants'
 //Components
 import Avatar from '../../bookdetail/avatar'
+//Redux
+import { useSelector, useDispatch } from "react-redux";
+import { setBooks } from '../../../../../store/slices/books.slice'
 
 const BookCard = ({ book }) => {
+
 	let [author, setAuthor] = useState('')
 	const { navigate } = useNavigation()
+
+  const dispatch = useDispatch()
+  const books = useSelector(state => state.books)
+  const user = useSelector(state => state.user)
 
 	const trimAuthor = author => {
 		return author?.length > 8
@@ -20,12 +28,29 @@ const BookCard = ({ book }) => {
 			: setAuthor(author)
 	}
 
+  const selectBook = () => {
+    const data = {
+      users: [ user.ID, book.userId ],
+      bookId: book._id,
+    }
+
+    dispatch(setBooks({
+      ...books,
+      bookSelected: book
+    }))
+  }
+
 	useEffect(() => {
 		trimAuthor(book.author)
 	}, [])
 
   return (
-    <TouchableWithoutFeedback onPress={() => navigate('BookDetail')}>
+    <TouchableWithoutFeedback 
+      onPress={() => {
+        selectBook()
+        navigate('BookDetail')
+        }}
+    >
       <View style={styles.container}>
         <Image
           style={{ width: 80, height: 125 }}

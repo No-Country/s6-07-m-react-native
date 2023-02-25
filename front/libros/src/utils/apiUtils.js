@@ -1,8 +1,9 @@
 import axios from 'axios'
-import { REACT_APP_API_URI_GO } from '@env'
+import { REACT_APP_API_URI_GO, REACT_APP_API_URI_NODE } from '@env'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
 console.log("URI GO: ", REACT_APP_API_URI_GO)
+console.log("URI NODE: ", REACT_APP_API_URI_NODE)
 
 const setToken = async () => {
 	const token = await AsyncStorage.getItem('token');
@@ -10,7 +11,7 @@ const setToken = async () => {
 }
 
 export const instance = axios.create({
-	baseURL: "http://192.168.100.45:3007",
+	baseURL: REACT_APP_API_URI_GO,
 	headers: {
 		Accept: 'application/json',
 		'Content-Type': 'application/json',

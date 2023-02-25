@@ -7,15 +7,18 @@ import {
 	Image,
 	FlatList,
 } from 'react-native'
+import { useNavigation } from '@react-navigation/native'
 import { Ionicons } from '@expo/vector-icons'
 import { styles } from './styles'
 import CardReview from './../cardreview'
 import { Platform } from 'react-native'
-
+//Redux
 import { useSelector, useDispatch } from 'react-redux'
-import { setChat } from '../../../../../store/slices/historyChat.slice'
-import { setConversation } from '../../../../../store/slices/conversation.slice'
+//Api
 import { post } from '../../../../../utils/apiUtils'
+//Alerts
+import { alertToast } from '../../../../../utils/alertsUtils'
+import { setHistoryChat } from '../../../../../store/slices/historyChat.slice'
 
 const CustomModal = ({ data, setModalVisible, modalVisible }) => {
 	const Ionicons =
@@ -23,23 +26,38 @@ const CustomModal = ({ data, setModalVisible, modalVisible }) => {
 			? require('react-native-vector-icons/Ionicons').default
 			: require('react-native-vector-icons/Ionicons').default
 
-	console.log('Detalle del libro: ' + data)
 	const user = useSelector(state => state.user)
+	const { bookSelected } = useSelector(state => state.books)
+	const historyChat = useSelector(state => state.historyChat)
+	const dispatch = useDispatch()
+	const { navigate } = useNavigation()
 
 	const handlePressed = async () => {
-		const data = {
-			users: [user.ID, data.userId],
-			bookId: data._id,
-		}
-		try {
-			const response = await post('/chat', data)
 
-			console.log(response)
+		try {
+			const data = {
+				users: [user.ID, bookSelected.userId],
+				bookId: bookSelected._id,
+				chats: []
+			}
+
+			const { data: { done, status } } = await post('/chat', data)
+
+			if (done) {
+				dispatch(setHistoryChat({
+					...historyChat,
+					status: "idle"
+				})
+				)
+				navigate("Chat", "Conversation")
+			} else {
+				alertToast("error", status, "Ocurrió un error. Intenta nuevamente.")
+			}
 		} catch (error) {
-			console.log(error)
+			console.log("Modal Catch Error: ", error)
 		}
 	}
-
+	//
 	return (
 		<View style={styles.centeredView}>
 			{/*

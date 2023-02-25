@@ -28,7 +28,7 @@ import { setUser } from '../../../store/slices/user.slice'
 //Storage
 import AsyncStorage from '@react-native-async-storage/async-storage'
 //Alerts
-import { showAlert, alerts, getStatus } from '../../../utils/alertsUtils'
+import { showAlert, alerts } from '../../../utils/alertsUtils'
 
 const Login = () => {
 
@@ -63,24 +63,24 @@ const Login = () => {
 				data: { token, user },
 			} = await post('/user/login', { ...values })
 
-			
-			(getStatus[status.toString()] || getStatus.default)({
-				status, 
-				alert: {
-					...alerts.success,
-					title: 'Éxito!',
-					msg: 'Inicio de sesión exitoso.',
-					options: [
-						{
-							text: 'OK',
-							onPress: async () => {
-								await AsyncStorage.setItem("token", token)
-								dispatch(setUser({ ...user }))
+			if(status === 200) {
+				showAlert({
+						...alerts.success,
+						title: 'Éxito!',
+						msg: 'Inicio de sesión exitoso.',
+						options: [
+							{
+								text: 'OK',
+								onPress: async () => {
+									await AsyncStorage.setItem("token", token)
+									dispatch(setUser({ ...user }))
+								},
 							},
-						},
-					],
-				}
-			})
+						],
+					})
+			} else {
+				showAlert(alerts.error)
+			}
 
 	} catch (error) {
 		console.log("SE ME VINO AL CATCH ", error)

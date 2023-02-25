@@ -39,7 +39,7 @@ export const showAlert = ({ title, msg, options, cancelable }) => {
 }
 
 export const getStatus = {
-	404: ({status}) => {
+	400: ({status}) => {
 		return showAlert({
 			...alerts.success,
 			title: 'Error: ' + status,
