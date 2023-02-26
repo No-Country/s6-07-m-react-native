@@ -19,11 +19,12 @@ import { Reviews } from './../../../../components/tabcomponents/home/index'
 import { books } from './../../../../../mocks/bookObj.json'
 import { StatusBar } from 'react-native'
 
-const BookDetail = ({ navigation }) => {
+const BookDetail = ({ navigation, book }) => {
 	const [modalVisible, setModalVisible] = useState(false)
 
 	const onHandlePress = () => {
 		setModalVisible(!modalVisible)
+
 	}
 	return (
 		<SafeAreaView>

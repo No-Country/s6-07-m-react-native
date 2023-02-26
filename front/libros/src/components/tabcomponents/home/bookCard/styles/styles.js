@@ -12,6 +12,9 @@ export const styles = {
 		paddingTop: 3,
 		flexDirection: 'row',
 		marginBottom: 20,
+		maxWidth: 320,
+		marginLeft: 'auto',
+		marginRight: 'auto',
 	},
 	infoContainer: {
 		padding: 5,

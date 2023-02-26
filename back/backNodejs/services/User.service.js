@@ -6,7 +6,11 @@ const findUser = async (id) => {
 const saveUser = async (user) => {
   return await user.save();
 };
+const deleteUser = async (id) => {
+  return await User.findByIdAndDelete({_id: id})
+}
 module.exports = {
   findUser,
   saveUser,
+  deleteUser
 };

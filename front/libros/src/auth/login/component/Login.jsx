@@ -6,7 +6,7 @@ import {
 	View,
 	TextInput,
 	TouchableOpacity,
-	TouchableWithoutFeedback,
+	TouchableWithoutFeedback
 } from 'react-native'
 //Styles
 import { colors, formStyles as styles } from '../../../utils/constants'
@@ -63,7 +63,9 @@ const Login = () => {
 			} = await post('/user/login', { ...values })
 
 			if (status === 200) {
-				await AsyncStorage.setItem('token', token)
+
+				await AsyncStorage.setItem("token", token)
+
 				showAlert({
 					...alerts.success,
 					title: 'Mensaje.',
