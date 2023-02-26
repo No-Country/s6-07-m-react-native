@@ -5,7 +5,13 @@ import {
 	SearchBooks,
 } from '../../../../components/tabcomponents/home/index'
 
+import { useSelector } from 'react-redux'
+import Spinner from "../../../../components/spinner/Spinner"
+
 const HomeBooks = ({ navigation }) => {
+
+	const books = useSelector(state => state.books)
+
 	return (
 		<SafeAreaView style={styles.container}>
 			<View style={{ marginHorizontal: 16 }}>
@@ -14,6 +20,7 @@ const HomeBooks = ({ navigation }) => {
 			<View style={{ marginLeft: 10, marginRight: 5 }}>
 				<BookList />
 			</View>
+			<Spinner display={books.books.length === 0 && "flex"}/>
 		</SafeAreaView>
 	)
 }

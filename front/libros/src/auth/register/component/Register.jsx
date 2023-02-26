@@ -8,6 +8,7 @@ import {
 	TouchableOpacity,
 	TouchableWithoutFeedback,
 	Alert,
+	ScrollView,
 } from 'react-native'
 //Styles
 import { colors, formStyles as styles } from '../../../utils/constants'
@@ -21,8 +22,10 @@ import {
 	valuesSchema,
 	formSchema,
 } from '../../../utils/formValidation'
-
+//Axios
 import { post, get } from '../../../utils/apiUtils'
+//Spinner
+import Spinner from '../../../components/spinner/Spinner'
 
 const Register = () => {
 	const { navigate } = useNavigation()
@@ -38,6 +41,7 @@ const Register = () => {
 
 	let [showPass, setShowPass] = useState(false)
 	let [toggleEye, setToggleEye] = useState('eye-off-outline')
+	let [spinner, setSpinner] = useState("none")
 
 	const ShowHidePass = () => {
 		if (!showPass) {
@@ -78,25 +82,45 @@ const Register = () => {
 		Alert.alert(title, msg, options, { cancelable })
 	}
 
-  const onSubmit = async (values) => {
-    try {
-      let { status } = await post("/user/signup", { ...values })
-      console.log(status)
-
-      if (status === 200) {
-        showAlert(alerts.success)
-      }else {
-        showAlert(alerts.error)
-      }
-
-    } catch (error) {
-      console.log("ERROR ", error)
-      showAlert({...alerts.error, title: error})
-    }
-  }
+	const onSubmit = async (values) => {
+		try {
+			setSpinner("flex")
+			
+			let { status } = await post("/user/signup", { ...values })
+			console.log(status)
+			
+			if (status === 200) {
+				setSpinner("none")
+				showAlert({
+					...alerts.success,
+					options: [
+						{
+							text: 'OK',
+							onPress: async () => navigate("Inicio de sesión"),
+						},
+					],
+				})
+			} else {
+				setSpinner("none")
+				showAlert(alerts.error)
+			}
+			
+		} catch (error) {
+			setSpinner("none")
+			console.log("ERROR ", error)
+			showAlert({ ...alerts.error, title: error })
+		}
+	}
 
 	return (
-		<View style={styles.container}>
+		<ScrollView
+			style={{
+				...styles.container,
+				height: "100%",
+				marginTop: 0,
+				justifyContent: "center"
+			}}
+		>
 			<Formik
 				initialValues={{
 					username,
@@ -122,14 +146,14 @@ const Register = () => {
 							<Text style={styles.error}>{errors?.username}</Text>
 						)}
 
-            <Text style={styles.title}>Email</Text>
-            <TextInput
-              style={styles.input}
-              placeholder="Email"
-              name="email"
-              onChangeText={handleChange("email")}
-            />
-            {errors?.email && <Text style={styles.error}>{errors?.email}</Text>}
+						<Text style={styles.title}>Email</Text>
+						<TextInput
+							style={styles.input}
+							placeholder="Email"
+							name="email"
+							onChangeText={handleChange("email")}
+						/>
+						{errors?.email && <Text style={styles.error}>{errors?.email}</Text>}
 
 						<Text style={styles.title}>Contraseña</Text>
 						<View style={styles.pass}>
@@ -180,7 +204,9 @@ const Register = () => {
 					<Text style={styles.touchableTxt}>Inicia sesión</Text>
 				</TouchableWithoutFeedback>
 			</View>
-		</View>
+			<Spinner display={spinner} />
+
+		</ScrollView>
 	)
 }
 

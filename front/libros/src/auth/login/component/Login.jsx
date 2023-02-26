@@ -30,6 +30,9 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 //Alerts
 import { showAlert, alerts } from '../../../utils/alertsUtils'
 
+import Spinner from '../../../components/spinner/Spinner'
+
+
 const Login = () => {
 
 	const { navigate } = useNavigation()
@@ -43,6 +46,7 @@ const Login = () => {
 
 	let [showPass, setShowPass] = useState(false)
 	let [toggleEye, setToggleEye] = useState('eye-off-outline')
+	let [spinner, setSpinner] = useState("none")
 
 	const ShowHidePass = () => {
 		if (!showPass) {
@@ -58,96 +62,108 @@ const Login = () => {
 
 	const onSubmit = async values => {
 		try {
+			setSpinner("flex")
 			const {
 				status,
 				data: { token, user },
 			} = await post('/user/login', { ...values })
+			
+			if (status === 200) {
+				setSpinner("none")
 
-			if(status === 200) {
 				showAlert({
-						...alerts.success,
-						title: 'Éxito!',
-						msg: 'Inicio de sesión exitoso.',
-						options: [
-							{
-								text: 'OK',
-								onPress: async () => {
-									await AsyncStorage.setItem("token", token)
-									dispatch(setUser({ ...user }))
-								},
+					...alerts.success,
+					title: 'Éxito!',
+					msg: 'Inicio de sesión exitoso.',
+					options: [
+						{
+							text: 'OK',
+							onPress: async () => {
+								await AsyncStorage.setItem("token", token)
+								dispatch(setUser({ ...user }))
 							},
-						],
-					})
+						},
+					],
+				})
 			} else {
+				setSpinner("none")
 				showAlert(alerts.error)
 			}
-
-	} catch (error) {
-		console.log("SE ME VINO AL CATCH ", error)
-		showAlert(alerts.error)
+			
+		} catch (error) {
+			setSpinner("none")
+			console.log("SE ME VINO AL CATCH ", error)
+			showAlert(alerts.error)
+		}
 	}
-}
 
-return (
-	<View style={styles.container}>
-		<Formik
-			initialValues={{
-				email,
-				password,
-			}}
-			validationSchema={formSchema(registerValuesSchema)}
-			onSubmit={values => onSubmit(values)}
-		>
-			{({ handleChange, handleSubmit, errors }) => (
-				<>
-					<Text style={styles.title}>Email</Text>
-					<TextInput
-						style={styles.input}
-						placeholder='Email'
-						name='email'
-						onChangeText={handleChange('email')}
-					/>
-					{errors?.email && <Text style={styles.error}>{errors?.email}</Text>}
-
-					<Text style={styles.title}>Contraseña</Text>
-					<View style={styles.pass}>
+	return (
+		<View 
+			style={{
+				...styles.container, 
+				height: "100%", 
+				marginTop: 0, 
+				justifyContent: "center"
+			}}>
+			<Formik
+				initialValues={{
+					email,
+					password,
+				}}
+				validationSchema={formSchema(registerValuesSchema)}
+				onSubmit={values => onSubmit(values)}
+			>
+				{({ handleChange, handleSubmit, errors }) => (
+					<>
+						<Text style={styles.title}>Email</Text>
 						<TextInput
 							style={styles.input}
-							name='password'
-							placeholder='Contraseña'
-							onChangeText={handleChange('password')}
-							secureTextEntry={!showPass}
+							placeholder='Email'
+							name='email'
+							onChangeText={handleChange('email')}
 						/>
-						<Ionicons
-							style={styles.eye}
-							name={toggleEye}
-							size={24}
-							color={colors.text}
-							onPress={ShowHidePass}
-						/>
-					</View>
-					{errors?.password && (
-						<Text style={styles.error}>{errors?.password}</Text>
-					)}
+						{errors?.email && <Text style={styles.error}>{errors?.email}</Text>}
 
-					<TouchableOpacity style={styles.btn} onPress={handleSubmit}>
-						<Text style={styles.btnTxt}>Iniciar sesión</Text>
-					</TouchableOpacity>
-				</>
-			)}
-		</Formik>
+						<Text style={styles.title}>Contraseña</Text>
+						<View style={styles.pass}>
+							<TextInput
+								style={styles.input}
+								name='password'
+								placeholder='Contraseña'
+								onChangeText={handleChange('password')}
+								secureTextEntry={!showPass}
+							/>
+							<Ionicons
+								style={styles.eye}
+								name={toggleEye}
+								size={24}
+								color={colors.text}
+								onPress={ShowHidePass}
+							/>
+						</View>
+						{errors?.password && (
+							<Text style={styles.error}>{errors?.password}</Text>
+						)}
 
-		<View style={styles.toLoginContainer}>
-			<Text style={styles.toLoginTitle}>¿No tienes una cuenta?</Text>
-			<TouchableWithoutFeedback
-				style={styles.touchable}
-				onPress={() => navigate('Registro')}
-			>
-				<Text style={styles.touchableTxt}>Registrate</Text>
-			</TouchableWithoutFeedback>
+						<TouchableOpacity style={styles.btn} onPress={handleSubmit}>
+							<Text style={styles.btnTxt}>Iniciar sesión</Text>
+						</TouchableOpacity>
+					</>
+				)}
+			</Formik>
+
+			<View style={styles.toLoginContainer}>
+				<Text style={styles.toLoginTitle}>¿No tienes una cuenta?</Text>
+				<TouchableWithoutFeedback
+					style={styles.touchable}
+					onPress={() => navigate('Registro')}
+				>
+					<Text style={styles.touchableTxt}>Registrate</Text>
+				</TouchableWithoutFeedback>
+			</View>
+			<Spinner display={spinner}/>
 		</View>
-	</View>
-)
+	)
 }
 
 export default Login

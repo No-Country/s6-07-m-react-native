@@ -7,6 +7,8 @@ import Input from './input/Input'
 //Redux
 import { useSelector, useDispatch } from "react-redux"
 import { setConversation } from "../../../../../../store/slices/conversation.slice"
+//Spinner
+import Spinner from "../../../../../spinner/Spinner"
 
 const Conversation = ({ID}) => {
 
@@ -22,18 +24,24 @@ const Conversation = ({ID}) => {
 
 	const dispatch = useDispatch()
 	const conversation = useSelector(state => state.conversation)
+	let [spinner, setSpinner] = useState("none")
 
 	const setConversation = async () => {
 
 		try {
+			setSpinner("flex")
+			
 			const response = await get("/chat/conversation/" + ID)
-
+			
 			if (response.status === 200) {
+				setSpinner("none")
 				dispatch(setConversation(response.data))
 			} else {
+				setSpinner("none")
 				console.log("Error al cargar conversación.")
 			}
 		} catch (error) {
+			setSpinner("none")
 			console.log(error)
 		}
 	}
@@ -88,6 +96,7 @@ const Conversation = ({ID}) => {
 				</View>
 			}
 			<Input />
+			<Spinner display={spinner} />
 		</View>
 	)
 }

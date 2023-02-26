@@ -19,10 +19,13 @@ import { useSelector, useDispatch } from 'react-redux'
 import { setHistoryChat } from '../../../../store/slices/historyChat.slice'
 //Axios
 import { post } from '../../../../utils/apiUtils'
+//Spinner
+import Spinner from '../../../spinner/Spinner'
 
 const Contact = () => {
 
     const [text, setText] = useState('')
+    let [spinner, setSpinner] = useState("none")
     const { bookSelected } = useSelector(state => state.books)
     const user = useSelector(state => state.user)
 	const historyChat = useSelector(state => state.historyChat)
@@ -40,6 +43,8 @@ const Contact = () => {
 
 		try {
 
+            setSpinner("flex")
+            
             if(text.length > 0) {
                 const data = {
                     users: [user.ID, bookSelected.userId],
@@ -47,17 +52,21 @@ const Contact = () => {
                 }
                 
                 const { data: { done, status } } = await post('/chat', data)
-
+                
                 if (done) {
+                    setSpinner("none")
+                    
                     dispatch(setHistoryChat({
                         ...historyChat,
                         status: "idle",
                         lastMessage: text,
                     }))
-
+                    
                     setText("")
-
+                    
                 } else {
+                    setSpinner("none")
+                    
                     alertToast(
                         "error", 
                         status, 
@@ -65,8 +74,9 @@ const Contact = () => {
                     )
                 }
             }
-
+            
 		} catch (error) {
+            setSpinner("none")
 			console.log("Modal Catch Error: ", error)
 		}
 	}
@@ -114,6 +124,7 @@ const Contact = () => {
                     </Text>
                 </TouchableHighlight>
             </View>
+            <Spinner display={spinner} />
         </ScrollView>
     )
 }

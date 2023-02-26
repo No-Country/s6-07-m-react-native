@@ -1,5 +1,5 @@
 //React
-import React, { useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { View, FlatList } from 'react-native'
 //Components
 import EmptyChat from './emptyChat/EmptyChat'
@@ -11,65 +11,73 @@ import { setHistoryChat } from "../../../../store/slices/historyChat.slice"
 import { get } from "../../../../utils/apiUtils";
 //Alerts
 import { alertToast } from '../../../../utils/alertsUtils'
+//Spinner
+import Spinner from "../../../spinner/Spinner"
 
 const HistoryChat = () => {
-    
-    const dispatch = useDispatch()
-	const historyChat = useSelector(state => state.historyChat)
-    const user = useSelector(state => state.user)
 
-    const dispatchHistoryChat = async() => {
+    const dispatch = useDispatch()
+    const historyChat = useSelector(state => state.historyChat)
+    const user = useSelector(state => state.user)
+    let [spinner, setSpinner] = useState("none")
+
+    const dispatchHistoryChat = async () => {
 
         try {
+            setSpinner("flex")
+
             const {
-                data: {chats}, 
-                ok, 
+                data: { chats },
+                ok,
                 status
             } = await get("/chat/history/" + user.ID)
 
-            if(ok) {
+            if (ok) {
+                setSpinner("none")
                 dispatch(setHistoryChat({
                     ...historyChat,
                     historyChat: chats,
                     status: "succeded",
                 }))
             } else {
+                setSpinner("none")
                 alertToast(
-                    "error", 
-                    status, 
+                    "error",
+                    status,
                     "Ocurrió un error. Intenta nuevamente."
                 )
             }
         } catch (error) {
+            setSpinner("none")
             alertToast(
-                "error", 
-                error, 
+                "error",
+                error,
                 "Ocurrió un error. Intenta nuevamente."
             )
             console.log("Catch error: ", error)
         }
     }
 
-    
-    useEffect(()=> {
+    useEffect(() => {
         dispatchHistoryChat()
     }, [historyChat.status === "idle"])
 
-	return (
-		<View style={{ marginTop: 30 }}>
-			{
-                historyChat?.historyChat?.length > 0 
-                ?
-				    <FlatList
-					    data={historyChat.historyChat}
-					    renderItem={({ item }) => <ChatItem  item = { item }/>}
-					    keyExtractor={item => item.ChatID}
-				    />
-			    : 
-			        <EmptyChat />
-			}
-		</View>
-	)
+    return (
+        <View style={{ marginTop: 30 }}>
+            {
+                historyChat?.historyChat?.length > 0
+                    ?
+                    <FlatList
+                        data={historyChat.historyChat}
+                        renderItem={({ item }) => <ChatItem item={item} />}
+                        keyExtractor={item => item.ChatID}
+                    />
+                    :
+                    <EmptyChat />
+            }
+            <Spinner display={spinner} />
+        </View>
+    )
 }
 
 export default HistoryChat
