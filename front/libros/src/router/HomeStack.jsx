@@ -3,6 +3,7 @@ import React from 'react'
 import HomeBooks from './../screens/tabscreens/home/bookhome/index'
 import BookDetail from '../screens/tabscreens/home/bookdetail/index'
 import { Avatar } from '../components/tabcomponents/home/index'
+import Contact from '../components/tabcomponents/home/Contact/Contact'
 
 const Stack = createNativeStackNavigator()
 
@@ -19,6 +20,14 @@ const HomeNavigator = ({ navigation }) => {
 				component={BookDetail}
 				options={({ navigation }) => ({
 					title: 'Solicita del libro',
+					headerRight: () => <Avatar />,
+				})}
+			/>
+			<Stack.Screen
+				name='Contact'
+				component={Contact}
+				options={({ navigation }) => ({
+					title: 'Contacto',
 					headerRight: () => <Avatar />,
 				})}
 			/>

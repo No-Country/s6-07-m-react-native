@@ -4,35 +4,36 @@ import {
     View,
     Text
 } from "react-native"
+//Styles
 import { styles } from './styles'
+//Redux
+import { useSelector } from 'react-redux'
 
-const Balloon = ({ transmitter }) => {
+const Balloon = ({ userID, msg }) => {
 
-    const [textWidth, setTextWidth] = useState(0);
-    const textRef = useRef();
+    const user = useSelector(state => state.user)
 
-    const handleTextLayout = (event) => {
-        const { width } = event.nativeEvent.layout;
-        console.log(width)
-        setTextWidth(width);
-    };
+    const transmitter = () => {
+        if (userID === user.ID) {
+            return true
+        }
 
-    /* useEffect(() => {
-        textRef.current.measure((x, y, width, height, pageX, pageY) => {
-            console.log(width)
-            setTextWidth(width);
-        });
-    }, [textRef]) */
+        return false
+    }
 
-    console.log(textWidth)
-
-return (
-    <View style={transmitter ? { ...styles.containerTransmitter/* , width: textWidth */ } : { ...styles.containerReceiver, /* width: textWidth */ }}>
-        <Text /* ref={textRef} */ /* onLayout={handleTextLayout} */ style={styles.text}>
-            Hola che. cómo andás? holaholaholahola mas holas que sigan los holas siguen los holas nomas que hola con el hola jajaja que hola che {/* holaaa como andas? jajajajajajaja */}
-        </Text>
-    </View>
-)
+    return (
+        <View
+            style={transmitter()
+                    ?
+                        { ...styles.containerTransmitter }
+                    :
+                        { ...styles.containerReceiver }}
+        >
+            <Text style={styles.text}>
+                {msg}
+            </Text>
+        </View>
+    )
 }
 
 export default Balloon
