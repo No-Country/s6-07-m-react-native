@@ -13,7 +13,6 @@ const useNewArticle = () => {
 	const [newDonation, setNewDonation] = useState({})
 
 	const uploadCloudinary = async imageCloud => {
-		console.log(imageCloud)
 		const data = new FormData()
 		data.append('file', {
 			uri: imageCloud.uri,

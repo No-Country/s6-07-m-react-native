@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { alertToast } from '../utils/alertsUtils'
 import { setBooks } from '../store/slices/books.slice'
 import { useEffect, useState } from 'react'
+import { ActivityIndicator, View } from 'react-native'
 
 const useSearchBooks = () => {
 	const dispatch = useDispatch()
@@ -12,35 +13,36 @@ const useSearchBooks = () => {
 
 	const [textInput, setTextInput] = useState('')
 	const [filterSelect, setFilterSelect] = useState('')
-	const [page, setPage] = useState(1)
-	console.log('pagina numero', page)
+	const [loading, setLoading] = useState(false)
+	const [currentPage, setCurrentPage] = useState(1)
 
 	useEffect(() => {
-		getAllBooks()
+		newPage(1)
 	}, [])
 
-	const handleLoadMore = () => {
-		console.log('load more dawn')
-		newPage(page + 1)
-	}
-
-	const getAllBooks = () => {
-		setTextInput('')
-		setFilterSelect('')
+	const resetAll = () => {
+		setCurrentPage(1)
 		newPage(1)
 	}
 
 	const newPage = async page => {
+		console.log('esto viene de new page', page)
+		console.log('esto viene de newpage pero es currentpage', currentPage)
+		setTextInput('')
+		setFilterSelect('')
+		setLoading(true)
 		try {
-			setPage(page)
 			const response = await axios(
-				`${REACT_APP_API_URI_NODE}/book/search?page=${page}`
+				`${REACT_APP_API_URI_NODE}/book/search?page=${page}&limit=20`
 			)
-			const newData = response.data.data
 			if (page === 1) {
-				return dispatch(setBooks(newData))
+				setLoading(false)
+				return dispatch(setBooks(response.data.data))
 			}
-			dispatch(setBooks({ ...books, ...newData }))
+			if (page !== 1) {
+				dispatch(setBooks(response.data.data))
+				setLoading(false)
+			}
 		} catch (error) {
 			if (error.response && error.response.status === 404) {
 				alertToast('info', 'ℹ️', 'Estos son todos los libros!')
@@ -49,16 +51,18 @@ const useSearchBooks = () => {
 	}
 
 	const handleSearch = async () => {
+		setLoading(true)
 		if (filterSelect === '' || textInput === '') {
 			return alertToast('info', 'ℹ️', 'No ingresaste ninguna informacion')
 		}
 		try {
 			await axios(
-				`${REACT_APP_API_URI_NODE}/book/search?${filterSelect}=${textInput}&page=${page}`
+				`${REACT_APP_API_URI_NODE}/book/search?${filterSelect}=${textInput}&page=1&limit=8`
 			).then(response => {
 				if (response.data.status === 200) {
 					alertToast('success', '👍', 'Busqueda correcta')
 					dispatch(setBooks(response.data.data))
+					setLoading(false)
 				}
 			})
 		} catch (error) {
@@ -70,17 +74,41 @@ const useSearchBooks = () => {
 		setFilterSelect('')
 	}
 
+	const handleLoadMore = () => {
+		setLoading(true)
+		if (
+			books.books.pagination.currentPage === books.books.pagination.totalPages
+		) {
+			setLoading(false)
+			return alertToast('info', 'ℹ️', 'Estas en la ultima pagina')
+		}
+		setTimeout(() => {
+			const nextPage = currentPage + 1
+			newPage(2)
+			setCurrentPage(nextPage)
+			console.log(nextPage)
+			setLoading(false)
+		}, 1500)
+	}
+
+	const renderFooter = () => {
+		return loading ? (
+			<View style={{ paddingVertical: 40 }}>
+				<ActivityIndicator size='large' color='#BC624F' />
+			</View>
+		) : null
+	}
+
 	return {
 		textInput,
 		setTextInput,
 		filterSelect,
 		setFilterSelect,
 		handleSearch,
-		getAllBooks,
 		handleLoadMore,
-		page,
 		newPage,
-		setPage,
+		renderFooter,
+		resetAll,
 	}
 }
 

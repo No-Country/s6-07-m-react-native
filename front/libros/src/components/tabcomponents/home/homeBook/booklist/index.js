@@ -7,7 +7,7 @@ import useSearchBooks from '../../../../../hooks/useSearchBooks'
 const BooksList = () => {
 	const books = useSelector(state => state)
 
-	const { handleLoadMore } = useSearchBooks()
+	const { handleLoadMore, renderFooter } = useSearchBooks()
 
 	return (
 		<FlatList
@@ -16,6 +16,7 @@ const BooksList = () => {
 			keyExtractor={item => item._id}
 			onEndReached={handleLoadMore}
 			onEndReachedThreshold={0.1}
+			ListFooterComponent={renderFooter}
 		/>
 	)
 }
