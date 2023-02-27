@@ -6,6 +6,7 @@ let initialState = {
 	error: null,
 	conversation: [],
 	lastMessage: "",
+	chatId: "",
 }
 
 const historyChat = createSlice({

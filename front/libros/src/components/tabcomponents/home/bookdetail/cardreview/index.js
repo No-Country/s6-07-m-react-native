@@ -6,7 +6,7 @@ import {
 import { styles } from './styles'
 
 const CardReview = ({ data }) => {
-	console.log(data)
+	
 	return (
 		<View style={styles.cardReview}>
 			<View style={styles.headerReview}>

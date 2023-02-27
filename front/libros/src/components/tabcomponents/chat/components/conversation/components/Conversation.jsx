@@ -23,16 +23,17 @@ const Conversation = ({ID}) => {
 	]
 
 	const dispatch = useDispatch()
-	const conversation = useSelector(state => state.conversation)
+	const historyChat = useSelector(state => state.historyChat)
+	const user = useSelector(state => state.user)
 	let [spinner, setSpinner] = useState("none")
 
-	const setConversation = async () => {
+	/* const setConversation = async () => {
 
 		try {
 			setSpinner("flex")
 			
-			const response = await get("/chat/conversation/" + ID)
-			
+			const response = await get("/chat/conversation/", {chatId: ID, userId: user.ID})
+			console.log("Historial de conversación: ", response)
 			if (response.status === 200) {
 				setSpinner("none")
 				dispatch(setConversation(response.data))
@@ -44,7 +45,7 @@ const Conversation = ({ID}) => {
 			setSpinner("none")
 			console.log(error)
 		}
-	}
+	} */
 
 	/* 
 		useEffect(()=> {
@@ -66,12 +67,12 @@ const Conversation = ({ID}) => {
 			}}
 		>
 			{
-				conversation.length > 0
+				historyChat.conversation.length > 0
 				?
 					<FlatList	
-						data={items}
+						data={historyChat.conversation}
 						inverted
-						renderItem={({ item }) => <Balloon transmitter={item} />}
+						renderItem={({ item }) => <Balloon userID={item.userId} msg={item.content} />}
 						keyExtractor={(item, id) => id}
 						style={{ 
 							width: "100%",

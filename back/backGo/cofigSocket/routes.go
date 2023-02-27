@@ -25,8 +25,8 @@ type FrontMessage struct {
 	ChatId  string `json:"chatId"`
 }
 
-type responeObj struct{
-	 Done bool `json:"done"`
+type responeObj struct {
+	Done bool `json:"done"`
 }
 
 func RoutesWebSocket(c *gin.Context) {
@@ -59,19 +59,19 @@ func RoutesWebSocket(c *gin.Context) {
 
 			fmt.Printf("Id del usuario conectado: %v \n Usuarios conectados: %v \n", id, connections)
 		}
-		
+
 		if body.Channel == "NEW_MESSAGE" {
 			res := controllers.PostMessage(body.ChatId, body.Content, body.UserId)
-			
-			if res.Done{
-				resObj := responeObj{Done:true}
+
+			if res.Done {
+				resObj := responeObj{Done: true}
 				resJson, _ := json.Marshal(resObj)
-				
+
 				err = conn.WriteMessage(websocket.TextMessage, resJson)
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
+				if err != nil {
+					fmt.Println(err)
+					return
+				}
 			}
 
 		}

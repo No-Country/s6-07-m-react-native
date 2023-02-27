@@ -12,6 +12,7 @@ import { styles } from './styles'
 import { colors } from '../../../../../utils/constants'
 //Redux
 import { useDispatch, useSelector } from 'react-redux'
+import { setHistoryChat } from "../../../../../store/slices/historyChat.slice"
 //Axios
 import { get } from '../../../../../utils/apiUtils'
 //Alerts
@@ -24,13 +25,17 @@ const ChatItem = ({ item }) => {
     const historyChat = useSelector(state => state.chat)
 
     const handlePressed = async () => {
-        console.log("Handle Pressed")
+        console.log("Handle Pressed", item)
         try {
-            const response = await get("chat/history/" + item.ChatID)
+            const response = await get("/chat/conversation/", {chatId: item.chatID, userId: user.ID})
             console.log(response)
 
             if(response.ok) {
                 console.log("Entró el OK.")
+                dispatch(setHistoryChat({
+                    ...historyChat,
+                    conversation: response.data.messages
+                }))
             } else {
                 alertToast(
                     "error", 

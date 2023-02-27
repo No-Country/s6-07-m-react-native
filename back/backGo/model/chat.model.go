@@ -7,7 +7,7 @@ import (
 
 type Chat struct {
 	ID       primitive.ObjectID   `bson:"_id,omitempty"`
-	Messages []primitive.ObjectID `bson:"messages"`
+	Messages []primitive.ObjectID `bson:"messages,omitempty"`
 	Users    []primitive.ObjectID `bson:"users"`
 	BookId   primitive.ObjectID   `bson:"bookId"`
 }
@@ -22,4 +22,6 @@ type Message struct {
 	ID      primitive.ObjectID `bson:"_id,omitempty"`
 	UserId  primitive.ObjectID `bson:"userId"`
 	Content string             `bson:"content"`
+	ChatId 	primitive.ObjectID	`bson:"chatId"`
+	User    User               `bson:"user,omitempty"`
 }

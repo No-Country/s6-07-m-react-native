@@ -44,8 +44,8 @@ func CreateChat(c *gin.Context) {
 		})
 		return
 	}
-	if body.Users[0] == body.Users[1]{
-		c.JSON(http.StatusBadRequest,gin.H{"done": false,"msg": "Cannot create a chat with the same 2 users"})
+	if body.Users[0] == body.Users[1] {
+		c.JSON(http.StatusBadRequest, gin.H{"done": false, "msg": "Cannot create a chat with the same 2 users"})
 		return
 	}
 	if body.BookId == primitive.NilObjectID || body.Users[0] == primitive.NilObjectID || body.Users[1] == primitive.NilObjectID {
@@ -58,22 +58,21 @@ func CreateChat(c *gin.Context) {
 	// busco en los chats si coincide con el book en caso de coincider veo si coinciden los users
 	var chatsSameBook []ChatModelForSearch
 	fmt.Println(body.BookId)
-	res, err := chatColl.Find(context.TODO(), bson.M{"bookId": body.BookId}, options.Find().SetProjection(bson.M{"users":1}))
-	if err != nil{
+	res, err := chatColl.Find(context.TODO(), bson.M{"bookId": body.BookId}, options.Find().SetProjection(bson.M{"users": 1}))
+	if err != nil {
 		fmt.Println(err.Error())
 	}
 	res.All(context.TODO(), &chatsSameBook)
 	fmt.Printf("CHAT: %v \n", chatsSameBook)
 	if len(chatsSameBook) > 0 {
-		
+
 		for i := 0; i < len(chatsSameBook); i++ {
-			
-			
+
 			if chatsSameBook[i].Users[0] == body.Users[0] && chatsSameBook[i].Users[1] == body.Users[1] || chatsSameBook[i].Users[0] == body.Users[1] && chatsSameBook[i].Users[1] == body.Users[0] {
 
-				c.JSON(http.StatusAccepted, gin.H{"done": true, "msg": "Chat already exists", "chatId": chatsSameBook[i].ID})
+				c.JSON(http.StatusAccepted, gin.H{"done": false, "msg": "Chat already exists", "chatId": chatsSameBook[i].ID})
 				return
-			
+
 			}
 
 		}
@@ -243,10 +242,14 @@ func PostMessage(chatId, message, userId string) model.RetMessage {
 	if err != nil {
 		return model.RetMessage{Done: false, Msg: "Problem with userId"}
 	}
+	idChat, err := primitive.ObjectIDFromHex(chatId)
+	if err != nil {
+		return model.RetMessage{Done: false, Msg: "Problem with chatId"}
+	}
 	if !searchInSlice(chat.Users, idUser) {
 		return model.RetMessage{Done: false, Msg: "User does not match with the chat"}
 	}
-	body := model.Message{UserId: idUser, Content: message}
+	body := model.Message{UserId: idUser, Content: message, ChatId: idChat}
 	cursor, err := MessageColl.InsertOne(context.TODO(), body)
 	if err != nil {
 		return model.RetMessage{Done: false, Msg: err.Error()}
@@ -255,3 +258,140 @@ func PostMessage(chatId, message, userId string) model.RetMessage {
 
 }
 
+type bodyGetMsg struct {
+	UserId primitive.ObjectID `bson:"userId"`
+	ChatID primitive.ObjectID `bson:"chatId"`
+}
+
+func GetConversation(c *gin.Context) {
+	chatColl := db.GetDBCollection("chats")
+	userColl := db.GetDBCollection("users")
+	messagesColl := db.GetDBCollection("messages")
+	body := bodyGetMsg{}
+	if err := c.ShouldBindJSON(&body); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"done": false, "msg": err.Error()})
+		return
+	}
+	chat := model.Chat{}
+	if err := chatColl.FindOne(context.TODO(), bson.M{"_id": body.ChatID}).Decode(&chat); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"done": false, "msg": err.Error()})
+		return
+	}
+
+	var groupMessages []model.Message
+	for i := 0; i < len(chat.Messages); i++ {
+		messages := model.Message{}
+		if err := messagesColl.FindOne(context.TODO(), bson.M{"_id": chat.Messages[i]}).Decode(&messages); err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"done": false, "msg": err.Error()})
+			return
+		}
+		if err := userColl.FindOne(context.TODO(), bson.M{"_id": messages.UserId}).Decode(&messages.User); err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"done": false, "msg": err.Error()})
+			return
+		}
+		groupMessages = append(groupMessages, messages)
+
+	}
+	c.JSON(http.StatusAccepted, gin.H{"done": true, "data": groupMessages})
+
+}
+
+type bodyFirstMsg struct {
+	ChatId  primitive.ObjectID `bson:"chatId"`
+	Message string             `bson:"message"`
+	UserId  primitive.ObjectID `bson:"userId"`
+}
+
+func FirstMessage(c *gin.Context) {
+	body := bodyFirstMsg{}
+	if err := c.ShouldBindJSON(&body); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"done": false, "msg": err.Error()})
+		return
+	}
+	fmt.Println(body)
+	// chatId, message, userId string
+	MessageColl := db.GetDBCollection("messages")
+	ChatColl := db.GetDBCollection("chats")
+
+	if reflect.TypeOf(body.UserId) != reflect.TypeOf(primitive.ObjectID{}) {
+		c.JSON(http.StatusBadRequest, gin.H{"done": false, "msg": "Invalid userID"})
+		return
+	}
+	if reflect.TypeOf(body.ChatId) != reflect.TypeOf(primitive.ObjectID{}) {
+		c.JSON(http.StatusBadRequest, gin.H{"done": false, "msg": "Inavlid ChatID"})
+		return
+	}
+	chat := model.Chat{}
+	if err := ChatColl.FindOne(context.TODO(), bson.M{"_id": body.ChatId}).Decode(&chat); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"done": false, "msg": err.Error()})
+		return
+	}
+
+	if !searchInSlice(chat.Users, body.UserId) {
+		c.JSON(http.StatusBadRequest, gin.H{"done": false, "msg": "User does not match with the chat"})
+		return
+	}
+	bodyMsg := model.Message{UserId: body.UserId, Content: body.Message, ChatId: body.ChatId}
+	cursor, err := MessageColl.InsertOne(context.TODO(), bodyMsg)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"done": false, "msg": err.Error()})
+		return
+	}
+	c.JSON(http.StatusBadRequest, gin.H{"done": true, "msg": "message successfully created", "messageId": cursor.InsertedID})
+
+}
+
+type bodyDeleteChat struct {
+	UserId primitive.ObjectID `bson:"userId"`
+	// Msg string 	`bson:"msg"`
+}
+
+func DeleteChat(c *gin.Context) {
+	chatId := c.Param("chatId")
+	body := bodyDeleteChat{}
+	
+	if err := c.ShouldBindJSON(&body); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"done": false, "msg": err.Error()})
+		fmt.Println(err.Error())
+		fmt.Println("Llegue aca")
+		return
+	}
+	fmt.Println(body)
+	idChatId,err := primitive.ObjectIDFromHex(chatId)
+	if err != nil{
+		c.JSON(http.StatusBadRequest, gin.H{"done": false, "msg": err.Error()})
+		fmt.Println("si llegue aca me muero")
+		return
+	}
+	chatColl := db.GetDBCollection("chats")
+	userColl := db.GetDBCollection("users")
+	chat := model.Chat{}
+	if err := chatColl.FindOne(context.TODO(), bson.M{"_id": idChatId}).Decode(&chat); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"done": false, "msg": err.Error()})
+		return
+	}
+	
+	
+	if chat.Users[0] != body.UserId && chat.Users[1] != body.UserId{
+		c.JSON(http.StatusBadRequest, gin.H{"done": false, "msg": "Error with UserId"})
+		return
+	}
+	bodyDeleted := model.Chat{}
+	if err := chatColl.FindOneAndDelete(context.TODO(), bson.M{"_id": idChatId}).Decode(&bodyDeleted) ; err != nil{
+		c.JSON(http.StatusBadRequest, bson.M{"done": false, "msg": err.Error()})
+		return
+	}
+	userOne := model.User{}
+	userTwo := model.User{}
+	if err := userColl.FindOneAndUpdate(context.TODO(), bson.M{"_id": chat.Users[0]}, bson.M{"$pull": bson.M{"chats": idChatId}}).Decode(&userOne) ; err != nil{
+		c.JSON(http.StatusBadRequest, gin.H{"done": false, "msg": err.Error()})
+		return
+	}
+	if err := userColl.FindOneAndUpdate(context.TODO(), bson.M{"_id": chat.Users[1]}, bson.M{"$pull": bson.M{"chats": idChatId}}).Decode(&userTwo) ; err != nil{
+		c.JSON(http.StatusBadRequest, gin.H{"done": false, "msg": err.Error()})
+		return
+	}
+	fmt.Println(userOne)
+	c.JSON(http.StatusAccepted, gin.H{"done": true, "msg": "Chat deleted successfully"})
+
+}
