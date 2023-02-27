@@ -10,11 +10,11 @@ import HistoryChat from '../components/tabcomponents/chat/components/HistoryChat
 const ChatStack = () => {
     return (
         <Stack.Navigator>
-            <Stack.Screen
+            {/* <Stack.Screen
                 name='History'
                 options={{ headerShown: false }}
                 component={HistoryChat}
-            />
+            /> */}
             <Stack.Screen
                 name='Conversation'
                 component={Conversation}

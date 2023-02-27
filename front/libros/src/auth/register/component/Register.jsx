@@ -114,11 +114,11 @@ const Register = () => {
 
 	return (
 		<ScrollView
-			style={{
+			contentContainerStyle={{
 				...styles.container,
 				height: "100%",
 				marginTop: 0,
-				justifyContent: "center"
+				justifyContent: "center",
 			}}
 		>
 			<Formik

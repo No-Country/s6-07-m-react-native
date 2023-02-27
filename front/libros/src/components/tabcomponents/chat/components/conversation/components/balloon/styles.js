@@ -55,6 +55,7 @@ export const styles = {
         padding: 5,
         paddingBottom: 15,
         paddingLeft: 10,
+        paddingRight: 10,
         position: "relative",
         top: -1,
         width: "auto",

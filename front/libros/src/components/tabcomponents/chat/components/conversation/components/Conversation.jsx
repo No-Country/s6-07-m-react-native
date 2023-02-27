@@ -66,12 +66,12 @@ const Conversation = ({ID}) => {
 			}}
 		>
 			{
-				conversation.length > 0
+				!conversation.length > 0
 				?
 					<FlatList	
 						data={items}
 						inverted
-						renderItem={({ item }) => <Balloon transmitter={item} />}
+						renderItem={({ item }) => <Balloon transmitter={item} msg={"hola"} />}
 						keyExtractor={(item, id) => id}
 						style={{ 
 							width: "100%",
