@@ -33,9 +33,8 @@ const NoLoggedStack = () => {
 }
 
 export default Router = () => {
-
 	const user = useSelector(state => state.user)
-	
+
 	return (
 		<NavigationContainer>
 			{user ? <LoggedStack /> : <NoLoggedStack />}

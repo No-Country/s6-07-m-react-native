@@ -18,12 +18,8 @@ const SearchBooks = () => {
 		filterSelect,
 		setFilterSelect,
 		handleSearch,
-		getAllBooks,
+		resetAll,
 	} = useSearchBooks()
-
-	useEffect(() => {
-		getAllBooks()
-	}, [])
 
 	return (
 		<View style={{ marginBottom: 16 }}>
@@ -51,7 +47,7 @@ const SearchBooks = () => {
 			</View>
 			<View style={styles.directionButtons}>
 				<TouchableOpacity
-					onPress={getAllBooks}
+					onPress={resetAll}
 					style={[
 						styles.button,
 						{

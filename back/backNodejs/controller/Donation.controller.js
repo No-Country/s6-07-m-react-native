@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 const { searchBookById } = require("../services/Book.service");
 const {
   savedDonation,
@@ -7,6 +7,7 @@ const {
   allfindApplications,
 } = require("../services/Donation.service");
 const { findUser } = require("../services/User.service");
+const { changeChatStatus } = require("../services/Chat.service");
 const { NotFound, Ok } = require("../util/HttpResponse");
 
 const createDonation = async (req, res) => {
@@ -26,6 +27,7 @@ const createDonation = async (req, res) => {
       return NotFound(res, "Book not found");
     }
     const data = await savedDonation(body);
+    await changeChatStatus(body.chatId);
     return Ok(res, data);
   } catch (error) {
     console.log(error);
@@ -35,18 +37,19 @@ const createDonation = async (req, res) => {
     return Error(res, error.message);
   }
 };
+
 const findAllApplication = async (req, res) => {
-  const { userId } = req.params
+  const { userId } = req.params;
   try {
     const findsolituds = await allfindApplications(userId);
-    if(!findsolituds.length){
-      return NotFound(res, "applications not found")
+    if (!findsolituds.length) {
+      return NotFound(res, "applications not found");
     }
-    return Ok(res, findsolituds)
+    return Ok(res, findsolituds);
   } catch (error) {
     return Error(res, error.message);
   }
-}
+};
 const findAllDonations = async (req, res) => {
   const { userId } = req.params;
   try {
@@ -62,7 +65,7 @@ const findAllDonations = async (req, res) => {
 };
 const findDonationsId = async (req, res) => {
   const { id } = req.params;
-  try { 
+  try {
     const findDonation = await findDonationById(id);
 
     if (!findDonation) {
@@ -73,7 +76,7 @@ const findDonationsId = async (req, res) => {
     console.log(error, "error");
     if (error.kind == "ObjectId") {
       return Error(res, "Invalid Id format. Please enter a valid Id");
-    } else if (error.name === 'CastError') {
+    } else if (error.name === "CastError") {
       return Error(res, "Invalid Id type. Please enter a valid Id type");
     } else {
       return Error(res, error.message);
@@ -84,5 +87,5 @@ module.exports = {
   createDonation,
   findAllDonations,
   findDonationsId,
-  findAllApplication
+  findAllApplication,
 };
