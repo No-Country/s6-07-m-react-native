@@ -38,9 +38,7 @@ exports.validationUpdateBook = [
     .optional()
     .notEmpty()
     .isLength({ min: 5 })
-    .withMessage("Title must have more than 5 characters")
-    .isLength({ max: 19 })
-    .withMessage("Title must have less than 20 characters"),
+    .withMessage("Title must have more than 5 characters"),
   body("description")
     .optional()
     .notEmpty()
