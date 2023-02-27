@@ -30,10 +30,6 @@ const createDonation = async (req, res) => {
     await changeChatStatus(body.chatId);
     return Ok(res, data);
   } catch (error) {
-    console.log(error);
-    if (error.kind == "ObjectId") {
-      return Error(res, "Id is invalids");
-    }
     return Error(res, error.message);
   }
 };
