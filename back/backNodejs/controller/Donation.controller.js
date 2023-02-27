@@ -11,8 +11,8 @@ const { changeChatStatus } = require("../services/Chat.service");
 const { NotFound, Ok } = require("../util/HttpResponse");
 
 const createDonation = async (req, res) => {
-  const { body } = req;
   try {
+    const { body } = req;
     console.log(body, "body");
     const foundDonatorId = await findUser(body.donatorId);
     if (!foundDonatorId) {
