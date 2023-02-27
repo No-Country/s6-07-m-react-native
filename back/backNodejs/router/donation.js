@@ -29,10 +29,14 @@ const router = Router();
  *         bookId:
  *           type: string
  *           description: id of the book
+ *         chatId:
+ *           type: string
+ *           description: id of the chat
  *       example:
- *         donatorId: ""
- *         applicantId: ""
- *         bookId: ""
+ *         donatorId: "sd32s15sdf321fd5a"
+ *         applicantId: "sad54sa3as213a5d1"
+ *         bookId: "sa45sa63341sd23sd"
+ *         chatId: "d6f5h48yuk5g321ko"
  *     NotFound:
  *       type: object
  *       properties:
