@@ -10,7 +10,8 @@ const validateToken = (req, res, next)=>{
         }
         const payload = verifytoken(token)
         console.log(payload, "payload de token")
-        req.userId = payload.id
+        req.userId = payload.ID
+        console.log(req, "red de payload")
         return next();
     } catch (error) {
         console.error(error, "error de token")

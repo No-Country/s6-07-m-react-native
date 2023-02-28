@@ -6,6 +6,7 @@ import (
 	"net/mail"
 	"os"
 	"strings"
+	"time"
 
 	"github.com/No-Country/s6-07-m-react-native/tree/main/back/backGo/db"
 	"github.com/No-Country/s6-07-m-react-native/tree/main/back/backGo/model"
@@ -138,7 +139,7 @@ func Login(c *gin.Context) {
 		user.ID,
 		user.Email,
 		jwt.StandardClaims{
-			ExpiresAt: 60 * 60 * 60,
+			ExpiresAt: time.Now().AddDate(0, 0, 60).Unix(),
 		},
 	}
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
