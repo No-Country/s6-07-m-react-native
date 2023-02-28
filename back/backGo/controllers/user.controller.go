@@ -2,6 +2,11 @@ package controllers
 
 import (
 	"context"
+	"net/http"
+	"net/mail"
+	"os"
+	"strings"
+
 	"github.com/No-Country/s6-07-m-react-native/tree/main/back/backGo/db"
 	"github.com/No-Country/s6-07-m-react-native/tree/main/back/backGo/model"
 	"github.com/dgrijalva/jwt-go"
@@ -12,10 +17,6 @@ import (
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"golang.org/x/crypto/bcrypt"
-	"net/http"
-	"net/mail"
-	"os"
-	"strings"
 )
 
 type SignUpModel struct {
@@ -49,7 +50,7 @@ func SignUp(c *gin.Context) {
 		return
 
 	}
-	
+
 	if body.Password == "" || body.Email == "" || body.Username == "" {
 		c.JSON(http.StatusBadRequest, gin.H{"done": false, "msg": "Incomplete values"})
 		return
@@ -93,7 +94,7 @@ func SignUp(c *gin.Context) {
 	newUser := model.User{
 		Password: body.Password,
 		Username: strings.ToLower(body.Username),
-		Email:    strings.ToLower(body.Email) ,
+		Email:    strings.ToLower(body.Email),
 	}
 	cursor, err := userColl.InsertOne(context.TODO(), newUser)
 	if err != nil {
@@ -102,7 +103,7 @@ func SignUp(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, gin.H{"done": true, "userId": cursor.InsertedID, "msg": "User successfully created"})
-	
+
 }
 
 func Login(c *gin.Context) {
@@ -148,5 +149,5 @@ func Login(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, gin.H{"done": true, "user": user, "token": signedToken})
-	
+
 }

@@ -12,6 +12,7 @@ const {
   updateBook,
   getDetailBook,
 } = require("../controller/Book.controller");
+const { validateToken } = require("../middleware/authentication");
 
 const router = Router();
 /**
@@ -186,7 +187,7 @@ router.post("/donateBook", validationDonateBook, donateBook);
  *               items:
  *                 $ref: '#/components/schemas/Book'
  */
-router.get("/search", searchBook);
+router.get("/search", validateToken, searchBook);
 /**
  * @swagger
  * /book/detailBook/{id}:
