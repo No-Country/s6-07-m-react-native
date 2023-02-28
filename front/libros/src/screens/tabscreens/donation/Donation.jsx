@@ -4,14 +4,14 @@ import FormNewArticle from './FormNewArticle'
 
 const Donation = () => {
 	return (
-		<SafeAreaView
+		<View
 			style={{
-				marginTop: 20,
+				marginTop: 60,
 			}}
 		>
 			<StatusBar backgroundColor='#6427FF' />
 			<FormNewArticle />
-		</SafeAreaView>
+		</View>
 	)
 }
 
