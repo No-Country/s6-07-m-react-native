@@ -35,6 +35,7 @@ const useSearchBooks = () => {
 	const handleScrollToTop = () => {
 		listRef.current.scrollToIndex({ index: 0 })
 	}
+
 	const resetAll = () => {
 		setCurrentPage(1)
 		newPage(1)
