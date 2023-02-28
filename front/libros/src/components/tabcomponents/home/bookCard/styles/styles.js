@@ -12,7 +12,7 @@ export const styles = {
 		paddingTop: 3,
 		flexDirection: 'row',
 		marginBottom: 20,
-		maxWidth: 320,
+		maxWidth: 420,
 		marginLeft: 'auto',
 		marginRight: 'auto',
 	},
