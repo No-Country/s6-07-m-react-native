@@ -55,15 +55,16 @@ func CreateChat(c *gin.Context) {
 		})
 		return
 	}
+
 	// busco en los chats si coincide con el book en caso de coincider veo si coinciden los users
 	var chatsSameBook []ChatModelForSearch
-	fmt.Println(body.BookId)
+	
 	res, err := chatColl.Find(context.TODO(), bson.M{"bookId": body.BookId}, options.Find().SetProjection(bson.M{"users": 1}))
 	if err != nil {
 		fmt.Println(err.Error())
 	}
 	res.All(context.TODO(), &chatsSameBook)
-	fmt.Printf("CHAT: %v \n", chatsSameBook)
+	
 	if len(chatsSameBook) > 0 {
 
 		for i := 0; i < len(chatsSameBook); i++ {
@@ -77,6 +78,40 @@ func CreateChat(c *gin.Context) {
 
 		}
 	}
+
+	userOne := model.User{}
+	userTwo := model.User{}
+
+	if err := userColl.FindOne(context.TODO(), bson.M{"_id": body.Users[0]}, options.FindOne().SetProjection(bson.M{"books": 1})).Decode(&userOne); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"done": false, "msg": "No se encontro el usuario"})
+		return
+	}
+	var bookDone bool
+	if len(userOne.Books) != 0 {
+		for i := 0; i < len(userOne.Books); i++ {
+			if userOne.Books[i] == body.BookId {
+				bookDone = true
+			}
+		}
+	}
+	if !bookDone {
+		if err := userColl.FindOne(context.TODO(), bson.M{"_id": body.Users[1]}, options.FindOne().SetProjection(bson.M{"books": 1})).Decode(&userTwo); err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"done": false, "msg": "No se encontro el usuario"})
+			return
+		}
+		if len(userTwo.Books) != 0 {
+			for i := 0; i < len(userTwo.Books); i++ {
+				if userTwo.Books[i] == body.BookId {
+					bookDone = true
+				}
+			}
+		}
+	}
+	if !bookDone {
+		c.JSON(http.StatusBadRequest, gin.H{"done": false, "msg": "Neither user has the book published"})
+		return
+	}
+
 	cursor, err := chatColl.InsertOne(context.TODO(), body)
 	if err != nil {
 		c.JSON(http.StatusConflict, gin.H{
@@ -349,18 +384,18 @@ type bodyDeleteChat struct {
 func DeleteChat(c *gin.Context) {
 	chatId := c.Param("chatId")
 	body := bodyDeleteChat{}
-	
+
 	if err := c.ShouldBindJSON(&body); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"done": false, "msg": err.Error()})
 		fmt.Println(err.Error())
-		fmt.Println("Llegue aca")
+		
 		return
 	}
-	fmt.Println(body)
-	idChatId,err := primitive.ObjectIDFromHex(chatId)
-	if err != nil{
+	
+	idChatId, err := primitive.ObjectIDFromHex(chatId)
+	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"done": false, "msg": err.Error()})
-		fmt.Println("si llegue aca me muero")
+		
 		return
 	}
 	chatColl := db.GetDBCollection("chats")
@@ -370,24 +405,23 @@ func DeleteChat(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"done": false, "msg": err.Error()})
 		return
 	}
-	
-	
-	if chat.Users[0] != body.UserId && chat.Users[1] != body.UserId{
+
+	if chat.Users[0] != body.UserId && chat.Users[1] != body.UserId {
 		c.JSON(http.StatusBadRequest, gin.H{"done": false, "msg": "Error with UserId"})
 		return
 	}
 	bodyDeleted := model.Chat{}
-	if err := chatColl.FindOneAndDelete(context.TODO(), bson.M{"_id": idChatId}).Decode(&bodyDeleted) ; err != nil{
+	if err := chatColl.FindOneAndDelete(context.TODO(), bson.M{"_id": idChatId}).Decode(&bodyDeleted); err != nil {
 		c.JSON(http.StatusBadRequest, bson.M{"done": false, "msg": err.Error()})
 		return
 	}
 	userOne := model.User{}
 	userTwo := model.User{}
-	if err := userColl.FindOneAndUpdate(context.TODO(), bson.M{"_id": chat.Users[0]}, bson.M{"$pull": bson.M{"chats": idChatId}}).Decode(&userOne) ; err != nil{
+	if err := userColl.FindOneAndUpdate(context.TODO(), bson.M{"_id": chat.Users[0]}, bson.M{"$pull": bson.M{"chats": idChatId}}).Decode(&userOne); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"done": false, "msg": err.Error()})
 		return
 	}
-	if err := userColl.FindOneAndUpdate(context.TODO(), bson.M{"_id": chat.Users[1]}, bson.M{"$pull": bson.M{"chats": idChatId}}).Decode(&userTwo) ; err != nil{
+	if err := userColl.FindOneAndUpdate(context.TODO(), bson.M{"_id": chat.Users[1]}, bson.M{"$pull": bson.M{"chats": idChatId}}).Decode(&userTwo); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"done": false, "msg": err.Error()})
 		return
 	}
