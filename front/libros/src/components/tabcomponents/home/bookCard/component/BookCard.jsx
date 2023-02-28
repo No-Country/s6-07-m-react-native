@@ -11,7 +11,6 @@ import { colors } from '../../../../../utils/constants'
 import Avatar from '../../bookdetail/avatar'
 
 const BookCard = ({ book }) => {
-	console.log(book)
 	let [author, setAuthor] = useState('')
 	const { navigate } = useNavigation()
 
@@ -24,7 +23,6 @@ const BookCard = ({ book }) => {
 	useEffect(() => {
 		trimAuthor(book.author)
 	}, [])
-
 	return (
 		<TouchableWithoutFeedback onPress={() => navigate('BookDetail')}>
 			<View style={styles.container}>

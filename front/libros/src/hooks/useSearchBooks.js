@@ -3,7 +3,7 @@ import { REACT_APP_API_URI_NODE } from '@env'
 import { useDispatch, useSelector } from 'react-redux'
 import { alertToast } from '../utils/alertsUtils'
 import { setBooks } from '../store/slices/books.slice'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { ActivityIndicator, View } from 'react-native'
 
 const useSearchBooks = () => {
@@ -11,29 +11,42 @@ const useSearchBooks = () => {
 
 	const books = useSelector(state => state)
 
+	const listRef = useRef(null)
+
 	const [textInput, setTextInput] = useState('')
 	const [filterSelect, setFilterSelect] = useState('')
 	const [loading, setLoading] = useState(false)
 	const [currentPage, setCurrentPage] = useState(1)
+	const [showScrollToTopButton, setShowScrollToTopButton] = useState(false)
 
 	useEffect(() => {
 		newPage(1)
 	}, [])
 
+	const handleScroll = event => {
+		const offsetY = event.nativeEvent.contentOffset.y
+		if (offsetY > 4 * 100) {
+			setShowScrollToTopButton(true)
+		} else {
+			setShowScrollToTopButton(false)
+		}
+	}
+
+	const handleScrollToTop = () => {
+		listRef.current.scrollToIndex({ index: 0 })
+	}
 	const resetAll = () => {
 		setCurrentPage(1)
 		newPage(1)
 	}
 
 	const newPage = async page => {
-		console.log('esto viene de new page', page)
-		console.log('esto viene de newpage pero es currentpage', currentPage)
 		setTextInput('')
 		setFilterSelect('')
 		setLoading(true)
 		try {
 			const response = await axios(
-				`${REACT_APP_API_URI_NODE}/book/search?page=${page}&limit=20`
+				`${REACT_APP_API_URI_NODE}/book/search?page=${page}&limit=100`
 			)
 			if (page === 1) {
 				setLoading(false)
@@ -86,7 +99,6 @@ const useSearchBooks = () => {
 			const nextPage = currentPage + 1
 			newPage(2)
 			setCurrentPage(nextPage)
-			console.log(nextPage)
 			setLoading(false)
 		}, 1500)
 	}
@@ -94,7 +106,7 @@ const useSearchBooks = () => {
 	const renderFooter = () => {
 		return loading ? (
 			<View style={{ paddingVertical: 40 }}>
-				<ActivityIndicator size='large' color='#BC624F' />
+				<ActivityIndicator size='large' color='red' />
 			</View>
 		) : null
 	}
@@ -109,6 +121,10 @@ const useSearchBooks = () => {
 		newPage,
 		renderFooter,
 		resetAll,
+		listRef,
+		handleScrollToTop,
+		showScrollToTopButton,
+		handleScroll,
 	}
 }
 

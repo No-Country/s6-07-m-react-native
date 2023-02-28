@@ -59,6 +59,7 @@ const useNewArticle = () => {
 	}
 
 	const handleSubmit = async (values, resetForm) => {
+		console.log(values)
 		const objDonation = {
 			...values,
 			image:

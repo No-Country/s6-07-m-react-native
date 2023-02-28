@@ -11,7 +11,7 @@ const HomeBooks = ({ navigation }) => {
 			<View style={{ marginHorizontal: 16 }}>
 				<SearchBooks />
 			</View>
-			<View style={{ marginLeft: 10, marginRight: 5 }}>
+			<View style={{ marginLeft: 0, marginRight: 0 }}>
 				<BookList />
 			</View>
 		</SafeAreaView>
