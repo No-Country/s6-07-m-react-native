@@ -39,11 +39,17 @@ const BooksList = () => {
 		<View>
 			<TouchableOpacity onPress={handleScrollToTop}>
 				{showScrollToTopButton && (
-					<Ionicons
-						name='caret-up-sharp'
-						size={22}
-						style={{ left: 195, bottom: 15, marginBottom: 0, paddingBottom: 0 }}
-					/>
+					<View
+						style={{
+							width: '100%',
+							alignItems: 'center',
+							position: 'relative',
+							marginTop: -18,
+							paddingBottom: 10,
+						}}
+					>
+						<Ionicons name='caret-up-sharp' size={22} style={{}} />
+					</View>
 				)}
 			</TouchableOpacity>
 			<VirtualizedList

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import {
 	Image,
 	StyleSheet,
@@ -27,6 +27,7 @@ const FormNewArticle = () => {
 		setImage,
 		handleSubmit,
 		setModalVisible,
+		setProvince,
 	} = useNewArticle()
 
 	const initialValues = {
@@ -176,10 +177,18 @@ const FormNewArticle = () => {
 											</Text>
 										)}
 										<View style={styles.selectItem}>
+											<Text
+												style={[
+													stylesConstants.title,
+													{ marginTop: 20, marginBottom: 10 },
+												]}
+											>
+												Lugar en el que lo publicas
+											</Text>
 											<SelectDropdown
 												data={sample_data}
 												onSelect={(selectedItem, index) => {
-													console.log(selectedItem.provincia, index)
+													setProvince(selectedItem.provincia, index)
 												}}
 												buttonTextAfterSelection={(selectedItem, index) => {
 													return selectedItem.provincia
@@ -198,7 +207,7 @@ const FormNewArticle = () => {
 												rowTextStyle={styles.rowText}
 											/>
 										</View>
-										<View style={{ alignItems: 'center' }}>
+										<View style={{ alignItems: 'center', marginTop: 30 }}>
 											<TouchableOpacity
 												style={styles.buttonSubmit}
 												onPress={handleSubmit}
@@ -243,7 +252,7 @@ const styles = StyleSheet.create({
 	buttonSubmit: {
 		backgroundColor: colors.primary,
 		color: 'white',
-		width: 254,
+		width: 274,
 		height: 48,
 		borderRadius: 30,
 		justifyContent: 'center',
@@ -255,7 +264,7 @@ const styles = StyleSheet.create({
 		textAlign: 'center',
 	},
 	selectItem: {
-		marginVertical: 20,
+		marginBottom: 10,
 		width: '100%',
 	},
 	dropdown: {
