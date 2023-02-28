@@ -90,7 +90,7 @@ const Input = () => {
 
 	const inputRef = useRef()
 
-	console.log(user)
+	//console.log(user)
 
 	useEffect(() => {
 		socket.addEventListener('open', () => {
@@ -109,7 +109,7 @@ const Input = () => {
 	}, [])
 
 	const submitMsg = () => {
-		console.log('Send Message pressed.')
+		//console.log('Send Message pressed.')
         const newMsg = {
 			channel: "NEW_MESSAGE",
             /* chatID: conversation.ID, */

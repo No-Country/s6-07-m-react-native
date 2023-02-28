@@ -18,4 +18,7 @@ func Routes(r *gin.Engine) {
 	// Chat Routes
 	ChatGroup.POST("/", controllers.CreateChat)
 	ChatGroup.GET("/history/:id", controllers.GetHistoryChats)
+	ChatGroup.GET("/conversation", controllers.GetConversation)
+	ChatGroup.POST("/message", controllers.FirstMessage)
+	ChatGroup.PUT("/:chatId", controllers.DeleteChat)
 }
