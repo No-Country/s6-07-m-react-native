@@ -255,7 +255,7 @@ const styles = StyleSheet.create({
 		textAlign: 'center',
 	},
 	selectItem: {
-		marginVertical: 30,
+		marginVertical: 20,
 		width: '100%',
 	},
 	dropdown: {
