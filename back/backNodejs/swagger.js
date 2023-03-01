@@ -4,9 +4,9 @@ const options = {
   definition: {
     openapi: '3.0.0',
     info: {
-      title: 'API de ejemplo',
+      title: 'API GiveAway',
       version: '1.0.0',
-      description: 'Descripción de la API de ejemplo'
+      description: 'Endpoints para la creacion y busqueda de los distintos datos'
     },
     servers: [
       {

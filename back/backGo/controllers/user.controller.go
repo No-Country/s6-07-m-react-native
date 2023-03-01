@@ -2,6 +2,12 @@ package controllers
 
 import (
 	"context"
+	"net/http"
+	"net/mail"
+	"os"
+	"strings"
+	"time"
+
 	"github.com/No-Country/s6-07-m-react-native/tree/main/back/backGo/db"
 	"github.com/No-Country/s6-07-m-react-native/tree/main/back/backGo/model"
 	"github.com/dgrijalva/jwt-go"
@@ -12,10 +18,6 @@ import (
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"golang.org/x/crypto/bcrypt"
-	"net/http"
-	"net/mail"
-	"os"
-	"strings"
 )
 
 type SignUpModel struct {
@@ -49,7 +51,7 @@ func SignUp(c *gin.Context) {
 		return
 
 	}
-	//body.Name == ""
+
 	if body.Password == "" || body.Email == "" || body.Username == "" {
 		c.JSON(http.StatusBadRequest, gin.H{"done": false, "msg": "Incomplete values"})
 		return
@@ -92,8 +94,8 @@ func SignUp(c *gin.Context) {
 	body.Password = string(hashPassword)
 	newUser := model.User{
 		Password: body.Password,
-		Username: body.Username,
-		Email:    body.Email,
+		Username: strings.ToLower(body.Username),
+		Email:    strings.ToLower(body.Email),
 	}
 	cursor, err := userColl.InsertOne(context.TODO(), newUser)
 	if err != nil {
@@ -102,7 +104,7 @@ func SignUp(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, gin.H{"done": true, "userId": cursor.InsertedID, "msg": "User successfully created"})
-	return
+
 }
 
 func Login(c *gin.Context) {
@@ -122,7 +124,7 @@ func Login(c *gin.Context) {
 	}
 
 	UserColl := db.GetDBCollection("users")
-	filter := bson.M{"email": body.Email}
+	filter := bson.M{"email": strings.ToLower(body.Email)}
 	projection := bson.M{"name": 1, "profileImage": 1, "username": 1, "password": 1}
 	if err := UserColl.FindOne(context.TODO(), filter, options.FindOne().SetProjection(projection)).Decode(&user); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"done": false, "msg": "Incorrect email or password"})
@@ -137,7 +139,7 @@ func Login(c *gin.Context) {
 		user.ID,
 		user.Email,
 		jwt.StandardClaims{
-			ExpiresAt: 60 * 60 * 60,
+			ExpiresAt: time.Now().AddDate(0, 0, 60).Unix(),
 		},
 	}
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
@@ -148,5 +150,5 @@ func Login(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, gin.H{"done": true, "user": user, "token": signedToken})
-	return
+
 }

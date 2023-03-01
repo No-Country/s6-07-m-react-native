@@ -1,18 +1,20 @@
 import axios from 'axios'
 import { REACT_APP_API_URI_GO } from '@env'
-console.log("env GO", REACT_APP_API_URI_GO)
-//import { AsyncStorage } from 'react-native';
+
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 
-/* const token = await AsyncStorage.getItem('token');
-const authorization = token && `Bearer ${token}` */
+const setToken = async () => {
+	const token = await AsyncStorage.getItem('token');
+	return token && `Bearer ${token}`
+}
 
-const instance = axios.create({
+export const instance = axios.create({
 	baseURL: REACT_APP_API_URI_GO,
 	headers: {
 		Accept: 'application/json',
 		'Content-Type': 'application/json',
-		/* Authorization : authorization, */
+		Authorization: setToken(),
 	},
 })
 

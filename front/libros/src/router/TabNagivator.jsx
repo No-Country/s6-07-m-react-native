@@ -1,16 +1,16 @@
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import React from 'react';
-import { Ionicons } from '@expo/vector-icons';
-import HomeNavigator from './HomeStack';
-import Donation from '../screens/tabscreens/donation/Donation';
-import Chat from '../screens/Chat';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
+import React from 'react'
+import { Ionicons } from '@expo/vector-icons'
+import HomeNavigator from './HomeStack'
+import Donation from '../screens/tabscreens/donation/Donation'
+import ChatStack from './ChatStack'
 
-const Tab = createBottomTabNavigator();
+const Tab = createBottomTabNavigator()
 
 const TabNagivator = ({ navigation }) => {
 	return (
 		<Tab.Navigator
-			initialRouteName='HomeBooks'
+			initialRouteName='HomeNavigator'
 			screenOptions={{
 				headerShown: false,
 				tabBarActiveTintColor: '#8F77DB',
@@ -33,7 +33,7 @@ const TabNagivator = ({ navigation }) => {
 				options={{
 					tabBarIcon: ({ focused }) => (
 						<Ionicons
-							name={focused ? 'log-out' : 'log-out-outline'}
+							name={focused ? 'heart-circle' : 'heart-circle-outline'}
 							size={24}
 							color={focused ? '#8F77DB' : '#b2b2b2'}
 						/>
@@ -51,12 +51,13 @@ const TabNagivator = ({ navigation }) => {
 							color={focused ? '#8F77DB' : '#b2b2b2'}
 						/>
 					),
+					headerShown: false,
 				}}
 				name='Chat'
-				component={Chat}
+				component={ChatStack}
 			/>
 		</Tab.Navigator>
-	);
-};
+	)
+}
 
-export default TabNagivator;
+export default TabNagivator

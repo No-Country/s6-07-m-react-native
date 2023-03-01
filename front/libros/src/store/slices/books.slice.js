@@ -12,5 +12,4 @@ const books = createSlice({
 
 export const { setBooks } = books.actions
 
-
 export default books.reducer

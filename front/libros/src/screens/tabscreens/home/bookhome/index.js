@@ -5,24 +5,20 @@ import {
 	SearchBooks,
 } from '../../../../components/tabcomponents/home/index'
 
-const HomeBooks = ({ navigation }) => {
+const HomeBooks = () => {
 	return (
-		<SafeAreaView style={styles.container}>
-			<View style={{ marginHorizontal: 16 }}>
-				<SearchBooks />
-			</View>
-			<View style={{ marginLeft: 10, marginRight: 5 }}>
-				<BookList />
-			</View>
-		</SafeAreaView>
+		<View style={styles.container}>
+			<SearchBooks />
+			<BookList />
+		</View>
 	)
 }
 
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		marginTop: 56,
-		marginBottom: 12,
+		marginTop: 60,
+		marginHorizontal: 16,
 	},
 })
 
