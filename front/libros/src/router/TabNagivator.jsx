@@ -10,7 +10,7 @@ const Tab = createBottomTabNavigator();
 const TabNagivator = ({ navigation }) => {
 	return (
 		<Tab.Navigator
-			initialRouteName='Chat'
+			initialRouteName='HomeBooks'
 			screenOptions={{
 				headerShown: false,
 				tabBarActiveTintColor: '#8F77DB',

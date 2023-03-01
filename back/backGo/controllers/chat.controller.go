@@ -341,6 +341,13 @@ func GetConversation(c *gin.Context) {
 		groupMessages = append(groupMessages, messages)
 
 	}
+	// fmt.Println(groupMessages)
+	
+	if len(groupMessages) == 0 {
+
+	c.JSON(http.StatusAccepted, gin.H{"done": true, "data": []bson.M{} , "msg": "succeed"})
+return
+	}
 	c.JSON(http.StatusAccepted, gin.H{"done": true, "data": groupMessages , "msg": "succeed"})
 
 }

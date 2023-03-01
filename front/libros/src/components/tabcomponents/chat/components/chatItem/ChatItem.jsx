@@ -14,28 +14,32 @@ import { colors } from '../../../../../utils/constants'
 import { useDispatch, useSelector } from 'react-redux'
 import { setHistoryChat } from "../../../../../store/slices/historyChat.slice"
 //Axios
-import { get } from '../../../../../utils/apiUtils'
+import { get, post } from '../../../../../utils/apiUtils'
 //Alerts
 import { alertToast } from '../../../../../utils/alertsUtils'
 
 const ChatItem = ({ item }) => {
 
     const dispatch = useDispatch()
-    const user = useSelector(state => state.user)
-    const historyChat = useSelector(state => state.chat)
+    const {user} = useSelector(state => state.user)
+    const historyChat = useSelector(state => state.historyChat)
+    const { navigate } = useNavigation()
 
     const handlePressed = async () => {
         console.log("Handle Pressed", item)
         try {
-            const response = await get("/chat/conversation/", {chatId: item.chatID, userId: user.ID})
-            console.log(response)
+            const response = await post("/chat/conversation/", {chatId: item.ChatID, userId: user.ID})
+            console.log("ChatItem Response: ", response)
 
             if(response.ok) {
                 console.log("Entró el OK.")
                 dispatch(setHistoryChat({
                     ...historyChat,
-                    conversation: response.data.messages
+                    conversation: response.data.data,
+                    chatId: item.ChatID
                 }))
+
+                navigate("Conversation")
             } else {
                 alertToast(
                     "error", 
@@ -54,8 +58,6 @@ const ChatItem = ({ item }) => {
         }
     }
 
-
-    const {navigate} = useNavigation()
     return (
         <TouchableHighlight
             onPress={()=> {handlePressed()}}

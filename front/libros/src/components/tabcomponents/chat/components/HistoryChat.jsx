@@ -18,7 +18,7 @@ const HistoryChat = () => {
 
     const dispatch = useDispatch()
     const historyChat = useSelector(state => state.historyChat)
-    const user = useSelector(state => state.user)
+    const {user} = useSelector(state => state.user)
     let [spinner, setSpinner] = useState("none")
 
     const dispatchHistoryChat = async () => {
@@ -26,11 +26,13 @@ const HistoryChat = () => {
         try {
             setSpinner("flex")
 
+            const response = await get("/chat/history/" + user.ID)
+
             const {
                 data: { chats },
                 ok,
                 status
-            } = await get("/chat/history/" + user.ID)
+            } = response
 
             if (ok) {
                 setSpinner("none")

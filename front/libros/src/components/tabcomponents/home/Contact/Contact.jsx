@@ -49,14 +49,14 @@ const Contact = () => {
 				userId: user.user.ID,
 				chatId: historyChat.chatId,
 			}
-			console.log("User ID Charge Conversation: ", user.user.ID)
+			console.log('User ID Charge Conversation: ', user.user.ID)
 			console.log('CHAT ID Charge Conversation: ', chargeChat)
 
 			const response = await post('/chat/conversation', chargeChat)
 
 			console.log('CARGANDO NUEVA CONVERSACION: ', response)
 
-			if (response?.msg === 'succeded') {
+			if (response?.data?.msg === 'succeed') {
 				console.log('Charge Conversation Status 200')
 				dispatch(
 					setHistoryChat({
@@ -72,7 +72,7 @@ const Contact = () => {
 					response?.status,
 					'Ocurrió un error. Intenta nuevamente.'
 				)
-				return response?.data.msg
+				return response?.data?.msg
 			}
 		} catch (error) {
 			alertToast('error', 'ERRRORRR', 'Ocurrió un error. Intenta nuevamente.')
@@ -107,6 +107,9 @@ const Contact = () => {
 			}
 
 			if (response?.data?.msg === 'Chat already exists') {
+
+				console.log('CHAT ALREADY EXISTS: ', response.data.msg)
+
 				dispatch(
 					setHistoryChat({
 						...historyChat,
@@ -114,9 +117,13 @@ const Contact = () => {
 						chatId: response?.data?.chatId,
 					})
 				)
-				return response?.data?.msg || "Chat already exists"
+				return response?.data?.msg || 'Chat already exists'
 			} else {
-				alertToast('error', response?.status, 'Ocurrió un error. Intenta nuevamente.')
+				alertToast(
+					'error',
+					response?.status,
+					'Ocurrió un error. Intenta nuevamente.'
+				)
 				return response?.data?.msg
 			}
 		} catch (error) {
@@ -200,8 +207,10 @@ const Contact = () => {
 			setSpinner('flex')
 			const newChat = await createChat()
 			console.log('Handle Pressed newChat', newChat)
-			if (newChat === 200) {
+			if (newChat === 'Chat succesfully created') {
 				const newMessage = await chargeMsg()
+
+
 
 				if (newMessage == !200) {
 					await destroyChat()
@@ -212,13 +221,25 @@ const Contact = () => {
 			}
 
 			if (newChat === 'Chat already exists') {
-				await chargeConversation()
-				return
+				const newConversation = await chargeConversation()
+
+				if (newConversation === 'succeed') {
+					setSpinner('none')
+					console.log('Este es el historial de conversación: ', historyChat)
+					navigate('Chat', 'Conversation')
+				} else {
+					setSpinner('none')
+					console.log(
+						'ELSE CHARGE CONVERSATION HANDLE PRESSED: ',
+						newConversation
+					)
+					return
+				}
 			} else {
+				setSpinner('none')
 				await destroyChat()
 				return
 			}
-			setSpinner('none')
 			return
 		} catch (error) {
 			setSpinner('none')

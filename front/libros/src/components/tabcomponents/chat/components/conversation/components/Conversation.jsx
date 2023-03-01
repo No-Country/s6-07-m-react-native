@@ -30,30 +30,48 @@ const Conversation = ({ID}) => {
 	/* const setConversation = async () => {
 
 		try {
-			setSpinner("flex")
-			
-			const response = await get("/chat/conversation/", {chatId: ID, userId: user.ID})
-			console.log("Historial de conversación: ", response)
-			if (response.status === 200) {
-				setSpinner("none")
-				dispatch(setConversation(response.data))
+			const chargeChat = {
+				userId: user.user.ID,
+				chatId: historyChat.chatId,
+			}
+			console.log("User ID Charge Conversation: ", user.user.ID)
+			console.log('CHAT ID Charge Conversation: ', chargeChat)
+
+			const response = await post('/chat/conversation', chargeChat)
+
+			console.log('CARGANDO NUEVA CONVERSACION: ', response)
+
+			if (response?.data?.msg === 'succeed') {
+				console.log('Charge Conversation Status 200')
+				dispatch(
+					setHistoryChat({
+						...historyChat,
+						conversation: response?.data?.messages,
+					})
+				)
+				return response?.data?.msg
 			} else {
-				setSpinner("none")
-				console.log("Error al cargar conversación.")
+				console.log('Charge Conversation Else', response)
+				alertToast(
+					'error',
+					response?.status,
+					'Ocurrió un error. Intenta nuevamente.'
+				)
+				return response?.data?.msg
 			}
 		} catch (error) {
-			setSpinner("none")
-			console.log(error)
+			alertToast('error', 'ERRRORRR', 'Ocurrió un error. Intenta nuevamente.')
+			console.log('Charge Conversation Catch Error: ', error)
+			return false
 		}
-	} */
-
-	/* 
+	}
+	
 		useEffect(()=> {
 			setConversation()
-		}, [])
-	*/
+		}, []) */
+	
 
-	//console.log(conversation)
+	console.log("Tamaño del array de Conversation: ", historyChat)
 
 	return (
 		<View
