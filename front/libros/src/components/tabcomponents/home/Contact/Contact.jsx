@@ -19,6 +19,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { setHistoryChat } from '../../../../store/slices/historyChat.slice'
 //Axios
 import { post, destroy, put, get } from '../../../../utils/apiUtils'
+import axios from 'axios'
 //Spinner
 import Spinner from '../../../spinner/Spinner'
 //Alert
@@ -45,38 +46,37 @@ const Contact = () => {
 	const chargeConversation = async () => {
 		try {
 			const chargeChat = {
-				userId: user.ID,
+				userId: user.user.ID,
 				chatId: historyChat.chatId,
 			}
+			console.log("User ID Charge Conversation: ", user.user.ID)
+			console.log('CHAT ID Charge Conversation: ', chargeChat)
 
-			console.log("CHAT ID: ", chargeChat)
-			
-			const response = await get('/chat/conversation', chargeChat)
+			const response = await post('/chat/conversation', chargeChat)
 
-			console.log("CARGANDO NUEVA CONVERSACION: ", response)
+			console.log('CARGANDO NUEVA CONVERSACION: ', response)
 
-			if (response?.status === 200) {
-				console.log("Charge Conversation Status 200")
+			if (response?.msg === 'succeded') {
+				console.log('Charge Conversation Status 200')
 				dispatch(
 					setHistoryChat({
 						...historyChat,
 						conversation: response?.data?.messages,
 					})
-					)
-				navigate('Chat', 'Conversation')
-				return response?.status
+				)
+				return response?.data?.msg
 			} else {
-				console.log("Charge Conversation Else", response)
+				console.log('Charge Conversation Else', response)
 				alertToast(
 					'error',
 					response?.status,
 					'Ocurrió un error. Intenta nuevamente.'
 				)
-				return response?.status
+				return response?.data.msg
 			}
 		} catch (error) {
-			alertToast('error', "ERRRORRR", 'Ocurrió un error. Intenta nuevamente.')
-			console.log("Charge Conversation Catch Error: ", error)
+			alertToast('error', 'ERRRORRR', 'Ocurrió un error. Intenta nuevamente.')
+			console.log('Charge Conversation Catch Error: ', error)
 			return false
 		}
 	}
@@ -84,50 +84,41 @@ const Contact = () => {
 	const createChat = async () => {
 		try {
 			const data = {
-				users: [user.ID, bookSelected.userId],
+				users: [bookSelected.userId],
 				bookId: bookSelected._id,
+				donatorUser: bookSelected.userId,
 			}
 
 			const response = await post('/chat', data)
 
-			console.log('Create Chat Response: ', response)
-			console.log('Done: ', response.data.done)
+			console.log('Create Chat Response: ', response.data)
 
-			const {
-				data: { done, status, chatId },
-			} = response
-			
-			if (response.msg === "Chat succesfully created") {
+			if (response?.data?.msg === 'Chat succesfully created') {
 				dispatch(
 					setHistoryChat({
 						...historyChat,
 						status: 'idle',
 						lastMessage: text,
-						chatId: response.data.chatId,
+						chatId: response?.data?.chatId,
 					})
 				)
 
-				return response?.status
+				return response?.data?.msg
 			}
 
-			if (response?.msg === "Chat already exists") {
+			if (response?.data?.msg === 'Chat already exists') {
 				dispatch(
 					setHistoryChat({
 						...historyChat,
 						status: 'idle',
-						chatId,
+						chatId: response?.data?.chatId,
 					})
 				)
-				return response?.msg
+				return response?.data?.msg || "Chat already exists"
 			} else {
-				alertToast(
-					'error', 
-					status, 
-					'Ocurrió un error. Intenta nuevamente.'
-				)
-				return response?.status
+				alertToast('error', response?.status, 'Ocurrió un error. Intenta nuevamente.')
+				return response?.data?.msg
 			}
-
 		} catch (error) {
 			console.log('Create Chat Catch Error: ', error)
 			return false
@@ -174,7 +165,7 @@ const Contact = () => {
 			const data = {
 				userId: user.ID,
 			}
-			console.log('Chat ID: ', historyChat.chatId)
+			console.log('Chat ID: ', historyChat)
 
 			const deleteChat = await put('/chat/' + historyChat.chatId, data)
 
@@ -204,43 +195,33 @@ const Contact = () => {
 	}
 
 	const handlePressed = async () => {
-		console.log("Handle Pressed Contact")
+		console.log('Handle Pressed Contact')
 		try {
-			setSpinner("flex")
+			setSpinner('flex')
 			const newChat = await createChat()
-
+			console.log('Handle Pressed newChat', newChat)
 			if (newChat === 200) {
 				const newMessage = await chargeMsg()
 
-				if (newMessage ==! 200) {
+				if (newMessage == !200) {
 					await destroyChat()
 					return
 				}
 
-				/* showAlert({
-					title: '¡Éxito! ' + newMessage,
-					msg: 'Solicitud enviada exitosamente.',
-					options: [
-						{
-							text: 'OK',
-							onPress: () => navigate('HomeBooks'),
-						},
-					],
-				}) */
 				return
-			} 
-			
-			if(newChat === "Chat already exists") {
+			}
+
+			if (newChat === 'Chat already exists') {
 				await chargeConversation()
 				return
 			} else {
 				await destroyChat()
 				return
 			}
-			setSpinner("none")
+			setSpinner('none')
 			return
 		} catch (error) {
-			setSpinner("none")
+			setSpinner('none')
 			console.log('Handle Pressed Create Chat Error: ', error)
 			return
 		}

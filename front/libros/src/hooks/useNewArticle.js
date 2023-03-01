@@ -1,8 +1,8 @@
 import axios from 'axios'
 import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
-import { alertToast } from '../utils/alertsUtils'
 import { REACT_APP_API_URI_NODE } from '@env'
+import { alertToast } from '../utils/alertsUtils'
 import * as ImagePicker from 'expo-image-picker'
 
 const useNewArticle = () => {

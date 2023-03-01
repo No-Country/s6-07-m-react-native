@@ -24,13 +24,15 @@ import {
 import { post } from '../../../utils/apiUtils'
 //Redux
 import { useDispatch } from 'react-redux'
-import { setUser } from '../../../store/slices/user.slice'
+import { setUser, getToken } from '../../../store/slices/user.slice'
 //Storage
 import AsyncStorage from '@react-native-async-storage/async-storage'
 //Alerts
 import { showAlert, alerts } from '../../../utils/alertsUtils'
-
+//Spinner
 import Spinner from '../../../components/spinner/Spinner'
+//Axios
+import axios from "axios"
 
 
 const Login = () => {
@@ -61,6 +63,7 @@ const Login = () => {
 	let dispatch = useDispatch()
 
 	const onSubmit = async values => {
+		
 		try {
 			setSpinner("flex")
 			const {
@@ -80,7 +83,11 @@ const Login = () => {
 							text: 'OK',
 							onPress: async () => {
 								await AsyncStorage.setItem("token", token)
-								dispatch(setUser({ ...user }))
+								dispatch(setUser({
+									user: user,
+									state: "succeded",
+									token: `Bearer ${token}`
+								}))
 							},
 						},
 					],

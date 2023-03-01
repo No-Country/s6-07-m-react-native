@@ -10,6 +10,7 @@ type Chat struct {
 	Messages []primitive.ObjectID `bson:"messages,omitempty"`
 	Users    []primitive.ObjectID `bson:"users"`
 	BookId   primitive.ObjectID   `bson:"bookId"`
+	DonatorUser primitive.ObjectID `bson:"donatorUser"`
 }
 
 type RetMessage struct {

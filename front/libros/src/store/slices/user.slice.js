@@ -1,6 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit'
 
-const initialState = false
+const initialState = {
+	user: null,
+	state: "idle",
+	error: null,
+	token: "",
+}
 
 const user = createSlice({
 	name: 'user',
@@ -9,6 +14,8 @@ const user = createSlice({
 		setUser: (state, action) => action.payload,
 	},
 })
+
+export const getToken = (state) => state?.user?.token 
 
 export const { setUser } = user.actions
 

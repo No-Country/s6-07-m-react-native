@@ -24,12 +24,19 @@ type ChatModelForSearch struct {
 func CreateChat(c *gin.Context) {
 	chatColl := db.GetDBCollection("chats")
 	userColl := db.GetDBCollection("users")
+	userId := c.MustGet("userId").(string)
+
 	body := model.Chat{}
 	if err := c.ShouldBindJSON(&body); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"done": false, "msg": err.Error()})
 		return
 	}
-
+	userIdObj,err := primitive.ObjectIDFromHex(userId)
+	if err != nil{
+		c.JSON(http.StatusBadRequest, gin.H{"done": false, "msg": "Invalid UserId"})
+		return
+	}
+	body.Users = append(body.Users, userIdObj)
 	if reflect.TypeOf(body.Messages) != reflect.TypeOf([]primitive.ObjectID{}) || reflect.TypeOf(body.Users[0]) != reflect.TypeOf(primitive.ObjectID{}) || reflect.TypeOf(body.Users[1]) != reflect.TypeOf(primitive.ObjectID{}) || reflect.TypeOf(body.BookId) != reflect.TypeOf(primitive.ObjectID{}) {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"done": false,
@@ -58,20 +65,20 @@ func CreateChat(c *gin.Context) {
 
 	// busco en los chats si coincide con el book en caso de coincider veo si coinciden los users
 	var chatsSameBook []ChatModelForSearch
-	
+
 	res, err := chatColl.Find(context.TODO(), bson.M{"bookId": body.BookId}, options.Find().SetProjection(bson.M{"users": 1}))
 	if err != nil {
 		fmt.Println(err.Error())
 	}
 	res.All(context.TODO(), &chatsSameBook)
-	
+
 	if len(chatsSameBook) > 0 {
 
 		for i := 0; i < len(chatsSameBook); i++ {
 
 			if chatsSameBook[i].Users[0] == body.Users[0] && chatsSameBook[i].Users[1] == body.Users[1] || chatsSameBook[i].Users[0] == body.Users[1] && chatsSameBook[i].Users[1] == body.Users[0] {
 
-				c.JSON(http.StatusAccepted, gin.H{"done": false, "msg": "Chat already exists", "chatId": chatsSameBook[i].ID})
+				c.JSON(http.StatusOK, gin.H{"done": false, "msg": "Chat already exists", "chatId": chatsSameBook[i].ID})
 				return
 
 			}
@@ -91,6 +98,7 @@ func CreateChat(c *gin.Context) {
 		for i := 0; i < len(userOne.Books); i++ {
 			if userOne.Books[i] == body.BookId {
 				bookDone = true
+				body.DonatorUser = userOne.ID
 			}
 		}
 	}
@@ -103,6 +111,8 @@ func CreateChat(c *gin.Context) {
 			for i := 0; i < len(userTwo.Books); i++ {
 				if userTwo.Books[i] == body.BookId {
 					bookDone = true
+					body.DonatorUser = userTwo.ID
+
 				}
 			}
 		}
@@ -139,7 +149,7 @@ func CreateChat(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusAccepted, gin.H{
+	c.JSON(http.StatusOK, gin.H{
 		"done":   true,
 		"msg":    "Chat succesfully created",
 		"chatId": cursor.InsertedID,
@@ -304,12 +314,14 @@ func GetConversation(c *gin.Context) {
 	messagesColl := db.GetDBCollection("messages")
 	body := bodyGetMsg{}
 	if err := c.ShouldBindJSON(&body); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"done": false, "msg": err.Error()})
+		fmt.Printf("Aca? 1 \n")
+		c.JSON(http.StatusAccepted, gin.H{"done": false, "msg": err.Error()})
 		return
 	}
 	chat := model.Chat{}
 	if err := chatColl.FindOne(context.TODO(), bson.M{"_id": body.ChatID}).Decode(&chat); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"done": false, "msg": err.Error()})
+		fmt.Printf("Aca? 2 \n")
+		c.JSON(http.StatusAccepted, gin.H{"done": false, "msg": err.Error()})
 		return
 	}
 
@@ -317,17 +329,19 @@ func GetConversation(c *gin.Context) {
 	for i := 0; i < len(chat.Messages); i++ {
 		messages := model.Message{}
 		if err := messagesColl.FindOne(context.TODO(), bson.M{"_id": chat.Messages[i]}).Decode(&messages); err != nil {
-			c.JSON(http.StatusBadRequest, gin.H{"done": false, "msg": err.Error()})
+			fmt.Printf("Aca? 3 \n")
+			c.JSON(http.StatusAccepted, gin.H{"done": false, "msg": err.Error()})
 			return
 		}
 		if err := userColl.FindOne(context.TODO(), bson.M{"_id": messages.UserId}).Decode(&messages.User); err != nil {
-			c.JSON(http.StatusBadRequest, gin.H{"done": false, "msg": err.Error()})
+			fmt.Printf("Aca? 3 \n")
+			c.JSON(http.StatusAccepted, gin.H{"done": false, "msg": err.Error()})
 			return
 		}
 		groupMessages = append(groupMessages, messages)
 
 	}
-	c.JSON(http.StatusAccepted, gin.H{"done": true, "data": groupMessages})
+	c.JSON(http.StatusAccepted, gin.H{"done": true, "data": groupMessages , "msg": "succeed"})
 
 }
 
@@ -388,14 +402,14 @@ func DeleteChat(c *gin.Context) {
 	if err := c.ShouldBindJSON(&body); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"done": false, "msg": err.Error()})
 		fmt.Println(err.Error())
-		
+
 		return
 	}
-	
+
 	idChatId, err := primitive.ObjectIDFromHex(chatId)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"done": false, "msg": err.Error()})
-		
+
 		return
 	}
 	chatColl := db.GetDBCollection("chats")

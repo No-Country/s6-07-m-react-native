@@ -2,6 +2,13 @@ package controllers
 
 import (
 	"context"
+	// "fmt"
+	"net/http"
+	"net/mail"
+	"os"
+	"strings"
+	"time"
+
 	"github.com/No-Country/s6-07-m-react-native/tree/main/back/backGo/db"
 	"github.com/No-Country/s6-07-m-react-native/tree/main/back/backGo/model"
 	"github.com/dgrijalva/jwt-go"
@@ -12,10 +19,6 @@ import (
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"golang.org/x/crypto/bcrypt"
-	"net/http"
-	"net/mail"
-	"os"
-	"strings"
 )
 
 type SignUpModel struct {
@@ -26,8 +29,8 @@ type SignUpModel struct {
 }
 
 type MyClaimsSignIn struct {
-	ID    primitive.ObjectID `bson:"_id"`
-	Email string             `bson:"email"`
+	ID    primitive.ObjectID `json:"userId"`
+	Email string             `json:"email"`
 	jwt.StandardClaims
 }
 
@@ -109,6 +112,7 @@ func Login(c *gin.Context) {
 	if err := godotenv.Load(); err != nil {
 		panic(err)
 	}
+	// fmt.Println(c.MustGet("userId"))
 	Secret := os.Getenv("SECRET")
 	body := model.User{}
 	user := model.User{}
@@ -137,7 +141,7 @@ func Login(c *gin.Context) {
 		user.ID,
 		user.Email,
 		jwt.StandardClaims{
-			ExpiresAt: 60 * 60 * 60,
+			ExpiresAt: time.Now().Add(time.Hour * 24 * 30).Unix() ,
 		},
 	}
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
