@@ -95,7 +95,8 @@ const router = Router();
  *       500:
  *         description: Internal Error
  */
-router.post("/createReview", validationcreatereview, createReview);
+ 
+router.post("/createReview", validationcreatereview,createReview);
 
 /**
  * @swagger
@@ -129,6 +130,7 @@ router.post("/createReview", validationcreatereview, createReview);
  *       500:
  *         description: Internal Error
  */
+
 router.get("/getReview", validationgetreview, getReview);
 
 module.exports = router;

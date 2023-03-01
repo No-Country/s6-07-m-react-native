@@ -2,7 +2,6 @@ package controllers
 
 import (
 	"context"
-	// "fmt"
 	"net/http"
 	"net/mail"
 	"os"
@@ -52,7 +51,7 @@ func SignUp(c *gin.Context) {
 		return
 
 	}
-	
+
 	if body.Password == "" || body.Email == "" || body.Username == "" {
 		c.JSON(http.StatusBadRequest, gin.H{"done": false, "msg": "Incomplete values"})
 		return
@@ -96,7 +95,7 @@ func SignUp(c *gin.Context) {
 	newUser := model.User{
 		Password: body.Password,
 		Username: strings.ToLower(body.Username),
-		Email:    strings.ToLower(body.Email) ,
+		Email:    strings.ToLower(body.Email),
 	}
 	cursor, err := userColl.InsertOne(context.TODO(), newUser)
 	if err != nil {
@@ -105,7 +104,7 @@ func SignUp(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, gin.H{"done": true, "userId": cursor.InsertedID, "msg": "User successfully created"})
-	
+
 }
 
 func Login(c *gin.Context) {
@@ -141,7 +140,7 @@ func Login(c *gin.Context) {
 		user.ID,
 		user.Email,
 		jwt.StandardClaims{
-			ExpiresAt: time.Now().Add(time.Hour * 24 * 30).Unix() ,
+			ExpiresAt: time.Now().AddDate(0, 0, 60).Unix(),
 		},
 	}
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
@@ -152,5 +151,5 @@ func Login(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, gin.H{"done": true, "user": user, "token": signedToken})
-	
+
 }

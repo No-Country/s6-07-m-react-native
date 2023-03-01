@@ -12,11 +12,18 @@ const {
   updateBook,
   getDetailBook,
 } = require("../controller/Book.controller");
+const { validateToken } = require("../middleware/authentication");
+const { verifyOwnerShip, verifyOwnership } = require("../middleware/verifyOwnerShip");
 
 const router = Router();
 /**
  * @swagger
  * components:
+ *   securitySchemes:
+ *     bearerAuth:
+ *       type: http
+ *       scheme: bearer
+ *       bearerFormat: JWT
  *   schemas:
  *     Book:
  *       type: object
@@ -137,6 +144,7 @@ const router = Router();
  *       500:
  *         description: Internal Error
  */
+
 router.post("/donateBook", validationDonateBook, donateBook);
 /**
  * @swagger
@@ -186,7 +194,8 @@ router.post("/donateBook", validationDonateBook, donateBook);
  *               items:
  *                 $ref: '#/components/schemas/Book'
  */
-router.get("/search", searchBook);
+// validateToken,
+router.get("/search",  searchBook);
 /**
  * @swagger
  * /book/detailBook/{id}:
@@ -214,11 +223,14 @@ router.get("/search", searchBook);
  *         description: Error Interno del servidor
  * 
  */
-router.get("/detailBook/:id", validationGetDetailBook, getDetailBook);
+
+router.get("/detailBook/:id",validationGetDetailBook, getDetailBook);
 /**
  * @swagger
  * /book/deleteBook/{id}:
  *   delete:
+ *     security:
+ *       - bearerAuth: []
  *     sumary: delete book for id
  *     description: Delete book for id
  *     tags: [Books]
@@ -242,7 +254,8 @@ router.get("/detailBook/:id", validationGetDetailBook, getDetailBook);
  *         description: Error Interno del servidor
  * 
  */
-router.delete("/deleteBook/:id", validationEraseBook, eraseBook);
+// validateToken, 
+router.delete("/deleteBook/:id",  verifyOwnership('id', 'userId', 'Book'),validationEraseBook, eraseBook);
  /**
   * @swagger
   * /book/updateBook:

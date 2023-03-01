@@ -99,6 +99,7 @@ const router = Router();
  *       500:
  *         description: Internal Error
  */
+
 router.post("/donate", validationCreateDonation, createDonation);
 /**
  * @swagger
@@ -165,7 +166,8 @@ router.get(
  *       500:
  *         description: Internal Error
  */
-router.get("/allapplication/:userId",validationFindAllApplication, findAllApplication )
+
+router.get("/allapplication/:userId", validationFindAllApplication,findAllApplication )
 /**
  * @swagger
  * /donation/finddonation/{id}:
@@ -196,6 +198,7 @@ router.get("/allapplication/:userId",validationFindAllApplication, findAllApplic
  *       500:
  *         description: Internal Error
  */
-router.get("/finddonation/:id", validationFindDonationId, findDonationsId);
+
+router.get("/finddonation/:id",  validationFindDonationId,findDonationsId);
 
 module.exports = router;

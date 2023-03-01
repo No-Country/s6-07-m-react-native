@@ -1,16 +1,16 @@
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import React from 'react';
-import { Ionicons } from '@expo/vector-icons';
-import HomeNavigator from './HomeStack';
-import Donation from '../screens/tabscreens/donation/Donation';
-import ChatStack from './ChatStack';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
+import React from 'react'
+import { Ionicons } from '@expo/vector-icons'
+import HomeNavigator from './HomeStack'
+import Donation from '../screens/tabscreens/donation/Donation'
+import ChatStack from './ChatStack'
 
-const Tab = createBottomTabNavigator();
+const Tab = createBottomTabNavigator()
 
 const TabNagivator = ({ navigation }) => {
 	return (
 		<Tab.Navigator
-			initialRouteName='HomeBooks'
+			initialRouteName='HomeNavigator'
 			screenOptions={{
 				headerShown: false,
 				tabBarActiveTintColor: '#8F77DB',
@@ -57,7 +57,7 @@ const TabNagivator = ({ navigation }) => {
 				component={ChatStack}
 			/>
 		</Tab.Navigator>
-	);
-};
+	)
+}
 
-export default TabNagivator;
+export default TabNagivator

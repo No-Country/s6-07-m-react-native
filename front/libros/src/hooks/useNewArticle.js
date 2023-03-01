@@ -11,6 +11,8 @@ const useNewArticle = () => {
 	const [modalVisible, setModalVisible] = useState(false)
 	const [image, setImage] = useState('')
 	const [newDonation, setNewDonation] = useState({})
+	const [province, setProvince] = useState('')
+	console.log('esto viene del state', province)
 
 	const uploadCloudinary = async imageCloud => {
 		const data = new FormData()
@@ -59,6 +61,7 @@ const useNewArticle = () => {
 	}
 
 	const handleSubmit = async (values, resetForm) => {
+		console.log(values)
 		const objDonation = {
 			...values,
 			image:
@@ -92,6 +95,7 @@ const useNewArticle = () => {
 		uploadImage,
 		handleSubmit,
 		setModalVisible,
+		setProvince,
 	}
 }
 

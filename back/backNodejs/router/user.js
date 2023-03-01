@@ -168,7 +168,8 @@ const router = Router();
  *             schema:
  *               $ref: '#/components/schemas/ErrorResponse'
  */
-router.get("/getUser/:id", validationGetUser, getUser);
+// validationGetUser,
+router.get("/getUser/:id",  getUser);
 /**
  * @swagger
  * /user/updateUser:
@@ -208,6 +209,7 @@ router.get("/getUser/:id", validationGetUser, getUser);
  *             schema:
  *               $ref: '#/components/schemas/ErrorResponse'
  */
+
 router.put("/updateUser", validationUpdateUser, updateUser);
 /**
  * @swagger
@@ -248,6 +250,7 @@ router.put("/updateUser", validationUpdateUser, updateUser);
  *             schema:
  *               $ref: '#/components/schemas/ErrorResponse'
  */
+
 router.delete("/deleteUser/:id", validationDeleteUser, deleteUsers);
 
 module.exports = router;

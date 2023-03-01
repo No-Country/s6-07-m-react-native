@@ -8,28 +8,20 @@ import {
 import { useSelector } from 'react-redux'
 import Spinner from "../../../../components/spinner/Spinner"
 
-const HomeBooks = ({ navigation }) => {
-
-	const books = useSelector(state => state.books)
-
+const HomeBooks = () => {
 	return (
-		<SafeAreaView style={styles.container}>
-			<View style={{ marginHorizontal: 16 }}>
-				<SearchBooks />
-			</View>
-			<View style={{ marginLeft: 10, marginRight: 5 }}>
-				<BookList />
-			</View>
-			<Spinner display={books.books.length === 0 && "flex"}/>
-		</SafeAreaView>
+		<View style={styles.container}>
+			<SearchBooks />
+			<BookList />
+		</View>
 	)
 }
 
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		marginTop: 56,
-		marginBottom: 0,
+		marginTop: 60,
+		marginHorizontal: 16,
 	},
 })
 
