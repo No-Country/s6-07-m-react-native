@@ -15,9 +15,9 @@ import { formSchema, valuesSchema } from '../../../utils/formValidation'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import SelectDropdown from 'react-native-select-dropdown'
 
-import { Ionicons } from '@expo/vector-icons'
-import useNewArticle from '../../../hooks/useNewArticle'
-import { sample_data } from '../../../../mocks/provinces'
+import { Ionicons } from '@expo/vector-icons';
+import HeaderComponent from '../../../components/headerComponent';
+
 
 const FormNewArticle = () => {
 	const {
@@ -54,7 +54,9 @@ const FormNewArticle = () => {
 			) : (
 				<KeyboardAwareScrollView>
 					<View>
-						<View style={styles.header}>
+						<HeaderComponent left={true} title={'Dona tu Libro'}/>
+						{/* Reemplace el componente de abajo por el de arriba para poder poner el drawer*/}
+						{/* <View style={styles.header}>
 							<Text style={{ fontSize: 18, fontWeight: '500' }}>
 								Dona tu libro
 							</Text>
@@ -62,7 +64,7 @@ const FormNewArticle = () => {
 								source={{ uri: 'https://picsum.photos/200/300' }}
 								style={{ width: 36, height: 36, borderRadius: 20 }}
 							/>
-						</View>
+						</View> */}
 
 						<View style={styles.containerForm}>
 							<Formik
