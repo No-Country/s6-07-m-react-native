@@ -28,6 +28,7 @@ const FormNewArticle = () => {
 		handleSubmit,
 		setModalVisible,
 		setProvince,
+		CargarFirebase,
 	} = useNewArticle()
 
 	const initialValues = {
@@ -63,7 +64,11 @@ const FormNewArticle = () => {
 								style={{ width: 36, height: 36, borderRadius: 20 }}
 							/>
 						</View>
-
+						<View>
+							<TouchableOpacity onPress={CargarFirebase}>
+								<Text>Cargar firebase</Text>
+							</TouchableOpacity>
+						</View>
 						<View style={styles.containerForm}>
 							<Formik
 								validationSchema={formSchema(donationValueSchema)}
@@ -99,7 +104,7 @@ const FormNewArticle = () => {
 																<Ionicons name='close-circle' size={30} />
 															</TouchableOpacity>
 															<Image
-																source={{ uri: image }}
+																source={{ uri: image?.uri }}
 																style={{
 																	position: 'relative',
 																	width: 170,
