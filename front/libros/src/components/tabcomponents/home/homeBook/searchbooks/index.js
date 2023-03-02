@@ -20,6 +20,7 @@ import HeaderComponent from "../../../../headerComponent"
 		
 const SearchBooks = () => {
 	const {
+		textInput,
 		setTextInput,
 		filterSelect,
 		setFilterSelect,

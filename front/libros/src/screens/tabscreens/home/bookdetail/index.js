@@ -24,7 +24,7 @@ import { REACT_APP_API_URI_NODE } from '@env'
 import axios from 'axios'
 
 const BookDetail = ({ navigation, book }) => {
-	const books = useSelector(state => state)
+	const booksList = useSelector(state => state)
 	const route = useRoute()
 	const { bookId } = route.params
 
@@ -46,6 +46,7 @@ const BookDetail = ({ navigation, book }) => {
 	}, [])
 
 	const onHandlePress = () => {
+		console.log("onHandlePress Modal")
 		setModalVisible(!modalVisible)
 	}
 	return (

@@ -1,18 +1,39 @@
-import axios, { Axios } from 'axios'
+import axios from 'axios'
 import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
 import { REACT_APP_API_URI_NODE } from '@env'
 import { alertToast } from '../utils/alertsUtils'
 import * as ImagePicker from 'expo-image-picker'
-import { firebase } from '../../configFirebase'
 
 const useNewArticle = () => {
-	const user = useSelector(state => state)
+	const {user} = useSelector(state => state)
 
 	const [modalVisible, setModalVisible] = useState(false)
-	const [image, setImage] = useState(null)
+	const [image, setImage] = useState('')
 	const [newDonation, setNewDonation] = useState({})
 	const [province, setProvince] = useState('')
+	console.log('esto viene del state', province)
+
+	const uploadCloudinary = async imageCloud => {
+		const data = new FormData()
+		data.append('file', {
+			uri: imageCloud.uri,
+			type: imageCloud.image,
+			fileName: imageCloud.fileName || 'photo.jpg',
+		})
+		data.append('upload_preset', 'libros-app')
+
+		try {
+			const response = await axios.post(
+				'https://api.cloudinary.com/v1_1/dtjoj3fui/image/upload',
+				data
+			)
+			const data = await response.json()
+			console.log('Upload successful:', data)
+		} catch (error) {
+			console.log('cloudinary', error)
+		}
+	}
 
 	const uploadImage = async () => {
 		let result = await ImagePicker.launchImageLibraryAsync({
@@ -28,11 +49,8 @@ const useNewArticle = () => {
 				'Imagen cargada',
 				'La imagen se cargo correctamente!'
 			)
-			const source = {
-				uri: result.assets[0].uri,
-				fileName: result.assets[0].uri,
-			}
-			setImage(source)
+			setImage(result.assets[0].uri)
+			uploadCloudinary(result.assets[0])
 		} else {
 			alertToast(
 				'error',
@@ -42,37 +60,17 @@ const useNewArticle = () => {
 		}
 	}
 
-	// const uploadFirebase = async () => {
-	// 	const response = await fetch(image.uri)
-	// 	const blob = await response.blob()
-	// 	const filename = 'my-image.jpg'
-	// 	var ref = firebase.storage().ref().child(filename).put(blob)
-
-	// 	try {
-	// 		await ref
-	// 	} catch (error) {
-	// 		console.log(error)
-	// 	}
-	// 	setImage(null)
-	// }
-
-	// const CargarFirebase = async () => {
-	// 	uploadFirebase()
-	// 	const imageRef = await firebase.storage().ref().getDownloadURL()
-	// 	console.log(imageRef)
-	// }
-
 	const handleSubmit = async (values, resetForm) => {
+		console.log("Este es el id: ", user.user.ID)
 		const objDonation = {
 			...values,
 			image:
-				image === null
+				image === ''
 					? 'https://noticias.uai.cl/assets/uploads/2020/04/nota-dia-del-libro-euge-980x470-c-default.jpg'
-					: image.uri,
+					: image,
 			userId: user.user.ID,
 			id: user.user.ID,
 		}
-		console.log(user.user.ID)
 		try {
 			await axios
 				.post(`${REACT_APP_API_URI_NODE}/book/donateBook`, objDonation)
@@ -88,7 +86,7 @@ const useNewArticle = () => {
 		}
 
 		resetForm()
-		setImage(null)
+		setImage('')
 	}
 
 	return {

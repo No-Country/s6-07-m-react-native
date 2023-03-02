@@ -47,8 +47,8 @@ const BookCard = ({ book }) => {
     <TouchableWithoutFeedback 
       onPress={() => {
         selectBook()
-        navigate('BookDetail')
-        }}
+        navigate('BookDetail', {bookId: book._id})
+    }}
     >
       <View style={styles.container}>
         <Image
