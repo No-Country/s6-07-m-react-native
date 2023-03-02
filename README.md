@@ -3,7 +3,7 @@
 
 🌟 La idea detrás de esta aplicación surge de la necesidad de abordar el problema del costo elevado y el impacto ambiental asociado con la producción de libros físicos. Con Giveaway, se pueden donar libros que ya no se utilicen, lo que no solo beneficia a los lectores que los reciben, sino que también fomenta un consumo más sostenible y consciente.
 
- 👉 Este proyecto fue desarrollado con el equipo  s6-07-m-react-native de No Country.
+ 👉 Este proyecto fue desarrollado con el equipo  **_s6-07-m-react-native_** de No Country.
  
 ✔️ **Team Leader**: Maiten Cullen
 
