@@ -2,8 +2,8 @@ import axios from 'axios'
 import { REACT_APP_API_URI_GO, REACT_APP_API_URI_NODE } from '@env'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
-console.log('URI NODE: ', REACT_APP_API_URI_NODE)
 console.log('URI GO: ', REACT_APP_API_URI_GO)
+console.log('URI NODE: ', REACT_APP_API_URI_NODE)
 
 const instance = axios.create({
 	baseURL: REACT_APP_API_URI_GO,
