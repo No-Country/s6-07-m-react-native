@@ -13,7 +13,10 @@ const {
   getDetailBook,
 } = require("../controller/Book.controller");
 const { validateToken } = require("../middleware/authentication");
-const { verifyOwnerShip, verifyOwnership } = require("../middleware/verifyOwnerShip");
+const {
+  verifyOwnerShip,
+  verifyOwnership,
+} = require("../middleware/verifyOwnerShip");
 
 const router = Router();
 /**
@@ -118,7 +121,7 @@ const router = Router();
  *         editorial: "Sudamericana"
  */
 
- /**
+/**
  * @swagger
  * /book/donateBook:
  *   post:
@@ -193,7 +196,7 @@ router.post("/donateBook", validationDonateBook, donateBook);
  *               items:
  *                 $ref: '#/components/schemas/Book'
  */
-router.get("/search", validateToken, searchBook);
+router.get("/search", searchBook);
 /**
  * @swagger
  * /book/detailBook/{id}:
@@ -219,9 +222,9 @@ router.get("/search", validateToken, searchBook);
  *         description: Book not found
  *       500:
  *         description: Error Interno del servidor
- * 
+ *
  */
-router.get("/detailBook/:id",validationGetDetailBook, getDetailBook);
+router.get("/detailBook/:id", validationGetDetailBook, getDetailBook);
 /**
  * @swagger
  * /book/deleteBook/{id}:
@@ -249,10 +252,16 @@ router.get("/detailBook/:id",validationGetDetailBook, getDetailBook);
  *         description: Not found
  *       500:
  *         description: Error Interno del servidor
- * 
+ *
  */
-router.delete("/deleteBook/:id", validateToken,  verifyOwnership('id', 'userId', 'Book'),validationEraseBook, eraseBook);
- /**
+router.delete(
+  "/deleteBook/:id",
+  validateToken,
+  verifyOwnership("id", "userId", "Book"),
+  validationEraseBook,
+  eraseBook
+);
+/**
   * @swagger
   * /book/updateBook:
   *   put:

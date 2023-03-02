@@ -15,9 +15,10 @@ import { formSchema, valuesSchema } from '../../../utils/formValidation'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import SelectDropdown from 'react-native-select-dropdown'
 
-import { Ionicons } from '@expo/vector-icons';
-import HeaderComponent from '../../../components/headerComponent';
-
+import { Ionicons } from '@expo/vector-icons'
+import HeaderComponent from '../../../components/headerComponent'
+import useNewArticle from '../../../hooks/useNewArticle'
+import { sample_data } from '../../../../mocks/provinces'
 
 const FormNewArticle = () => {
 	const {
@@ -54,7 +55,7 @@ const FormNewArticle = () => {
 			) : (
 				<KeyboardAwareScrollView>
 					<View>
-						<HeaderComponent left={true} title={'Dona tu Libro'}/>
+						<HeaderComponent left={true} title={'Dona tu Libro'} />
 						{/* Reemplace el componente de abajo por el de arriba para poder poner el drawer*/}
 						{/* <View style={styles.header}>
 							<Text style={{ fontSize: 18, fontWeight: '500' }}>
@@ -101,7 +102,7 @@ const FormNewArticle = () => {
 																<Ionicons name='close-circle' size={30} />
 															</TouchableOpacity>
 															<Image
-																source={{ uri: image }}
+																source={{ uri: image?.uri }}
 																style={{
 																	position: 'relative',
 																	width: 170,
