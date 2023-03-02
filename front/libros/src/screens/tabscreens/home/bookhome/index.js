@@ -12,7 +12,9 @@ const HomeBooks = () => {
 	return (
 		<View style={styles.container}>
 			<SearchBooks />
-			<BookList />
+			<View style={{ marginBottom: 200 }}>
+				<BookList />
+			</View>
 		</View>
 	)
 }

@@ -30,7 +30,7 @@ const SearchBooks = () => {
 
 	return (
 		<View style={{ marginBottom: 16 }}>
-			<HeaderComponent right={true} title={"Encuentra tu libro"} />
+			<HeaderComponent right={true} title={'Encuentra tu libro'} />
 
 			{/* <View style={styles.directionView}>
 				<Image

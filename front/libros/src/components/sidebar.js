@@ -130,14 +130,3 @@ const styles = StyleSheet.create({
 })
 
 export default Sidebar
-
-/* 
-() => {
-                        console.log('item', item);
-                        console.log('index', index);
-                        console.log('item.id', item.id);
-                        console.log('item.url', item.url);
-                        console.log('item.title', item.title);
-                        console.log("Toqué Logout")
-                    }
- */
