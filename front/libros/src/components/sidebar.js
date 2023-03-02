@@ -4,7 +4,7 @@ import MenuDrawer from 'react-native-side-drawer'
 import UserCard from './userCard'
 import data from '../../mocks/userObj.json'
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import { useSelector, useDispatch } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { setUser } from '../store/slices/user.slice'
 
 const screenUrls = [
