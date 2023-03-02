@@ -33,6 +33,7 @@ const useNewArticle = () => {
 				fileName: result.assets[0].uri,
 			}
 			setImage(source)
+			console.log(result, "result" , source)
 		} else {
 			alertToast(
 				'error',
@@ -72,7 +73,8 @@ const useNewArticle = () => {
 			userId: user.user.ID,
 			id: user.user.ID,
 		}
-		console.log(user.user.ID)
+		console.log(image.uri, "imagen")
+		console.log(user.user.ID, "userId: " + user.user)
 		try {
 			await axios
 				.post(`${REACT_APP_API_URI_NODE}/book/donateBook`, objDonation)

@@ -9,7 +9,7 @@ const HomeBooks = () => {
 	return (
 		<View style={styles.container}>
 			<SearchBooks />
-			<View style={{ marginBottom: 200 }}>
+			<View style={styles.list}>
 				<BookList />
 			</View>
 		</View>
@@ -22,6 +22,13 @@ const styles = StyleSheet.create({
 		marginTop: 60,
 		marginHorizontal: 16,
 	},
+	list:{
+		flex: 1,
+		marginTop: 20,
+		marginHorizontal: 16,
+		paddingBottom: 10
+	}
 })
+
 
 export default HomeBooks
