@@ -18,18 +18,40 @@ import {
 import { Reviews } from './../../../../components/tabcomponents/home/index'
 import { books } from './../../../../../mocks/bookObj.json'
 import { StatusBar } from 'react-native'
+import { useSelector } from 'react-redux'
+import { useRoute } from '@react-navigation/native'
+import { REACT_APP_API_URI_NODE } from '@env'
+import axios from 'axios'
 
 const BookDetail = ({ navigation, book }) => {
+	const books = useSelector(state => state)
+	const route = useRoute()
+	const { bookId } = route.params
+
 	const [modalVisible, setModalVisible] = useState(false)
+	const [bookInfo, setBookInfo] = useState({})
+
+	useEffect(() => {
+		const getInfoBook = async () => {
+			try {
+				const response = await axios.get(
+					`${REACT_APP_API_URI_NODE}/book/detailBook/${bookId}`
+				)
+				setBookInfo(response.data.data)
+			} catch (error) {
+				console.log(error)
+			}
+		}
+		getInfoBook()
+	}, [])
 
 	const onHandlePress = () => {
 		setModalVisible(!modalVisible)
-
 	}
 	return (
 		<SafeAreaView>
 			<StatusBar backgroundColor='#6427FF' />
-			<Book />
+			<Book bookInfo={bookInfo} />
 			<Reviews data={books} />
 			<Distance />
 			<Mapa />
@@ -45,7 +67,6 @@ const BookDetail = ({ navigation, book }) => {
 				/>
 			</Modal>
 		</SafeAreaView>
-		
 	)
 }
 
