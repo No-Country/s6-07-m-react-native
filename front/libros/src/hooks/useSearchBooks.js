@@ -4,7 +4,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import { alertToast } from '../utils/alertsUtils'
 import { setBooks } from '../store/slices/books.slice'
 import { useEffect, useRef, useState } from 'react'
-import { ActivityIndicator, View, AsyncStorage } from 'react-native'
+import { ActivityIndicator, View } from 'react-native'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 const useSearchBooks = () => {
 	const dispatch = useDispatch()
 
@@ -17,10 +18,24 @@ const useSearchBooks = () => {
 	const [loading, setLoading] = useState(false)
 	const [currentPage, setCurrentPage] = useState(1)
 	const [showScrollToTopButton, setShowScrollToTopButton] = useState(false)
-
 	useEffect(() => {
 		newPage(1)
 	}, [])
+
+	let token = 0
+	const getTokenAndLoad = async () => {
+		try {
+			token = await AsyncStorage.getItem('token')
+			console.log(token, 'get token')
+			if (token) {
+				return token
+			} else {
+				alertToast('error', '❌', 'No se encontró el token de autenticación')
+			}
+		} catch (error) {
+			alertToast('error', '❌', 'No se pudo obtener el token de autenticación')
+		}
+	}
 
 	const handleScroll = event => {
 		const offsetY = event.nativeEvent.contentOffset.y
@@ -44,9 +59,16 @@ const useSearchBooks = () => {
 		setTextInput('')
 		setFilterSelect('')
 		setLoading(true)
+		const a = await getTokenAndLoad()
 		try {
+			const config = {
+				headers: {
+					Authorization: `Bearer ${a}`,
+				},
+			}
 			const response = await axios(
-				`${REACT_APP_API_URI_NODE}/book/search?page=${page}&limit=100`
+				`${REACT_APP_API_URI_NODE}/book/search?page=${page}&limit=100`,
+				config
 			)
 			if (page === 1) {
 				setLoading(false)
@@ -65,20 +87,29 @@ const useSearchBooks = () => {
 
 	const handleSearch = async () => {
 		setLoading(true)
+		const a = await getTokenAndLoad()
+		console.log(a, 'Token')
 		if (filterSelect === '' || textInput === '') {
 			return alertToast('info', 'ℹ️', 'No ingresaste ninguna informacion')
 		}
 		try {
-			await axios(
-				`${REACT_APP_API_URI_NODE}/book/search?${filterSelect}=${textInput}&page=1&limit=8`
-			).then(response => {
-				if (response.data.status === 200) {
-					alertToast('success', '👍', 'Busqueda correcta')
-					dispatch(setBooks(response.data.data))
-					setLoading(false)
-				}
-			})
+			const config = {
+				headers: {
+					Authorization: `Bearer ${a}`,
+				},
+			}
+			const response = await axios.get(
+				`${REACT_APP_API_URI_NODE}/book/search?${filterSelect}=${textInput}&page=1&limit=8`,
+				config
+			)
+
+			if (response.data.status === 200) {
+				alertToast('success', '👍', 'Busqueda correcta')
+				dispatch(setBooks(response.data.data))
+				setLoading(false)
+			}
 		} catch (error) {
+			console.log(error, 'Error busqueda')
 			if (error.response && error.response.status === 404) {
 				alertToast('error', '❌', 'No se encontraron resultados')
 			}
@@ -86,7 +117,6 @@ const useSearchBooks = () => {
 		setTextInput('')
 		setFilterSelect('')
 	}
-
 	const handleLoadMore = () => {
 		setLoading(true)
 		if (

@@ -38,10 +38,9 @@ const UserStar = ({...props}) => {
     )
 }
 
-const UserCard = ({data, starRight}) => {
-
+const UserCard = ({data, starRight, style}) => {
     return (
-        <View style={styles.userContainer}>
+        <View style={[styles.userContainer, style]}>
             <View style={styles.details}>
                 <UserImage />
                 <UserStar star={data.user.stars_Avg} starRight={starRight} />
