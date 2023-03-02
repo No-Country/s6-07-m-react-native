@@ -29,9 +29,8 @@ const SearchBooks = () => {
 	} = useSearchBooks()
 
 	useEffect(() => {
-        newPage(1)
-    }, [])
-
+		newPage(1)
+	}, [])
 
 	return (
 		<View style={{ marginBottom: 16 }}>

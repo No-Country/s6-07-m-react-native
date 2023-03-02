@@ -12,7 +12,7 @@ const Reviews = books => {
 					style={styles.avatar}
 					source={require('./../../../../../../assets/avatar.jpeg')}
 				/>
-				<Text style={styles.textAvatar}>{data[0].author}</Text>
+				<Text style={styles.textAvatar}>{data[0]?.author}</Text>
 			</View>
 			<View style={styles.reviewsContainer}>
 				<Text style={styles.star}>⭐️</Text>

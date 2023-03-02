@@ -18,9 +18,6 @@ const useSearchBooks = () => {
 	const [loading, setLoading] = useState(false)
 	const [currentPage, setCurrentPage] = useState(1)
 	const [showScrollToTopButton, setShowScrollToTopButton] = useState(false)
-	/* useEffect(() => {
-		newPage(1)
-	}, []) */
 
 	let token = 0
 	const getTokenAndLoad = async () => {
@@ -155,6 +152,7 @@ const useSearchBooks = () => {
 		handleScrollToTop,
 		showScrollToTopButton,
 		handleScroll,
+		newPage,
 	}
 }
 

@@ -40,7 +40,7 @@ const BookCard = ({ book }) => {
   }
 
 	useEffect(() => {
-		trimAuthor(book.author)
+		trimAuthor(book?.author)
 	}, [])
 
   return (
@@ -58,7 +58,7 @@ const BookCard = ({ book }) => {
 
 				<View style={styles.infoContainer}>
 					<View>
-						<Text style={styles.title}>{book.title.substring(0, 20)}</Text>
+						<Text style={styles.title}>{book?.title?.substring(0, 20)}</Text>
 
 						<View style={styles.authorContainer}>
 							<View style={styles.avatarContainer}>

@@ -1,10 +1,25 @@
 {
+	"books": {
+		"books": [[], []],
+		"pagination": { "currentPage": 1, "totalPages": 1 }
+	},
+	"conversation": false,
+	"historyChat": { "historyChat": [], "state": "idle" },
 	"user": {
-		"id": "user1234",
-		"name": "Maria Salazar",
-		"stars_Avg": "4.6",
-		"location": "Mexico, Cuernavaca",
-		"avatar": "../assets/avatar.jpeg"
+		"Address": {
+			"City": "",
+			"Geolocation": [],
+			"Number": 0,
+			"PostalCode": 0,
+			"Street": ""
+		},
+		"Books": null,
+		"Chats": null,
+		"Email": "",
+		"ID": "640018fd6d197454e3e2df38",
+		"Name": "",
+		"Password": "$2a$10$Xss5E4gzSwmgdDrdy5M2KO7aD0x79zBBeVjoHrs.OgQdGnCinkxu2",
+		"ProfileImage": "",
+		"Username": "franrey"
 	}
 }
-

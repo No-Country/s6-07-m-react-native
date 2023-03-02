@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import {
 	View,
 	Text,
@@ -50,7 +50,7 @@ const CustomModal = ({ data, setModalVisible, modalVisible }) => {
 				<View style={styles.containerReview}>
 					<Text style={styles.textReview}>⭐️⭐️⭐️⭐️⭐️ 5.0</Text>
 				</View>
-				<Text style={styles.cardText}>{data[0].author}</Text>
+				<Text style={styles.cardText}>{data[0]?.author}</Text>
 				<Text style={styles.cardLocation}>México,Cuernavaca</Text>
 				<TouchableOpacity style={styles.buttonCard}>
 					<Text style={styles.textButtonCard} onPress={()=> navigate("Contact")}>
