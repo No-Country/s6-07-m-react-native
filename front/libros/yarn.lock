@@ -6821,7 +6821,7 @@ prompts@^2.3.2, prompts@^2.4.0:
     kleur "^3.0.3"
     sisteransi "^1.0.5"
 
-prop-types@^15.6.2, prop-types@^15.7.2, prop-types@^15.8.1:
+prop-types@^15.6.2, prop-types@^15.7.2, prop-types@^15.8.1, prop-types@15.8.1:
   version "15.8.1"
   resolved "https://registry.npmjs.org/prop-types/-/prop-types-15.8.1.tgz"
   integrity sha512-oj87CgZICdulUohogVAR7AjlC0327U4el4L6eAvOqCeudMDVU0NThNaV+b9Df4dXgSP1gXMTnPdhfe/2qDH5cg==
@@ -7049,6 +7049,13 @@ react-native-select-dropdown@^3.3.0:
   version "3.3.0"
   resolved "https://registry.npmjs.org/react-native-select-dropdown/-/react-native-select-dropdown-3.3.0.tgz"
   integrity sha512-gDUeVt9oPXpjkboc/PZiavbYpo4bNIpl7OgKmOOaa4pJjjIBIDkb2LcQquG5bjXn3J6P6nr7YUlHvne2Xb29Xw==
+
+react-native-side-drawer@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.npmjs.org/react-native-side-drawer/-/react-native-side-drawer-2.1.0.tgz"
+  integrity sha512-vw5DY0VwrFjYOxCNvANu1YPIfFKLpRtQd/EHTSyrcTmpkzKP3Px6jy7e3QWlE4W23F3kTJfTS2LEf2mYFiRHzQ==
+  dependencies:
+    prop-types "15.8.1"
 
 react-native-svg@*, react-native-svg@^13.4.0, react-native-svg@13.4.0:
   version "13.4.0"
