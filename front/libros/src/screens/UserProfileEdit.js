@@ -19,7 +19,11 @@ const EditUserDetails = () => {
         <View>
             {/* El background por default es blanco pero pueden cambiar el color 
             expecificandolo en el estilo y para quitar el background ponerle transparent. */}
-            <UserCard starRight={'none'} data={userDetail} style={{backgroundColor:'transparent'}}/>
+            <UserCard 
+                starRight={'none'} 
+                data={userDetail} 
+                style={{backgroundColor:'transparent'}}        
+            />
             <Formik
                 initialValues={initialValues}
                 onSubmit={values => console.log(values)}
