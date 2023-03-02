@@ -16,6 +16,7 @@ import { REACT_APP_API_URI_NODE } from '@env'
 import { useDispatch } from 'react-redux'
 import { setBooks } from '../../../../../store/slices/books.slice'
 import { alertToast } from '../../../../../utils/alertsUtils'
+import HeaderComponent from '../../../../headerComponent'
 
 const SearchBooks = () => {
 	const {
@@ -29,7 +30,7 @@ const SearchBooks = () => {
 
 	return (
 		<View style={{ marginBottom: 16 }}>
-			<HeaderComponent right={true} title={"Encuentra tu libro"} />
+			<HeaderComponent right={true} title={'Encuentra tu libro'} />
 
 			{/* <View style={styles.directionView}>
 				<Image

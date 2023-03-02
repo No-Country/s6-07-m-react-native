@@ -41,37 +41,38 @@ const useNewArticle = () => {
 			)
 		}
 	}
-	console.log(image)
-	const uploadFirebase = async () => {
-		const response = await fetch(image.uri)
-		const blob = await response.blob()
-		const filename = 'my-image.jpg'
-		var ref = firebase.storage().ref().child(filename).put(blob)
 
-		try {
-			await ref
-		} catch (error) {
-			console.log(error)
-		}
-		setImage(null)
-	}
+	// const uploadFirebase = async () => {
+	// 	const response = await fetch(image.uri)
+	// 	const blob = await response.blob()
+	// 	const filename = 'my-image.jpg'
+	// 	var ref = firebase.storage().ref().child(filename).put(blob)
 
-	const CargarFirebase = async () => {
-		uploadFirebase()
-		const imageRef = await firebase.storage().ref().getDownloadURL()
-		console.log(imageRef)
-	}
+	// 	try {
+	// 		await ref
+	// 	} catch (error) {
+	// 		console.log(error)
+	// 	}
+	// 	setImage(null)
+	// }
+
+	// const CargarFirebase = async () => {
+	// 	uploadFirebase()
+	// 	const imageRef = await firebase.storage().ref().getDownloadURL()
+	// 	console.log(imageRef)
+	// }
 
 	const handleSubmit = async (values, resetForm) => {
-		uploadFirebase()
 		const objDonation = {
 			...values,
 			image:
-				image === ''
+				image === null
 					? 'https://noticias.uai.cl/assets/uploads/2020/04/nota-dia-del-libro-euge-980x470-c-default.jpg'
 					: image.uri,
 			userId: user.user.ID,
+			id: user.user.ID,
 		}
+		console.log(user.user.ID)
 		try {
 			await axios
 				.post(`${REACT_APP_API_URI_NODE}/book/donateBook`, objDonation)
@@ -87,7 +88,7 @@ const useNewArticle = () => {
 		}
 
 		resetForm()
-		setImage('')
+		setImage(null)
 	}
 
 	return {
@@ -98,8 +99,6 @@ const useNewArticle = () => {
 		handleSubmit,
 		setModalVisible,
 		setProvince,
-		uploadFirebase,
-		CargarFirebase,
 	}
 }
 

@@ -17,6 +17,8 @@ import SelectDropdown from 'react-native-select-dropdown'
 
 import { Ionicons } from '@expo/vector-icons'
 import HeaderComponent from '../../../components/headerComponent'
+import useNewArticle from '../../../hooks/useNewArticle'
+import { sample_data } from '../../../../mocks/provinces'
 
 const FormNewArticle = () => {
 	const {
@@ -27,7 +29,6 @@ const FormNewArticle = () => {
 		handleSubmit,
 		setModalVisible,
 		setProvince,
-		CargarFirebase,
 	} = useNewArticle()
 
 	const initialValues = {
