@@ -13,7 +13,7 @@ import { Ionicons } from '@expo/vector-icons'
 
 const BooksList = () => {
 	const books = useSelector(state => state)
-
+console.log(books), "libros"
 	const {
 		handleLoadMore,
 		renderFooter,
