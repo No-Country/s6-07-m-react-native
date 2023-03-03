@@ -23,7 +23,6 @@ exports.validationDonateBook = [
   body("editorial")
     .notEmpty()
     .withMessage("You must specify the editorial of the book"),
-  body("id").notEmpty().withMessage("Didn't give user ID"),
   reportError,
 ];
 
