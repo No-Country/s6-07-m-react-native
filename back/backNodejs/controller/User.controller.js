@@ -7,7 +7,6 @@ const getUser = async (req, res) => {
   try {
     console.log(req.params.id);
     const data = await findUser(req.params.id);
-    console.log(data, "data");
     if (!data) {
       return NotFound(res, "Not Found User");
     }
