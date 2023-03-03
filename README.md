@@ -15,7 +15,7 @@
 
 ✔️ **Back End Go**: Mateo del Campillo
 
-✔️ **Front End**: Francisco Rey - Federico Montenegro
+✔️ **Front End**: Francisco Rey - Federico Montenegro - Mario Posadas - Raphael Richardson
 
 
 ## Tareas realizadas:
