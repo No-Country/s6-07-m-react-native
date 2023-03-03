@@ -1,8 +1,5 @@
 import axios from 'axios'
-import { REACT_APP_API_URI_GO, REACT_APP_API_URI_NODE } from '@env'
-
-console.log("env GO", REACT_APP_API_URI_GO)
-console.log("env NODEJS", REACT_APP_API_URI_NODE)
+import { REACT_APP_API_URI_GO } from '@env'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
 
