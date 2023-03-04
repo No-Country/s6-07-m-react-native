@@ -9,7 +9,14 @@ import {
 } from 'react-native'
 import { Ionicons } from '@expo/vector-icons'
 import { colors } from '../../../../../utils/constants'
+
 import useSearchBooks from '../../../../../hooks/useSearchBooks'
+import axios from 'axios'
+import { REACT_APP_API_URI_NODE } from '@env'
+import { useDispatch } from 'react-redux'
+import { setBooks } from '../../../../../store/slices/books.slice'
+import { alertToast } from '../../../../../utils/alertsUtils'
+import HeaderComponent from '../../../../headerComponent'
 
 const SearchBooks = () => {
 	const {
@@ -18,22 +25,25 @@ const SearchBooks = () => {
 		filterSelect,
 		setFilterSelect,
 		handleSearch,
-		getAllBooks,
+		resetAll,
+		newPage,
 	} = useSearchBooks()
 
 	useEffect(() => {
-		getAllBooks()
+		newPage(1)
 	}, [])
 
 	return (
 		<View style={{ marginBottom: 16 }}>
-			<View style={styles.directionView}>
+			<HeaderComponent right={true} title={'Encuentra tu libro'} />
+
+			{/* <View style={styles.directionView}>
 				<Image
 					source={{ uri: 'https://picsum.photos/200/300' }}
 					style={styles.imgLogo}
 				/>
 				<Text style={styles.text}>Encuentra tu libro</Text>
-			</View>
+			</View> */}
 			<View style={styles.textInput}>
 				<TextInput
 					onChangeText={text => setTextInput(text)}
@@ -51,7 +61,7 @@ const SearchBooks = () => {
 			</View>
 			<View style={styles.directionButtons}>
 				<TouchableOpacity
-					onPress={getAllBooks}
+					onPress={resetAll}
 					style={[
 						styles.button,
 						{

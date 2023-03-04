@@ -54,6 +54,7 @@ const eraseBook = async (req, res) => {
 
 const searchBook = async (req, res) => {
   const { title, editorial, author, page, limit = 10 } = req.query;
+  console.log(req.query)
   const currentPage = Number(page) || 1; // Si no se especifica la página, se asume la página 1
   try {
     let bookFound = [];

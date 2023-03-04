@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import {
 	Image,
 	StyleSheet,
@@ -13,9 +13,12 @@ import { colors, formStyles as stylesConstants } from '../../../utils/constants'
 import ModalPublicated from './ModalPublicated'
 import { formSchema, valuesSchema } from '../../../utils/formValidation'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+import SelectDropdown from 'react-native-select-dropdown'
 
 import { Ionicons } from '@expo/vector-icons'
+import HeaderComponent from '../../../components/headerComponent'
 import useNewArticle from '../../../hooks/useNewArticle'
+import { sample_data } from '../../../../mocks/provinces'
 
 const FormNewArticle = () => {
 	const {
@@ -25,6 +28,7 @@ const FormNewArticle = () => {
 		setImage,
 		handleSubmit,
 		setModalVisible,
+		setProvince,
 	} = useNewArticle()
 
 	const initialValues = {
@@ -51,7 +55,9 @@ const FormNewArticle = () => {
 			) : (
 				<KeyboardAwareScrollView>
 					<View>
-						<View style={styles.header}>
+						<HeaderComponent left={true} title={'Dona tu Libro'} />
+						{/* Reemplace el componente de abajo por el de arriba para poder poner el drawer*/}
+						{/* <View style={styles.header}>
 							<Text style={{ fontSize: 18, fontWeight: '500' }}>
 								Dona tu libro
 							</Text>
@@ -59,7 +65,7 @@ const FormNewArticle = () => {
 								source={{ uri: 'https://picsum.photos/200/300' }}
 								style={{ width: 36, height: 36, borderRadius: 20 }}
 							/>
-						</View>
+						</View> */}
 
 						<View style={styles.containerForm}>
 							<Formik
@@ -96,7 +102,7 @@ const FormNewArticle = () => {
 																<Ionicons name='close-circle' size={30} />
 															</TouchableOpacity>
 															<Image
-																source={{ uri: image }}
+																source={{ uri: image?.uri }}
 																style={{
 																	position: 'relative',
 																	width: 170,
@@ -160,7 +166,6 @@ const FormNewArticle = () => {
 											</Text>
 										)}
 										<Text style={stylesConstants.title}>Autor del libro</Text>
-										{/*Poner un select con distintasa opciones*/}
 										<TextInput
 											style={stylesConstants.input}
 											placeholder='Autor'
@@ -174,8 +179,38 @@ const FormNewArticle = () => {
 												{errors?.author}
 											</Text>
 										)}
-										<Text>MAPA</Text>
-										<View style={{ alignItems: 'center' }}>
+										<View style={styles.selectItem}>
+											<Text
+												style={[
+													stylesConstants.title,
+													{ marginTop: 20, marginBottom: 10 },
+												]}
+											>
+												Lugar en el que lo publicas
+											</Text>
+											<SelectDropdown
+												data={sample_data}
+												onSelect={(selectedItem, index) => {
+													setProvince(selectedItem.provincia, index)
+												}}
+												buttonTextAfterSelection={(selectedItem, index) => {
+													return selectedItem.provincia
+												}}
+												rowTextForSelection={(item, index) => {
+													return item.provincia
+												}}
+												defaultButtonText='Selecciona tu provincia'
+												search={true}
+												searchPlaceHolder='Busca tu provincia'
+												dropdownStyle={styles.dropdown}
+												dropdownTextStyle={styles.dropdownText}
+												buttonStyle={styles.button}
+												buttonTextStyle={styles.buttonText}
+												rowStyle={styles.row}
+												rowTextStyle={styles.rowText}
+											/>
+										</View>
+										<View style={{ alignItems: 'center', marginTop: 30 }}>
 											<TouchableOpacity
 												style={styles.buttonSubmit}
 												onPress={handleSubmit}
@@ -220,7 +255,7 @@ const styles = StyleSheet.create({
 	buttonSubmit: {
 		backgroundColor: colors.primary,
 		color: 'white',
-		width: 254,
+		width: 274,
 		height: 48,
 		borderRadius: 30,
 		justifyContent: 'center',
@@ -229,6 +264,51 @@ const styles = StyleSheet.create({
 		color: 'white',
 		fontSize: 17,
 		fontWeight: '700',
+		textAlign: 'center',
+	},
+	selectItem: {
+		marginBottom: 10,
+		width: '100%',
+	},
+	dropdown: {
+		width: '88%',
+		height: 200,
+		borderColor: '#ccc',
+		borderWidth: 1,
+		borderRadius: 5,
+		backgroundColor: '#fff',
+	},
+	dropdownText: {
+		fontSize: 18,
+		color: '#333',
+		textAlign: 'center',
+	},
+	button: {
+		width: '100%',
+		height: 50,
+		borderColor: '#ccc',
+		borderWidth: 1,
+		borderRadius: 5,
+		backgroundColor: '#fff',
+		marginBottom: 10,
+		justifyContent: 'center',
+		alignItems: 'center',
+	},
+	buttonText: {
+		fontSize: 18,
+		color: '#333',
+		textAlign: 'center',
+	},
+	row: {
+		borderBottomColor: '#ccc',
+		borderBottomWidth: 1,
+		height: 50,
+		justifyContent: 'center',
+		paddingHorizontal: 10,
+	},
+	rowText: {
+		fontSize: 18,
+		color: '#333',
 		textAlign: 'center',
 	},
 })

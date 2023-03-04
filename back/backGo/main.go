@@ -2,15 +2,24 @@ package main
 
 import (
 	"fmt"
-	"github.com/No-Country/s6-07-m-react-native/tree/main/back/backGo/routes"
-	"github.com/gin-gonic/gin"
 	"net/http"
 	"os"
 
-	"github.com/No-Country/s6-07-m-react-native/tree/main/back/backGo/db"
-	"github.com/joho/godotenv"
+	"github.com/No-Country/s6-07-m-react-native/tree/main/back/backGo/routes"
+	"github.com/gin-gonic/gin"
+	// "github.com/google/uuid"
+	
 
+	"github.com/No-Country/s6-07-m-react-native/tree/main/back/backGo/db"
+	"github.com/No-Country/s6-07-m-react-native/tree/main/back/backGo/cofigSocket"
+	"github.com/gorilla/websocket"
+	"github.com/joho/godotenv"
 )
+
+var upgrader = websocket.Upgrader{
+	ReadBufferSize: 1024,
+	WriteBufferSize: 1024,
+}
 
 func main() {
 	if err := run(); err != nil{
@@ -53,7 +62,10 @@ func run()error{
 		c.JSON(http.StatusOK, "Welcome to GiveAway 📖🤝📖")
 		
 	})
-	routes.UserRoutes(r)
+	
+	configSocket.InitSocket(r)
+	routes.Routes(r)
+
 	fmt.Printf("Listening on Port %v \n", port)
 	if err := r.Run(port); err != nil {
 		return err

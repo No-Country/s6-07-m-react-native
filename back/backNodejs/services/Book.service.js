@@ -24,9 +24,9 @@ const searchBookBy = async (query, type, page, limit) => {
   let searchFields;
 
   switch (type) {
-    case 'all':
-      searchFields = {}
-      break
+    case "all":
+      searchFields = {};
+      break;
     case "title":
       searchFields = { title: regex };
       break;
@@ -43,9 +43,10 @@ const searchBookBy = async (query, type, page, limit) => {
   const endIndex = page * limit;
   console.log(searchFields);
   const totalBooks = await Book.countDocuments(searchFields);
-  const search = await Book.find(searchFields).skip(startIndex)
-  .limit(limit)
-  .exec();
+  const search = await Book.find(searchFields)
+    .skip(startIndex)
+    .limit(limit)
+    .exec();
   console.log(search, "search");
   return { books: search, totalBooks };
 };
@@ -54,7 +55,7 @@ const bookUpdate = async (data, id) => {
   return await Book.updateOne({ _id: id }, { $set: data });
 };
 const searchBookById = async (id) => {
-  return await Book.findById({ _id: id });
+  return await Book.findById(id);
 };
 module.exports = {
   saveBook,

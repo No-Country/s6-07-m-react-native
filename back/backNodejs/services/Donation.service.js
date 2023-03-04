@@ -9,14 +9,7 @@ const savedDonation = async (data) => {
 };
 const findAllDonation = async (userId) => {
   return await Donation.find({
-    $or: [
-      {
-        donatorId: userId,
-      },
-      {
-        applicantId: userId,
-      },
-    ],
+    donatorId: userId,
   }).populate({
     path: "bookId",
     model: "Book",
@@ -26,24 +19,38 @@ const findAllDonation = async (userId) => {
       model: "User",
       select: "username",
     },
-  });;
+  });
+};
+const allfindApplications = async (userId) => {
+  return await Donation.find({
+    applicantId: userId,
+  }).populate({
+    path: "bookId",
+    model: "Book",
+    select: "title author",
+    populate: {
+      path: "userId",
+      model: "User",
+      select: "username",
+    },
+  });
 };
 const findDonationById = async (id) => {
-    return await Donation.findById({_id: id}).populate({
-      path: 'bookId',
-      model: 'Book',
-      select: 'title author',
-      populate: {
-        path: 'userId',
-        model: 'User',
-        select: 'username',
-      },
-    });;
-}
+  return await Donation.findById({ _id: id }).populate({
+    path: "bookId",
+    model: "Book",
+    select: "title author",
+    populate: {
+      path: "userId",
+      model: "User",
+      select: "username",
+    },
+  });
+};
 
 module.exports = {
   savedDonation,
   findAllDonation,
-  findDonationById
-
+  findDonationById,
+  allfindApplications
 };

@@ -11,9 +11,7 @@ exports.validationDonateBook = [
   body("title")
     .notEmpty()
     .isLength({ min: 5 })
-    .withMessage("Title must have more than 5 characters")
-    .isLength({ max: 19 })
-    .withMessage("Title must have less than 20 characters"),
+    .withMessage("Title must have more than 5 characters"),
   body("description")
     .notEmpty()
     .isLength({ min: 10 })
@@ -22,7 +20,9 @@ exports.validationDonateBook = [
     .withMessage("Description must have less than 200 characters"),
   body("userId").isMongoId().withMessage("Invalid user ID"),
   body("author").notEmpty().withMessage("You must specify an Author"),
-  body("editorial").notEmpty().withMessage("You must specify the editorial of the book"),
+  body("editorial")
+    .notEmpty()
+    .withMessage("You must specify the editorial of the book"),
   reportError,
 ];
 
@@ -32,7 +32,6 @@ exports.validationEraseBook = [
 ];
 
 exports.validationUpdateBook = [
-
   body("id").isMongoId().withMessage("Invalid book ID"),
 
   body("image").optional().notEmpty().withMessage("Image is required"),
@@ -40,9 +39,7 @@ exports.validationUpdateBook = [
     .optional()
     .notEmpty()
     .isLength({ min: 5 })
-    .withMessage("Title must have more than 5 characters")
-    .isLength({ max: 19 })
-    .withMessage("Title must have less than 20 characters"),
+    .withMessage("Title must have more than 5 characters"),
   body("description")
     .optional()
     .notEmpty()
@@ -56,4 +53,4 @@ exports.validationUpdateBook = [
 exports.validationGetDetailBook = [
   param("id").isMongoId().withMessage("Invalid book ID"),
   reportError,
-]
+];
