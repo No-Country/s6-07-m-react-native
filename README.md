@@ -69,7 +69,8 @@
 
 ### Diseño UX/UI:
 - Figma
-- Testing:
+
+### Testing:
 - Postman UI
 - Microsoft Excel
 - Expo Go
