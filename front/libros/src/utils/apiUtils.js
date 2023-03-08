@@ -1,6 +1,7 @@
 import axios from 'axios'
 import { REACT_APP_API_URI_GO } from '@env'
 import AsyncStorage from '@react-native-async-storage/async-storage'
+//import { AsyncStorage } from 'react-native';
 
 
 const setToken = async () => {
