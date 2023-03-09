@@ -78,22 +78,21 @@ const Register = () => {
 		Alert.alert(title, msg, options, { cancelable })
 	}
 
-  const onSubmit = async (values) => {
-    try {
-      let { status } = await post("/user/signup", { ...values })
-      console.log(status)
+	const onSubmit = async values => {
+		try {
+			let { status } = await post('/user/signup', { ...values })
+			console.log(status)
 
-      if (status === 200) {
-        showAlert(alerts.success)
-      }else {
-        showAlert(alerts.error)
-      }
-
-    } catch (error) {
-      console.log("ERROR ", error)
-      showAlert({...alerts.error, title: error})
-    }
-  }
+			if (status === 200) {
+				showAlert(alerts.success)
+			} else {
+				showAlert(alerts.error)
+			}
+		} catch (error) {
+			console.log('ERROR ', error)
+			showAlert({ ...alerts.error, title: error })
+		}
+	}
 
 	return (
 		<View style={styles.container}>
@@ -122,14 +121,14 @@ const Register = () => {
 							<Text style={styles.error}>{errors?.username}</Text>
 						)}
 
-            <Text style={styles.title}>Email</Text>
-            <TextInput
-              style={styles.input}
-              placeholder="Email"
-              name="email"
-              onChangeText={handleChange("email")}
-            />
-            {errors?.email && <Text style={styles.error}>{errors?.email}</Text>}
+						<Text style={styles.title}>Email</Text>
+						<TextInput
+							style={styles.input}
+							placeholder='Email'
+							name='email'
+							onChangeText={handleChange('email')}
+						/>
+						{errors?.email && <Text style={styles.error}>{errors?.email}</Text>}
 
 						<Text style={styles.title}>Contraseña</Text>
 						<View style={styles.pass}>
