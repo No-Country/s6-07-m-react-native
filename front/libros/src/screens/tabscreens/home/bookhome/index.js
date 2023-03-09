@@ -22,13 +22,12 @@ const styles = StyleSheet.create({
 		marginTop: 60,
 		marginHorizontal: 16,
 	},
-	list:{
+	list: {
 		flex: 1,
 		marginTop: 20,
 		marginHorizontal: 16,
-		paddingBottom: 10
-	}
+		paddingBottom: 10,
+	},
 })
-
 
 export default HomeBooks

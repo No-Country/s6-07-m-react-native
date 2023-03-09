@@ -2,10 +2,10 @@ import axios from 'axios'
 import { REACT_APP_API_URI_GO } from '@env'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 //import { AsyncStorage } from 'react-native';
-
+console.log('esto viene de aca', REACT_APP_API_URI_GO)
 
 const setToken = async () => {
-	const token = await AsyncStorage.getItem('token');
+	const token = await AsyncStorage.getItem('token')
 	return token && `Bearer ${token}`
 }
 

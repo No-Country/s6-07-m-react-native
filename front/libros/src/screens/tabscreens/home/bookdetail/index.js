@@ -52,9 +52,10 @@ const BookDetail = ({ navigation, book }) => {
 		<SafeAreaView>
 			<StatusBar backgroundColor='#6427FF' />
 			<Book bookInfo={bookInfo} />
-			<Reviews data={books} />
 			<Distance />
-			<Mapa />
+			<View style={{ marginVertical: 60 }}>
+				<Mapa />
+			</View>
 			<TouchableOpacity style={styles.button} onPress={onHandlePress}>
 				<Text style={styles.text}>Solicitar</Text>
 			</TouchableOpacity>
